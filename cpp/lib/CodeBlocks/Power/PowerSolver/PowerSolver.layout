@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="NewtonSolver.hxx" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="993" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="NewtonSolver.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3861" topLine="130" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1664" topLine="50" />
+		</Cursor>
+	</File>
+	<File name="SingleParamDelegateSolver.hxx" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="431" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="PowerSolver.hxx" open="0" top="0" tabpos="1" split="0" active="1" splitpos="476" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="143" topLine="3" />
+		</Cursor>
+	</File>
+	<File name="PowerSolver.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3191" topLine="87" />
+		</Cursor>
+		<Folding>
+			<Collapse line="21" />
+			<Collapse line="26" />
+			<Collapse line="28" />
+			<Collapse line="36" />
+		</Folding>
+	</File>
+	<File name="Solver.def.hxx" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="355" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Solver.hxx" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="344" topLine="6" />
+		</Cursor>
+	</File>
+</CodeBlocks_layout_file>

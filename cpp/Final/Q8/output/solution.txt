@@ -1,0 +1,6 @@
+
+Steepest Descent Solver Results:
+(X,Y): (0.0400339 , 0.0250541)
+Difference: 0.000566415
+Iteration Count: 5
+

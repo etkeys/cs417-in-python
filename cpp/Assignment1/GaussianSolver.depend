@@ -1,0 +1,161 @@
+# depslib dependency file v1.0
+1517024500 source:/home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/Matrix.def.cpp
+	<cmath>
+	<chrono>
+	<iomanip>
+	<iostream>
+	<random>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"Utilities.hxx"
+
+1517021794 /home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/Matrix.def.hxx
+	<iostream>
+	"Utilities.hxx"
+
+1516293403 /home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/Utilities.hxx
+	<iostream>
+	"Utilities.Tracer.def.hxx"
+
+1516238247 /home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/Utilities.Tracer.def.hxx
+	<string>
+
+1517026243 source:/home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/MatrixOperations.def.cpp
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1517025635 /home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/MatrixOperations.def.hxx
+	"Utilities.hxx"
+
+1516238406 source:/home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1516238422 source:/home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/Utilities.Tracer.def.cpp
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
+1517194660 source:/home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/GaussianSolver.cpp
+	<cmath>
+	<stdexcept>
+	<string>
+	<vector>
+	<sstream>
+	"GaussianSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1517194665 /home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/GaussianSolver.hxx
+	<string>
+	<vector>
+
+1516225444 /home/ekeys/Documents/ODUWork/CS417/Assignment_1/lib/Matrix.hxx
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+
+1517199741 source:/home/ekeys/Documents/ODUWork/CS417/Assignment_1/main.GaussianSolver.cpp
+	<fstream>
+	<iostream>
+	<string>
+	"lib/GaussianSolver.hxx"
+	"lib/Matrix.hxx"
+	"lib/Utilities.hxx"
+
+1520465041 source:/home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/GaussianSolver.cpp
+	<cmath>
+	<stdexcept>
+	<string>
+	<vector>
+	<sstream>
+	"GaussianSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1520463676 /home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/GaussianSolver.hxx
+	<string>
+	<vector>
+	"Solver.def.hxx"
+
+1520463637 /home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519437402 /home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1517966709 /home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/Utilities.Tracer.def.hxx
+	<string>
+
+1516225444 /home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/Matrix.hxx
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+
+1520384998 /home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/Matrix.def.hxx
+	<iostream>
+	"Utilities.hxx"
+
+1518061272 /home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/MatrixOperations.def.hxx
+	"Utilities.hxx"
+
+1517964551 source:/home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519664543 source:/home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
+1520393660 source:/home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/Matrix.def.cpp
+	<cmath>
+	<chrono>
+	<iomanip>
+	<iostream>
+	<random>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1520462893 source:/home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/MatrixOperations.def.cpp
+	<cmath>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1520465057 source:/home/ekeys/Documents/ODUWork/CS417/Assignment1/main.GaussianSolver.cpp
+	<fstream>
+	<iostream>
+	<string>
+	"lib/GaussianSolver.hxx"
+	"lib/Matrix.hxx"
+	"lib/Utilities.hxx"
+
+1519615760 /home/ekeys/Documents/ODUWork/CS417/Assignment1/lib/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+

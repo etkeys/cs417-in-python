@@ -1,0 +1,160 @@
+# depslib dependency file v1.0
+1519615221 source:/home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/BisectionSolver.cpp
+	<iostream>
+	<sstream>
+	"BisectionSolver.hxx"
+	"Utilities.hxx"
+
+1519666988 /home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/BisectionSolver.hxx
+	<functional>
+	<iosfwd>
+	"SingleParamDelegateSolver.hxx"
+	"Utilities.hxx"
+
+1519665873 /home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/SingleParamDelegateSolver.hxx
+	<functional>
+	"Solver.def.hxx"
+
+1520463637 /home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519437402 /home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1519615760 /home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+
+1517966709 /home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/Utilities.Tracer.def.hxx
+	<string>
+
+1520825382 source:/home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/EulerSolver.cpp
+	<iomanip>
+	<iostream>
+	"EulerSolver.hxx"
+	"Utilities.hxx"
+
+1520825363 /home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/EulerSolver.hxx
+	<functional>
+	<iosfwd>
+	"SingleParamDelegateSolver.hxx"
+	"Utilities.hxx"
+
+1519704300 source:/home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/Solver.def.cpp
+	<exception>
+	<string>
+	"Solver.def.hxx"
+
+1517964551 source:/home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519664543 source:/home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
+1519704328 source:/home/ekeys/Documents/ODUWork/CS417/Assignment5/main.cpp
+	<cmath>
+	<iostream>
+	"lib/Solver.hxx"
+	"lib/Utilities.hxx"
+
+1519405415 /home/ekeys/Documents/ODUWork/CS417/Assignment5/lib/Solver.hxx
+	"Solver.def.hxx"
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"IterativeSolver.hxx"
+	"NewtonSolver.hxx"
+	"PowerSolver.hxx"
+	"BisectionSolver.hxx"
+	"EulerSolver.hxx"
+
+1519615220 source:/home/erik/Documents/ODUWork/CS417/Assignment5/lib/BisectionSolver.cpp
+	<iostream>
+	<sstream>
+	"BisectionSolver.hxx"
+	"Utilities.hxx"
+
+1519666988 /home/erik/Documents/ODUWork/CS417/Assignment5/lib/BisectionSolver.hxx
+	<functional>
+	<iosfwd>
+	"SingleParamDelegateSolver.hxx"
+	"Utilities.hxx"
+
+1519665872 /home/erik/Documents/ODUWork/CS417/Assignment5/lib/SingleParamDelegateSolver.hxx
+	<functional>
+	"Solver.def.hxx"
+
+1520463636 /home/erik/Documents/ODUWork/CS417/Assignment5/lib/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519437402 /home/erik/Documents/ODUWork/CS417/Assignment5/lib/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1519615760 /home/erik/Documents/ODUWork/CS417/Assignment5/lib/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+
+1517966708 /home/erik/Documents/ODUWork/CS417/Assignment5/lib/Utilities.Tracer.def.hxx
+	<string>
+
+1517964550 source:/home/erik/Documents/ODUWork/CS417/Assignment5/lib/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519664542 source:/home/erik/Documents/ODUWork/CS417/Assignment5/lib/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
+1520825708 source:/home/erik/Documents/ODUWork/CS417/Assignment5/main.cpp
+	<cmath>
+	<iostream>
+	"lib/Solver.hxx"
+	"lib/Utilities.hxx"
+
+1520384682 /home/erik/Documents/ODUWork/CS417/Assignment5/lib/Solver.hxx
+	"Solver.def.hxx"
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"IterativeSolver.hxx"
+	"NewtonSolver.hxx"
+	"PowerSolver.hxx"
+	"BisectionSolver.hxx"
+	"EulerSolver.hxx"
+
+1520825362 /home/erik/Documents/ODUWork/CS417/Assignment5/lib/EulerSolver.hxx
+	<functional>
+	<iosfwd>
+	"SingleParamDelegateSolver.hxx"
+	"Utilities.hxx"
+

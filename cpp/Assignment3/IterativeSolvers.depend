@@ -1,0 +1,279 @@
+# depslib dependency file v1.0
+1520821521 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/GausSeidelSolver.cpp
+	<stdexcept>
+	<string>
+	"GausSeidelSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1520734334 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/GausSeidelSolver.hxx
+	"JacobiSolver.hxx"
+
+1520566851 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/JacobiSolver.hxx
+	<iosfwd>
+	<string>
+	"Solver.def.hxx"
+
+1520463637 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519437402 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1517966709 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Utilities.Tracer.def.hxx
+	<string>
+
+1516225444 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Matrix.hxx
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+
+1520384998 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Matrix.def.hxx
+	<iostream>
+	"Utilities.hxx"
+
+1518061272 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/MatrixOperations.def.hxx
+	"Utilities.hxx"
+
+1518065048 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/GaussianSolver.cpp
+	<cmath>
+	<stdexcept>
+	<string>
+	<vector>
+	<sstream>
+	"GaussianSolver.hxx"
+	"Matrix.hxx"
+	"Solver.def.hxx"
+	"Utilities.hxx"
+
+1518064960 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/GaussianSolver.hxx
+	<string>
+	<vector>
+	"Solver.def.hxx"
+
+1520799714 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/JacobiSolver.cpp
+	<stdexcept>
+	<sstream>
+	"JacobiSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1517968856 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/LUDecompositionSolver.cpp
+	<stdexcept>
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1517531140 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/LUDecompositionSolver.hxx
+	"Solver.def.hxx"
+
+1520465129 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Matrix.def.cpp
+	<cmath>
+	<chrono>
+	<iomanip>
+	<iostream>
+	<random>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1520462893 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/MatrixOperations.def.cpp
+	<cmath>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1517550998 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Solver.def.cpp
+	<exception>
+	<string>
+	"Matrix.hxx"
+	"Solver.def.hxx"
+
+1520736890 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/SorSolver.cpp
+	"Matrix.hxx"
+	"SorSolver.hxx"
+
+1520736823 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/SorSolver.hxx
+	<iosfwd>
+	"GausSeidelSolver.hxx"
+
+1517964551 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519664543 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
+1520800873 source:/home/ekeys/Documents/ODUWork/CS417/Assignment3/main.cpp
+	<fstream>
+	<iostream>
+	<string>
+	"lib/Matrix.hxx"
+	"lib/Solver.hxx"
+	"lib/Utilities.hxx"
+
+1520384683 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Solver.hxx
+	"Solver.def.hxx"
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"IterativeSolver.hxx"
+	"NewtonSolver.hxx"
+	"PowerSolver.hxx"
+	"BisectionSolver.hxx"
+	"EulerSolver.hxx"
+
+1518395663 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/IterativeSolver.hxx
+	"GausSeidelSolver.hxx"
+	"JacobiSolver.hxx"
+	"SorSolver.hxx"
+
+1519615760 /home/ekeys/Documents/ODUWork/CS417/Assignment3/lib/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+
+1520821520 source:/home/erik/Documents/ODUWork/CS417/Assignment3/lib/GausSeidelSolver.cpp
+	<stdexcept>
+	<string>
+	"GausSeidelSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1520734334 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/GausSeidelSolver.hxx
+	"JacobiSolver.hxx"
+
+1520566850 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/JacobiSolver.hxx
+	<iosfwd>
+	<string>
+	"Solver.def.hxx"
+
+1520463636 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519437402 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1519615760 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+
+1517966708 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/Utilities.Tracer.def.hxx
+	<string>
+
+1516225444 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/Matrix.hxx
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+
+1520384998 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/Matrix.def.hxx
+	<iostream>
+	"Utilities.hxx"
+
+1518061272 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/MatrixOperations.def.hxx
+	"Utilities.hxx"
+
+1520799714 source:/home/erik/Documents/ODUWork/CS417/Assignment3/lib/JacobiSolver.cpp
+	<stdexcept>
+	<sstream>
+	"JacobiSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1520465128 source:/home/erik/Documents/ODUWork/CS417/Assignment3/lib/Matrix.def.cpp
+	<cmath>
+	<chrono>
+	<iomanip>
+	<iostream>
+	<random>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1520462892 source:/home/erik/Documents/ODUWork/CS417/Assignment3/lib/MatrixOperations.def.cpp
+	<cmath>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1517550998 source:/home/erik/Documents/ODUWork/CS417/Assignment3/lib/Solver.def.cpp
+	<exception>
+	<string>
+	"Matrix.hxx"
+	"Solver.def.hxx"
+
+1520736890 source:/home/erik/Documents/ODUWork/CS417/Assignment3/lib/SorSolver.cpp
+	"Matrix.hxx"
+	"SorSolver.hxx"
+
+1520736822 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/SorSolver.hxx
+	<iosfwd>
+	"GausSeidelSolver.hxx"
+
+1517964550 source:/home/erik/Documents/ODUWork/CS417/Assignment3/lib/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519664542 source:/home/erik/Documents/ODUWork/CS417/Assignment3/lib/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
+1520800872 source:/home/erik/Documents/ODUWork/CS417/Assignment3/main.cpp
+	<fstream>
+	<iostream>
+	<string>
+	"lib/Matrix.hxx"
+	"lib/Solver.hxx"
+	"lib/Utilities.hxx"
+
+1520384682 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/Solver.hxx
+	"Solver.def.hxx"
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"IterativeSolver.hxx"
+	"NewtonSolver.hxx"
+	"PowerSolver.hxx"
+	"BisectionSolver.hxx"
+	"EulerSolver.hxx"
+
+1518395662 /home/erik/Documents/ODUWork/CS417/Assignment3/lib/IterativeSolver.hxx
+	"GausSeidelSolver.hxx"
+	"JacobiSolver.hxx"
+	"SorSolver.hxx"
+

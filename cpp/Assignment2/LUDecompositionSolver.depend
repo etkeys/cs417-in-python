@@ -1,0 +1,118 @@
+# depslib dependency file v1.0
+1520465041 source:/home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/GaussianSolver.cpp
+	<cmath>
+	<stdexcept>
+	<string>
+	<vector>
+	<sstream>
+	"GaussianSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1520463676 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/GaussianSolver.hxx
+	<string>
+	<vector>
+	"Solver.def.hxx"
+
+1520463637 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519437402 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1517966709 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Utilities.Tracer.def.hxx
+	<string>
+
+1516225444 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Matrix.hxx
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+
+1520384998 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Matrix.def.hxx
+	<iostream>
+	"Utilities.hxx"
+
+1518061272 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/MatrixOperations.def.hxx
+	"Utilities.hxx"
+
+1520553521 source:/home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/LUDecompositionSolver.cpp
+	<stdexcept>
+	"Solver.hxx"
+	"LUDecompositionSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1520552885 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/LUDecompositionSolver.hxx
+	<iosfwd>
+	"Solver.def.hxx"
+
+1520465129 source:/home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Matrix.def.cpp
+	<cmath>
+	<chrono>
+	<iomanip>
+	<iostream>
+	<random>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1520462893 source:/home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/MatrixOperations.def.cpp
+	<cmath>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1517550998 source:/home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Solver.def.cpp
+	<exception>
+	<string>
+	"Matrix.hxx"
+	"Solver.def.hxx"
+
+1517964551 source:/home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519664543 source:/home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
+1517629318 source:/home/ekeys/Documents/ODUWork/CS417/Assignment2/main.cpp
+	<fstream>
+	<iostream>
+	<string>
+	"lib/Matrix.hxx"
+	"lib/Solver.hxx"
+	"lib/Utilities.hxx"
+
+1520384683 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Solver.hxx
+	"Solver.def.hxx"
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"IterativeSolver.hxx"
+	"NewtonSolver.hxx"
+	"PowerSolver.hxx"
+	"BisectionSolver.hxx"
+	"EulerSolver.hxx"
+
+1519615760 /home/ekeys/Documents/ODUWork/CS417/Assignment2/lib/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+

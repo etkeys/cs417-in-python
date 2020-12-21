@@ -1,0 +1,118 @@
+# depslib dependency file v1.0
+1519615221 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/BisectionSolver.cpp
+	<iostream>
+	<sstream>
+	"BisectionSolver.hxx"
+	"Utilities.hxx"
+
+1519666988 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/BisectionSolver.hxx
+	<functional>
+	<iosfwd>
+	"SingleParamDelegateSolver.hxx"
+	"Utilities.hxx"
+
+1519665873 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/SingleParamDelegateSolver.hxx
+	<functional>
+	"Solver.def.hxx"
+
+1520463637 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519437402 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1517966709 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Utilities.Tracer.def.hxx
+	<string>
+
+1518741461 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Matrix.def.cpp
+	<cmath>
+	<chrono>
+	<iomanip>
+	<iostream>
+	<random>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1518576098 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Matrix.def.hxx
+	<iostream>
+	"Utilities.hxx"
+
+1518061272 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/MatrixOperations.def.hxx
+	"Utilities.hxx"
+
+1518063162 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/MatrixOperations.def.cpp
+	<cmath>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1517550998 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Solver.def.cpp
+	<exception>
+	<string>
+	"Matrix.hxx"
+	"Solver.def.hxx"
+
+1516225444 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Matrix.hxx
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+
+1517964551 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519664543 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
+1519698988 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/main.cpp
+	<cmath>
+	<iostream>
+	"Solver.hxx"
+	"Utilities.hxx"
+
+1519405415 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Solver.hxx
+	"Solver.def.hxx"
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"IterativeSolver.hxx"
+	"NewtonSolver.hxx"
+	"PowerSolver.hxx"
+	"BisectionSolver.hxx"
+	"EulerSolver.hxx"
+
+1519615760 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+
+1519666999 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/EulerSolver.hxx
+	<functional>
+	<iosfwd>
+	"SingleParamDelegateSolver.hxx"
+	"Utilities.hxx"
+
+1519698919 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/bisection/BisectionEuler/EulerSolver.cpp
+	<iomanip>
+	<iostream>
+	"EulerSolver.hxx"
+	"Utilities.hxx"
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="lib/Matrix.def.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6063" topLine="191" />
+		</Cursor>
+	</File>
+	<File name="lib/GaussianSolver.hxx" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="830" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="lib/Solver.def.hxx" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1221" topLine="24" />
+		</Cursor>
+	</File>
+	<File name="main.GaussianSolver.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1105" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="lib/GaussianSolver.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4584" topLine="134" />
+		</Cursor>
+	</File>
+</CodeBlocks_layout_file>

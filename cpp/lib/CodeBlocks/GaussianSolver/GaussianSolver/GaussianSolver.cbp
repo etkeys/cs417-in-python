@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="GaussianSolver" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/GaussianSolver" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/GaussianSolver" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="../../Matrix/Matrix/Matrix.def.cpp" />
+		<Unit filename="../../Matrix/Matrix/Matrix.def.hpp" />
+		<Unit filename="../../Matrix/Matrix/Matrix.hpp" />
+		<Unit filename="../../Matrix/Matrix/MatrixFactory.def.cpp" />
+		<Unit filename="../../Matrix/Matrix/MatrixFactory.def.hpp" />
+		<Unit filename="../../Matrix/Matrix/MatrixOperations.def.hpp" />
+		<Unit filename="../../Matrix/Matrix/Utilities.cpp" />
+		<Unit filename="../../Matrix/Matrix/Utilities.hpp" />
+		<Unit filename="GaussianSolver.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="GaussianSolver.hpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="sampleInputs/t1.4_1.dat" />
+		<Unit filename="sampleInputs/t1.4_4.dat" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

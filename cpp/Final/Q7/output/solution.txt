@@ -1,0 +1,12 @@
+
+Power Solver Results:
+
+Eigen Vector: 
+[
+[     0.40006774]
+[     0.60005387]
+[     1.00000000]
+]
+
+Eigen Value: 4.002412
+Number of iterations: 7

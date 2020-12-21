@@ -1,0 +1,6 @@
+
+Newton Solver Results: 
+
+Solution: 0.876726
+Number of iterations: 8
+

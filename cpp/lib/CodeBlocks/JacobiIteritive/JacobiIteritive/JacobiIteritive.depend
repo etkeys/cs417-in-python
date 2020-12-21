@@ -1,0 +1,153 @@
+# depslib dependency file v1.0
+1518065048 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/GaussianSolver.cpp
+	<cmath>
+	<stdexcept>
+	<string>
+	<vector>
+	<sstream>
+	"GaussianSolver.hxx"
+	"Matrix.hxx"
+	"Solver.def.hxx"
+	"Utilities.hxx"
+
+1518064960 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/GaussianSolver.hxx
+	<string>
+	<vector>
+	"Solver.def.hxx"
+
+1520463637 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519437402 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1517966709 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Utilities.Tracer.def.hxx
+	<string>
+
+1516225444 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Matrix.hxx
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+
+1520384998 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Matrix.def.hxx
+	<iostream>
+	"Utilities.hxx"
+
+1518061272 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/MatrixOperations.def.hxx
+	"Utilities.hxx"
+
+1520734143 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/JacobiSolver.cpp
+	<stdexcept>
+	<sstream>
+	"JacobiSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1520566851 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/JacobiSolver.hxx
+	<iosfwd>
+	<string>
+	"Solver.def.hxx"
+
+1517968856 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/LUDecompositionSolver.cpp
+	<stdexcept>
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1517531140 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/LUDecompositionSolver.hxx
+	"Solver.def.hxx"
+
+1520736790 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/main.cpp
+	<fstream>
+	<iostream>
+	<string>
+	"Matrix.hxx"
+	"Solver.hxx"
+	"Utilities.hxx"
+
+1520465129 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Matrix.def.cpp
+	<cmath>
+	<chrono>
+	<iomanip>
+	<iostream>
+	<random>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1520462893 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/MatrixOperations.def.cpp
+	<cmath>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1517550998 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Solver.def.cpp
+	<exception>
+	<string>
+	"Matrix.hxx"
+	"Solver.def.hxx"
+
+1517964551 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519664543 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
+1520384683 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Solver.hxx
+	"Solver.def.hxx"
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"IterativeSolver.hxx"
+	"NewtonSolver.hxx"
+	"PowerSolver.hxx"
+	"BisectionSolver.hxx"
+	"EulerSolver.hxx"
+
+1518390440 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/IterativeSolver.hxx
+	"GausSeidelSolver.hxx"
+	"JacobiSolver.hxx"
+	"SorSolver.hxx"
+
+1520734334 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/GausSeidelSolver.hxx
+	"JacobiSolver.hxx"
+
+1520566079 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/GausSeidelSolver.cpp
+	<stdexcept>
+	<string>
+	"GausSeidelSolver.hxx"
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1520736823 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/SorSolver.hxx
+	<iosfwd>
+	"GausSeidelSolver.hxx"
+
+1520736890 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/SorSolver.cpp
+	"Matrix.hxx"
+	"SorSolver.hxx"
+
+1519615760 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/JacobiIteritive/JacobiIteritive/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+

@@ -1,0 +1,58 @@
+# depslib dependency file v1.0
+1523638519 source:/home/erik/Documents/ODUWork/CS417/Final/Q8/lib/SteepestDescentSolver.cpp
+	<cmath>
+	<iostream>
+	"SteepestDescentSolver.hxx"
+
+1523638519 /home/erik/Documents/ODUWork/CS417/Final/Q8/lib/SteepestDescentSolver.hxx
+	<functional>
+	<iosfwd>
+	<string>
+	"Solver.hxx"
+
+1520381082 /home/erik/Documents/ODUWork/CS417/Final/Q8/lib/Solver.hxx
+	"Solver.def.hxx"
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"IterativeSolver.hxx"
+	"NewtonSolver.hxx"
+	"PowerSolver.hxx"
+	"BisectionSolver.hxx"
+	"EulerSolver.hxx"
+
+1520460036 /home/erik/Documents/ODUWork/CS417/Final/Q8/lib/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519433802 /home/erik/Documents/ODUWork/CS417/Final/Q8/lib/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1519612160 /home/erik/Documents/ODUWork/CS417/Final/Q8/lib/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+
+1517963108 /home/erik/Documents/ODUWork/CS417/Final/Q8/lib/Utilities.Tracer.def.hxx
+	<string>
+
+1517960950 source:/home/erik/Documents/ODUWork/CS417/Final/Q8/lib/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519660942 source:/home/erik/Documents/ODUWork/CS417/Final/Q8/lib/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+

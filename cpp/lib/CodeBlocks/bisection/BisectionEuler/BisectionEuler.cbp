@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BisectionEuler" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/BisectionEuler" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="&gt; RunResults.out 2&gt;&amp;1" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+					<Add option="-DTRACE" />
+					<Add option="-DTRACEMAIN" />
+					<Add option="-DTRACEBISECTION" />
+					<Add option="-DTRACEEULER" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/BisectionEuler" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-DINCLUDESOLVER_BISECTION" />
+			<Add option="-DINCLUDESOLVER_EULER" />
+		</Compiler>
+		<Unit filename="BisectionSolver.cpp" />
+		<Unit filename="BisectionSolver.hxx" />
+		<Unit filename="EulerSolver.cpp" />
+		<Unit filename="EulerSolver.hxx" />
+		<Unit filename="SingleParamDelegateSolver.hxx" />
+		<Unit filename="Solver.def.cpp" />
+		<Unit filename="Solver.def.hxx" />
+		<Unit filename="Solver.hxx" />
+		<Unit filename="Utilities.Optional.def.hxx" />
+		<Unit filename="Utilities.Tracer.def.cpp" />
+		<Unit filename="Utilities.Tracer.def.hxx" />
+		<Unit filename="Utilities.cpp" />
+		<Unit filename="Utilities.hxx" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,20 @@
+bisection and euler
+Posted on: Wednesday, February 21, 2018 3:04:17 PM EST
+
+3x/2  - 6 − sin(2x)/2 = 0 has a unique real root (supposedly between 0 and 5) use bisection to compute to 3 decimal places of accuracy.
+
+for Euler
+
+dy/dx  =   y^2 - x^2   and y0 = -1 and dx = .5 to find the solution at x = 1.5   
+
+
+
+//Personal notes
+For Euler:
+-You're going to be given some function to act on. That function will be dy/dx
+-You'll be give a starting y value, y0, to calculate the initial slope
+-You're going to be given some upper bound x that you are looking to predict the solution for.
+-You're going to be computing all the values of x for the solution using. The values of X to use
+	are the descrete values defined by the sampling interval, dx. Ex: if we look at the range
+	[0,1.5] and we use the sampling interval, dx, of .5, then we would need to calculate the values
+	of x @ 0, .5, 1, 1.5.

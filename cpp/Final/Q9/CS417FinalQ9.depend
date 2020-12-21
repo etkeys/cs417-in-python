@@ -1,0 +1,55 @@
+# depslib dependency file v1.0
+1520824444 source:/home/erik/Documents/ODUWork/CS417/Final/Q9/lib/NewtonSolver.cpp
+	<cstdlib>
+	<ctime>
+	<functional>
+	<iostream>
+	<string>
+	"NewtonSolver.hxx"
+	"Utilities.hxx"
+	<sstream>
+
+1520823518 /home/erik/Documents/ODUWork/CS417/Final/Q9/lib/NewtonSolver.hxx
+	<iosfwd>
+	"SingleParamDelegateSolver.hxx"
+
+1518748518 /home/erik/Documents/ODUWork/CS417/Final/Q9/lib/SingleParamDelegateSolver.hxx
+	<functional>
+	"Solver.def.hxx"
+
+1520460036 /home/erik/Documents/ODUWork/CS417/Final/Q9/lib/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1519433802 /home/erik/Documents/ODUWork/CS417/Final/Q9/lib/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1519612160 /home/erik/Documents/ODUWork/CS417/Final/Q9/lib/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+
+1517963108 /home/erik/Documents/ODUWork/CS417/Final/Q9/lib/Utilities.Tracer.def.hxx
+	<string>
+
+1517960950 source:/home/erik/Documents/ODUWork/CS417/Final/Q9/lib/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1519660942 source:/home/erik/Documents/ODUWork/CS417/Final/Q9/lib/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+

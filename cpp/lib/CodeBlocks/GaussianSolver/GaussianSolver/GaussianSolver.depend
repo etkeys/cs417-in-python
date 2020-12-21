@@ -1,0 +1,52 @@
+# depslib dependency file v1.0
+1516055969 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Matrix.def.cpp
+	<cmath>
+	<chrono>
+	<iomanip>
+	<iostream>
+	<random>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hpp"
+	"Utilities.hpp"
+
+1516055969 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Matrix.def.hpp
+	<iostream>
+
+1516052884 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Utilities.hpp
+	<iostream>
+
+1515961789 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/MatrixFactory.def.cpp
+	<ctime>
+	<istream>
+	<random>
+	<stdexcept>
+	"Matrix.def.hpp"
+	"MatrixFactory.def.hpp"
+
+1515961789 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/MatrixFactory.def.hpp
+	<istream>
+
+1515983966 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hpp"
+
+1516075522 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/GaussianSolver/GaussianSolver/main.cpp
+	<fstream>
+	<iostream>
+	<string>
+	"GaussianSolver.hpp"
+	"../../Matrix/Matrix/Matrix.hpp"
+
+1515800738 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Matrix.hpp
+	"Matrix.def.hpp"
+	"MatrixFactory.def.hpp"
+
+1516075935 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/GaussianSolver/GaussianSolver/GaussianSolver.hpp
+	<string>
+	<vector>
+	"../../Matrix/Matrix/Utilities.hpp"
+

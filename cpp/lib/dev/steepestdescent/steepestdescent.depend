@@ -1,0 +1,65 @@
+# depslib dependency file v1.0
+1523637678 source:/home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/main.cpp
+	<cmath>
+	<iostream>
+	"Solver.hxx"
+	"Utilities.hxx"
+
+1523635391 /home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/Solver.hxx
+	"Solver.def.hxx"
+	"GaussianSolver.hxx"
+	"LUDecompositionSolver.hxx"
+	"IterativeSolver.hxx"
+	"NewtonSolver.hxx"
+	"PowerSolver.hxx"
+	"BisectionSolver.hxx"
+	"EulerSolver.hxx"
+	"SteepestDescentSolver.hxx"
+
+1523124990 /home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/Solver.def.hxx
+	<exception>
+	<iosfwd>
+	<string>
+	"Utilities.hxx"
+
+1523124967 /home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/Utilities.hxx
+	<iosfwd>
+	"Utilities.Optional.def.hxx"
+	"Utilities.Tracer.def.hxx"
+
+1523124967 /home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/Utilities.Optional.def.hxx
+	<utility>
+	<type_traits>
+	<initializer_list>
+	<cassert>
+	<functional>
+	<string>
+	<stdexcept>
+
+1523124967 /home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/Utilities.Tracer.def.hxx
+	<string>
+
+1523637971 /home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/SteepestDescentSolver.hxx
+	<functional>
+	<iosfwd>
+	<string>
+	"Solver.hxx"
+
+1523637984 source:/home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/SteepestDescentSolver.cpp
+	<cmath>
+	<iostream>
+	"SteepestDescentSolver.hxx"
+
+1523124967 source:/home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1523124967 source:/home/erik/Documents/ODUWork/CS417/lib/dev/steepestdescent/Utilities.Tracer.def.cpp
+	<iostream>
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+

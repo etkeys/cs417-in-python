@@ -1,0 +1,60 @@
+# depslib dependency file v1.0
+1518059930 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/main.cpp
+	<fstream>
+	<iostream>
+	"Matrix.hxx"
+	"Utilities.hxx"
+
+1518062494 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Matrix.def.cpp
+	<cmath>
+	<chrono>
+	<iomanip>
+	<iostream>
+	<random>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1515991010 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Matrix.def.hpp
+	<iostream>
+
+1517964551 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Utilities.cpp
+	<cmath>
+	<iostream>
+	<string>
+	<sstream>
+	"Utilities.hxx"
+
+1516225444 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Matrix.hxx
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+
+1518062522 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Matrix.def.hxx
+	<iostream>
+	"Utilities.hxx"
+
+1518061272 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/MatrixOperations.def.hxx
+	"Utilities.hxx"
+
+1517964411 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Utilities.hxx
+	<iostream>
+	"Utilities.Tracer.def.hxx"
+
+1518062679 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/MatrixOperations.def.cpp
+	<cmath>
+	<stdexcept>
+	<sstream>
+	"Matrix.def.hxx"
+	"MatrixOperations.def.hxx"
+	"Utilities.hxx"
+
+1517966709 /home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Utilities.Tracer.def.hxx
+	<string>
+
+1517966751 source:/home/ekeys/Documents/ODUWork/CS417/lib/CodeBlocks/Matrix/Matrix/Utilities.Tracer.def.cpp
+	"Utilities.hxx"
+	"Utilities.Tracer.def.hxx"
+	<string>
+
