@@ -1,0 +1,17 @@
+- name: 3x4, already in reduced row echelon
+  input:
+    - [1., 0.333333, -0.666667, 3.666667]
+    - [0., 1., 0.4, 2.6]
+    - [0., 0., 1., -1]
+  expect:
+    func_result: true
+    vec_result: [2., 3., -1.]
+
+- name: 3x4, not in reduced row echelon
+  input:
+    - [2., 1., -1., 8.]
+    - [-3., -1., 2., -11.]
+    - [-2., 1., 2., -3.]
+  expect:
+    func_result: true
+    vec_result: [2., 3., -1.]

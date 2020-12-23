@@ -19,6 +19,30 @@ class TestMatrixCreate(unittest.TestCase):
                 else:
                     kwargs['expect_else'](test)
 
+    def test_create_augmented(self):
+        def expect_throws(test):
+            A = np.array(test.input.A)
+            b = np.array(test.input.b)
+            self.assertRaises( ValueError, Matrix.create_augmented, A, b)
+
+        def expect_else(test):
+            A = np.array(test.input.A)
+            b = np.array(test.input.b)
+            A_orig = Matrix.deepcopy(A)
+            b_orig = Matrix.deepcopy(b)
+            act = Matrix.create_augmented(A, b)
+            exp = np.array(test.expect)
+
+            self.assertTrue(np.equal(act, exp).all())
+            self.assertEqual(A.shape, A_orig.shape)
+            self.assertEqual(b.shape, b_orig.shape)
+
+        self._run(
+            file='matrix.create_augmented',
+            expect_throws=expect_throws,
+            expect_else=expect_else
+        )
+
     def test_create_random(self):
         def expect_throws(test):
             self.assertRaises(
@@ -53,7 +77,6 @@ class TestMatrixCreate(unittest.TestCase):
             expect_else=expect_else
         )
 
-
     def test_create_random_diag_dominate(self):
         def expect_else(test):
             act = Matrix.create_random_diagonal_dominate(test.input.size)
@@ -68,18 +91,93 @@ class TestMatrixCreate(unittest.TestCase):
             expect_else=expect_else
         )
 
+    def test_create_zeros(self):
+        def expect_throws(test):
+            self.assertRaises(
+                ValueError,
+                Matrix.create_zeros,
+                test.input.rows,
+                test.input.columns) 
+
+        def expect_else(test):
+            exp = np.array(test.expect.mat)
+            act = Matrix.create_zeros(test.input.rows, test.input.columns)
+
+            if not test.expect.columns:
+                self.assertEqual(act.shape, (test.expect.rows,))
+            else:
+                self.assertEqual(act.shape, (test.expect.rows, test.expect.columns))
+            self.assertTrue(np.allclose(act, exp))
+
+        self._run(
+            file='matrix.create_zeros',
+            expect_throws=expect_throws,
+            expect_else=expect_else
+        )
+
+
 class TestMatrix(unittest.TestCase):
-    def _run(self, **kwargs):
-        data = load_test_data(kwargs['file'])
+    def _run(self, file, expect_throws=None, expect_else=None):
+        data = load_test_data(file)
         for test in data:
             with self.subTest('Test: %s' % test.name):
                 if isinstance(test.expect, str) and test.expect == 'throws':
-                    if 'expect_throws' in kwargs:
-                        kwargs['expect_throws'](test)
+                    if expect_throws:
+                        expect_throws(test)
                     else:
                         self.fail("Condition not implemented!")
                 else:
-                    kwargs['expect_else'](test)
+                    expect_else(test)
+
+
+    def test_is_augmented(self):
+        def expect_else(test):
+            inp = np.array(test.input)
+            act = Matrix.is_augmented(inp)
+            self.assertEqual(act, test.expect)
+
+        self._run(
+            file='matrix.is_augmented',
+            expect_else=expect_else
+        )
+
+    def test_is_in_reduced_row_echelon(self):
+        def expect_else(test):
+            inp = np.array(test.input)
+            act = Matrix.is_in_reduced_row_echelon(inp)
+            self.assertEqual(act, test.expect)
+
+        self._run(
+            file='matrix.is_in_reduced_row_echelon',
+            expect_else=expect_else
+        )
+
+    def test_is_singular(self):
+        def expect_else(test):
+            # print('')
+            # print(test.name)
+            inp = np.array(test.input)
+            act = Matrix.is_singular(inp)
+            self.assertEqual(act, test.expect)
+
+        self._run(
+            file='matrix.is_singular',
+            expect_else=expect_else
+        )
+
+
+
+    def test_is_square(self):
+        def expect_else(test):
+            inp = np.array(test.input)
+            act = Matrix.is_square(inp)
+            self.assertEqual(act, test.expect)
+
+        self._run(
+            file='matrix.is_square',
+            expect_else=expect_else
+        )
+
 
     def test_multiply(self):
         def expect_else(test):
@@ -94,6 +192,144 @@ class TestMatrix(unittest.TestCase):
             expect_else=expect_else
         )
 
+    def test_multiply_row_by_scalar(self):
+        def expect_else(test):
+            inp = np.array(test.input.mat)
+            exp = np.array(test.expect.mat)
+            act = Matrix.multiply_row_by_scalar(
+                inp, test.input.row, test.input.scalar, test.input.inplace)
+
+            # print('')
+            # print(test.name)
+            # print(inp)
+            # print(exp)
+            # print(act)
+
+            self.assertTrue(np.allclose(act, exp))
+            self.assertEqual(np.equal(act, inp).all(), test.expect.inp_match_act)
+
+        self._run(
+            file='matrix.multiply_row_by_scalar',
+            expect_else=expect_else
+        )
+
+    def test_set_row_diagonal_to_one(self):
+        def expect_else(test):
+            inp = np.array(test.input.mat)
+            exp = np.array(test.expect.mat)
+            act = Matrix.set_row_diagonal_to_one(
+                inp, test.input.row, test.input.inplace)
+
+            # print('')
+            # print(test.name)
+            # print(inp)
+            # print(exp)
+            # print(act)
+
+            self.assertTrue(np.allclose(act, exp))
+            self.assertEqual(np.equal(act, inp).all(), test.expect.inp_match_act)
+
+        self._run(
+            file='matrix.set_row_diag_to_one',
+            expect_else=expect_else
+        )
+
+    def test_set_rows_below_to_zero(self):
+        def expect_else(test):
+            inp = np.array(test.input.mat)
+            exp = np.array(test.expect.mat)
+            act = Matrix.set_rows_below_to_zero(
+                inp, test.input.source_row, test.input.inplace)
+
+            self.assertTrue(np.allclose(act, exp))
+            self.assertEqual(
+                np.equal(act, inp).all(),
+                test.expect.inp_match_act)
+
+        self._run(
+            file='matrix.set_rows_below_to_zero',
+            expect_else=expect_else
+        )
+
+
+    def test_subtract_scalar_row_from_row(self):
+        def expect_else(test):
+            inp = np.array(test.input.mat)
+            exp = np.array(test.expect.mat)
+            act = Matrix.subtract_scalar_row_from_row(
+                inp,
+                test.input.source_row,
+                test.input.affect_row,
+                test.input.inplace)
+
+            # print('')
+            # print(inp)
+            # print(exp)
+            # print(act)
+
+            self.assertTrue(np.allclose(act, exp))
+            self.assertEqual(
+                np.equal(act, inp).all(),
+                test.expect.inp_match_act)
+
+        self._run(
+            file='matrix.subtract_scalar_row_from_row',
+            expect_else=expect_else
+        )
+
+
+    def test_swap_largest_pivot_to_top(self):
+        def expect_else(test):
+            inp = np.array(test.input.mat)
+            exp = np.array(test.expect.mat)
+            act = Matrix.swap_largest_pivot_to_top(
+                inp, test.input.pivot, test.input.inplace)
+
+            # print('')
+            # print(inp)
+            # print(exp)
+            # print(act)
+
+            self.assertTrue(np.equal(act, exp).all())
+            self.assertEqual(np.equal(act, inp).all(), test.expect.inp_match_act)
+
+        self._run(
+            file='matrix.swap_largest_pivot_to_top',
+            expect_else=expect_else
+        )
+
+    def test_to_reduced_row_echelon(self):
+        def expect_else(test):
+            inp = np.array(test.input)
+            exp = np.array(test.expect)
+            act = Matrix.to_reduced_row_echelon(inp)
+
+            # print('')
+            # print(inp)
+            # print(exp)
+            # print(act)
+
+            self.assertTrue(np.allclose(act, exp))
+
+        self._run(
+            file='matrix.to_reduced_row_echelon',
+            expect_else=expect_else
+        )
+
+    def test_two_norm_of_error(self):
+        def expect_else(test):
+            inpA = np.array(test.input.matA)
+            inpb = np.array(test.input.matb)
+            inpx = np.array(test.input.matx)
+            exp = test.expect
+            act = Matrix.two_norm_of_error(inpA, inpb, inpx)
+
+            self.assertAlmostEqual(act, exp)
+
+        self._run(
+            file='matrix.two_norm_of_error',
+            expect_else=expect_else
+        )
 
 if __name__ == '__main__':
     unittest.main()

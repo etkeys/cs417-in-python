@@ -11,3 +11,15 @@ def load_test_data(name):
     
     ret = [RecursiveNamespace(**item) for item in data]
     return ret
+
+def run_test(testcase, **kwargs):
+    data = load_test_data(kwargs['file'])
+    for test in data:
+        with testcase.subTest('Test: %s' % test.name):
+            if isinstance(test.expect, str) and test.expect == 'throws':
+                if 'expect_throws' in kwargs:
+                    kwargs['expect_throws'](test)
+                else:
+                    testcase.fail("Condition not implemented!")
+            else:
+                kwargs['expect_else'](test)
