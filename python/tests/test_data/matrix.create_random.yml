@@ -1,0 +1,41 @@
+- name: 3x3
+  input:
+    size: 3
+    single_column: false
+  expect:
+    rows: 3
+    columns: 3
+
+- name: 3x1
+  input:
+    size: 3
+    single_column: true
+  expect:
+    rows: 3
+    columns: 1
+
+- name:  500x500
+  input:
+    size: 500
+    single_column: false
+  expect:
+    rows: 500
+    columns: 500
+
+- name: size 0
+  input:
+    size: 0
+    single_column: false
+  expect: throws
+
+- name: size 1
+  input:
+    size: 1
+    single_column: false
+  expect: throws
+
+- name: size 501
+  input:
+    size: 501
+    single_column: true
+  expect: throws

@@ -1,0 +1,11 @@
+
+- name: small matrix
+  input:
+    size: 3
+  expect:
+    size: 3
+- name: larger matrix
+  input:
+    size: 200
+  expect:
+    size: 200

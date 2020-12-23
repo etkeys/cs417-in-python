@@ -3,9 +3,6 @@ import argparse
 from matrix import Matrix
 
 def make(options):
-    if options.size < 2 or options.size > 500:
-        raise ValueError('size input must be between 2..500, here is %i' % options.size)
-
     a = Matrix.create_random_diagonal_dominate(options.size)
     soln = Matrix.create_random(options.size, True)
     b = Matrix.multiply(a, soln)
