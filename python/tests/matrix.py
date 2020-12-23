@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
 
-from matrix import Matrix
+import matrix as Matrix
 
 from .utils import *
 
@@ -37,7 +37,6 @@ class TestMatrixCreate(unittest.TestCase):
             expect_else=expect_else
         )
 
-        
     def test_create_random_validate_values(self):
         def expect_else(test):
             act = Matrix.create_random(test.input.size, test.input.single_column)

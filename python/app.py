@@ -1,6 +1,10 @@
 import argparse
 
-from matrix import Matrix
+import matrix as Matrix
+
+def main(options):
+    if options.subcommand == 'make':
+        make(options)
 
 def make(options):
     a = Matrix.create_random_diagonal_dominate(options.size)
@@ -12,10 +16,6 @@ def make(options):
         (b, 'b.def'),
         (soln, 'soln.def'))
     print(tdir)
-
-def main(options):
-    if options.subcommand == 'make':
-        make(options)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
