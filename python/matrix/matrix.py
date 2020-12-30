@@ -5,6 +5,10 @@ from os import path, scandir
 from random import uniform
 from tempfile import mkdtemp
 
+
+def almost_equal(mat1, mat2):
+    return np.allclose(mat1, mat2)
+
 def create_augmented(matA, matb):
     """
     A new matrix is returned and inputs are not modified.
