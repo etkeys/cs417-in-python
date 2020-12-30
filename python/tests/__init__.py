@@ -1,3 +1,3 @@
 
-from .matrix import TestMatrixCreate, TestMatrix
-from .solver_gaussian import TestGaussian
+from .matrix_operations import TestMatrixCreate, TestMatrixOperations
+from .solvers import *

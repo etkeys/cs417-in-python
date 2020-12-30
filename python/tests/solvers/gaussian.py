@@ -2,10 +2,9 @@
 import numpy as np
 import unittest
 
-import matrix as Matrix
-from solvers import GaussianSolver
+from src.solvers import GaussianSolver
 
-from .utils import *
+from ..utils import *
 
 class TestGaussian(unittest.TestCase):
 

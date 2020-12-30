@@ -1,6 +1,6 @@
 
 from .solver import _Solver
-import matrix as Matrix
+import src.matrix_operations as matops
 
 class GaussianSolver(_Solver):
     """
@@ -14,7 +14,7 @@ class GaussianSolver(_Solver):
 
     def solve(self):
         try:
-            self._mat = Matrix.to_reduced_row_echelon(self._mat)
+            self._mat = matops.to_reduced_row_echelon(self._mat)
             self._result = self._calculate_back_solve_vector()
             return True
         except Exception as ex:
@@ -22,13 +22,13 @@ class GaussianSolver(_Solver):
             return False
 
     def _calculate_back_solve_vector(self):
-        if Matrix.is_singular(self._mat):
+        if matops.is_singular(self._mat):
             raise ValueError('Provided matrix is singular.')
 
-        if not Matrix.is_in_reduced_row_echelon(self._mat):
-            self._mat = Matrix.to_reduced_row_echelon(self._mat)
+        if not matops.is_in_reduced_row_echelon(self._mat):
+            self._mat = matops.to_reduced_row_echelon(self._mat)
 
-        ret = Matrix.create_zeros(self._mat.shape[0])
+        ret = matops.create_zeros(self._mat.shape[0])
         for r in range(ret.shape[0] - 1, -1, -1):
             ret[r] = self._calculate_back_solve_vector_row(ret, r)
 
