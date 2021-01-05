@@ -18,3 +18,6 @@ class RecursiveNamespace(SimpleNamespace):
         setattr(self, key, RecursiveNamespace(**val))
       elif type(val) == list:
         setattr(self, key, list(map(self.map_entry, val)))
+
+  def __contains__(self, attr):
+      return hasattr(self, attr)

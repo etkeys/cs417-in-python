@@ -1,9 +1,9 @@
 
 from copy import deepcopy as pydeepcopy
 import numpy as np
-from os import path, scandir
+from os import path, scandir, makedirs
 from random import uniform
-from tempfile import mkdtemp
+from tempfile import gettempdir, tempdir
 
 
 def almost_equal(mat1, mat2):
@@ -281,9 +281,14 @@ def two_norm_of_error(matA, matb, matx):
 
     return ret
 
-def write_files(*args):
-    tdir = mkdtemp(prefix='makemat-')
-    for m, name in args:
-        np.savetxt(path.join(tdir, name), m, fmt='%.6f', delimiter=' ')
+def write_files(*args, **kwargs):
+    arg_directory = kwargs.get('directory', None)
+    out_dir = 'makemat' if not arg_directory else arg_directory
+    out_dir = out_dir if path.isabs(out_dir) else path.join(gettempdir(), out_dir)
+    makedirs(out_dir, exist_ok=True)
 
-    return tdir
+    for m, name in args:
+        with open(path.join(out_dir, name), 'wt') as fp:
+            np.savetxt(fp, m, fmt='%.6f', delimiter=' ')
+
+    return out_dir

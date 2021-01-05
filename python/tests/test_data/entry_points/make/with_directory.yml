@@ -1,0 +1,46 @@
+
+- name: happy path (1), short arg
+  setup:
+    - delete_dir: '/tmp/makemat'
+  input: ['10', '-d', 'makemat']
+  expect:
+    returncode: 0
+    dir_exists: /tmp/makemat
+
+- name: happy path (2), long arg
+  setup:
+    - delete_dir: /tmp/makemat
+  input: ['10', '--directory', 'makemat']
+  expect:
+    returncode: 0
+    dir_exists: /tmp/makemat
+
+- name: happy path (3), non default dir in tmp
+  setup:
+    - delete_dir:
+        - /tmp/makemat
+        - /tmp/not-default-makemat
+  input: ['10', '-d', 'not-default-makemat']
+  expect:
+    returncode: 0
+    dir_exists: /tmp/not-default-makemat
+
+- name: happy path (4), non default dir is absolute path
+  setup:
+    - delete_dir:
+        - /tmp/makemat
+        - /tmp/not-default-makemat
+        - /tmp/some-dir
+  input: ['10', '-d', '/tmp/some-dir/not-default-makemat']
+  expect:
+    returncode: 0
+    dir_exists: /tmp/some-dir/not-default-makemat
+
+- name: bad path (1), missing directory value
+  setup:
+    - delete_dir:
+        - /tmp/makemat
+        - /tmp/not-default-makemat
+        - /tmp/some-dir
+  input: ['10', '-d']
+  expect: throws
