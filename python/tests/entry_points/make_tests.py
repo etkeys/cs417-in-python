@@ -1,21 +1,17 @@
 
-from copy import deepcopy
-from os import path
 import subprocess
-import unittest
 
 import tests.utils as utils
 
-class TestMakeEntryPoint(unittest.TestCase):
-
-    _init_cmd_parts = ['python', '-m', 'src', 'make']
+class TestMakeEntryPoint(utils.TestCaseBase):
 
     @property
-    def initial_command(self):
-        return deepcopy(self._init_cmd_parts)
-
-    def get_data_for_test_path(self, test_name):
-        return path.join('entry_points', 'make', test_name)
+    def _initial_command(self):
+        return ['python', '-m', 'src', 'make']
+    
+    @property
+    def root_test_data_path(self):
+       return ['entry_points', 'make']
 
     def _setup_with_directory(self, data):
         for step in data:
@@ -27,7 +23,7 @@ class TestMakeEntryPoint(unittest.TestCase):
             inp = data.input
             exp = data.expect
 
-            cmd = self.initial_command
+            cmd = self._initial_command
             cmd.extend(inp)
             act = subprocess.run(
                 cmd,
@@ -45,7 +41,7 @@ class TestMakeEntryPoint(unittest.TestCase):
 
         utils.run_test(
             self,
-            file=self.get_data_for_test_path('with_size'),
+            file='with_size',
             expect_else=expect_else
         )
 
@@ -56,7 +52,7 @@ class TestMakeEntryPoint(unittest.TestCase):
 
             inp = data.input
 
-            cmd = self.initial_command
+            cmd = self._initial_command
             cmd.extend(inp)
 
             self.assertRaises(
@@ -75,7 +71,7 @@ class TestMakeEntryPoint(unittest.TestCase):
             exp_code = data.expect.returncode
             exp_dir = data.expect.dir_exists
 
-            cmd = self.initial_command
+            cmd = self._initial_command
             cmd.extend(inp)
 
             act = subprocess.run(
@@ -94,7 +90,7 @@ class TestMakeEntryPoint(unittest.TestCase):
 
         utils.run_test(
             self,
-            file=self.get_data_for_test_path('with_directory'),
+            file='with_directory',
             expect_throws=expect_throws,
             expect_else=expect_else
         )

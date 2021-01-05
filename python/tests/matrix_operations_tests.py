@@ -1,23 +1,13 @@
 import numpy as np
-import unittest
 
 import src.matrix_operations as matops
+import tests.utils as utils
 
-from .utils import *
+class TestMatrixOperations(utils.TestCaseBase):
 
-class TestMatrixCreate(unittest.TestCase):
-
-    def _run(self, **kwargs):
-        data = load_test_data(kwargs['file'])
-        for test in data:
-            with self.subTest('Test: %s' % test.name):
-                if isinstance(test.expect, str) and test.expect == 'throws':
-                    if 'expect_throws' in kwargs:
-                        kwargs['expect_throws'](test)
-                    else:
-                        self.fail("Condition not implemented!")
-                else:
-                    kwargs['expect_else'](test)
+    @property
+    def root_test_data_path(self):
+        return ['matrix']
 
     def test_create_augmented(self):
         def expect_throws(test):
@@ -37,8 +27,9 @@ class TestMatrixCreate(unittest.TestCase):
             self.assertEqual(A.shape, A_orig.shape)
             self.assertEqual(b.shape, b_orig.shape)
 
-        self._run(
-            file='matrix.create_augmented',
+        utils.run_test(
+            self,
+            file='create_augmented',
             expect_throws=expect_throws,
             expect_else=expect_else
         )
@@ -55,8 +46,9 @@ class TestMatrixCreate(unittest.TestCase):
             act = matops.create_random(test.input.size, test.input.single_column)
             self.assertEqual(act.shape, (test.expect.rows, test.expect.columns))
 
-        self._run(
-            file='matrix.create_random',
+        utils.run_test(
+            self,
+            file='create_random',
             expect_throws=expect_throws,
             expect_else=expect_else
         )
@@ -72,8 +64,9 @@ class TestMatrixCreate(unittest.TestCase):
             else:
                 self.assertTrue(np.all(mask), 'One value is out of range.')
 
-        self._run(
-            file='matrix.create_random_validate_values',
+        utils.run_test(
+            self,
+            file='create_random_validate_values',
             expect_else=expect_else
         )
 
@@ -86,8 +79,9 @@ class TestMatrixCreate(unittest.TestCase):
             bigs = act.max(0)
             self.assertTrue(np.equal(diag, bigs).all())
 
-        self._run(
-            file='matrix.create_random_diag_dominate',
+        utils.run_test(
+            self,
+            file='create_random_diag_dominate',
             expect_else=expect_else
         )
 
@@ -109,26 +103,12 @@ class TestMatrixCreate(unittest.TestCase):
                 self.assertEqual(act.shape, (test.expect.rows, test.expect.columns))
             self.assertTrue(np.allclose(act, exp))
 
-        self._run(
-            file='matrix.create_zeros',
+        utils.run_test(
+            self,
+            file='create_zeros',
             expect_throws=expect_throws,
             expect_else=expect_else
         )
-
-
-class TestMatrixOperations(unittest.TestCase):
-    def _run(self, file, expect_throws=None, expect_else=None):
-        data = load_test_data(file)
-        for test in data:
-            with self.subTest('Test: %s' % test.name):
-                if isinstance(test.expect, str) and test.expect == 'throws':
-                    if expect_throws:
-                        expect_throws(test)
-                    else:
-                        self.fail("Condition not implemented!")
-                else:
-                    expect_else(test)
-
 
     def test_is_augmented(self):
         def expect_else(test):
@@ -136,8 +116,9 @@ class TestMatrixOperations(unittest.TestCase):
             act = matops.is_augmented(inp)
             self.assertEqual(act, test.expect)
 
-        self._run(
-            file='matrix.is_augmented',
+        utils.run_test(
+            self,
+            file='is_augmented',
             expect_else=expect_else
         )
 
@@ -147,8 +128,9 @@ class TestMatrixOperations(unittest.TestCase):
             act = matops.is_in_reduced_row_echelon(inp)
             self.assertEqual(act, test.expect)
 
-        self._run(
-            file='matrix.is_in_reduced_row_echelon',
+        utils.run_test(
+            self,
+            file='is_in_reduced_row_echelon',
             expect_else=expect_else
         )
 
@@ -160,12 +142,11 @@ class TestMatrixOperations(unittest.TestCase):
             act = matops.is_singular(inp)
             self.assertEqual(act, test.expect)
 
-        self._run(
-            file='matrix.is_singular',
+        utils.run_test(
+            self,
+            file='is_singular',
             expect_else=expect_else
         )
-
-
 
     def test_is_square(self):
         def expect_else(test):
@@ -173,11 +154,11 @@ class TestMatrixOperations(unittest.TestCase):
             act = matops.is_square(inp)
             self.assertEqual(act, test.expect)
 
-        self._run(
-            file='matrix.is_square',
+        utils.run_test(
+            self,
+            file='is_square',
             expect_else=expect_else
         )
-
 
     def test_multiply(self):
         def expect_else(test):
@@ -187,8 +168,9 @@ class TestMatrixOperations(unittest.TestCase):
             exp = np.array(test.expect)
             self.assertTrue(np.equal(act, exp).all())
 
-        self._run(
-            file='matrix.multiply',
+        utils.run_test(
+            self,
+            file='multiply',
             expect_else=expect_else
         )
 
@@ -208,8 +190,9 @@ class TestMatrixOperations(unittest.TestCase):
             self.assertTrue(np.allclose(act, exp))
             self.assertEqual(np.equal(act, inp).all(), test.expect.inp_match_act)
 
-        self._run(
-            file='matrix.multiply_row_by_scalar',
+        utils.run_test(
+            self,
+            file='multiply_row_by_scalar',
             expect_else=expect_else
         )
 
@@ -229,8 +212,9 @@ class TestMatrixOperations(unittest.TestCase):
             self.assertTrue(np.allclose(act, exp))
             self.assertEqual(np.equal(act, inp).all(), test.expect.inp_match_act)
 
-        self._run(
-            file='matrix.set_row_diag_to_one',
+        utils.run_test(
+            self,
+            file='set_row_diag_to_one',
             expect_else=expect_else
         )
 
@@ -246,11 +230,11 @@ class TestMatrixOperations(unittest.TestCase):
                 np.equal(act, inp).all(),
                 test.expect.inp_match_act)
 
-        self._run(
-            file='matrix.set_rows_below_to_zero',
+        utils.run_test(
+            self,
+            file='set_rows_below_to_zero',
             expect_else=expect_else
         )
-
 
     def test_subtract_scalar_row_from_row(self):
         def expect_else(test):
@@ -272,11 +256,11 @@ class TestMatrixOperations(unittest.TestCase):
                 np.equal(act, inp).all(),
                 test.expect.inp_match_act)
 
-        self._run(
-            file='matrix.subtract_scalar_row_from_row',
+        utils.run_test(
+            self,
+            file='subtract_scalar_row_from_row',
             expect_else=expect_else
         )
-
 
     def test_swap_largest_pivot_to_top(self):
         def expect_else(test):
@@ -293,8 +277,9 @@ class TestMatrixOperations(unittest.TestCase):
             self.assertTrue(np.equal(act, exp).all())
             self.assertEqual(np.equal(act, inp).all(), test.expect.inp_match_act)
 
-        self._run(
-            file='matrix.swap_largest_pivot_to_top',
+        utils.run_test(
+            self,
+            file='swap_largest_pivot_to_top',
             expect_else=expect_else
         )
 
@@ -311,8 +296,9 @@ class TestMatrixOperations(unittest.TestCase):
 
             self.assertTrue(np.allclose(act, exp))
 
-        self._run(
-            file='matrix.to_reduced_row_echelon',
+        utils.run_test(
+            self,
+            file='to_reduced_row_echelon',
             expect_else=expect_else
         )
 
@@ -326,11 +312,8 @@ class TestMatrixOperations(unittest.TestCase):
 
             self.assertAlmostEqual(act, exp)
 
-        self._run(
-            file='matrix.two_norm_of_error',
+        utils.run_test(
+            self,
+            file='two_norm_of_error',
             expect_else=expect_else
         )
-
-
-if __name__ == '__main__':
-    unittest.main()

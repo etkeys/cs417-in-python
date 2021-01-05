@@ -3,6 +3,7 @@ import os
 import shutil
 
 from .recursive_namespace import RecursiveNamespace
+from .test_case_base import TestCaseBase
 
 def check_dir_exists(path):
     return os.path.isdir(path)
@@ -31,7 +32,10 @@ def load_test_data(name):
     return ret
 
 def run_test(testcase, **kwargs):
-    data = load_test_data(kwargs['file'])
+    data_file = kwargs['file']
+    if hasattr(testcase, 'root_test_data_path'):
+        data_file = os.path.join(*(testcase.root_test_data_path + [data_file]))
+    data = load_test_data(data_file)
     for test in data:
         with testcase.subTest('Test: %s' % test.name):
             if isinstance(test.expect, str) and test.expect == 'throws':

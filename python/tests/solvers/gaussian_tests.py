@@ -1,12 +1,14 @@
 
 import numpy as np
-import unittest
 
 from src.solvers import GaussianSolver
+import tests.utils as utils
 
-from ..utils import *
+class TestGaussian(utils.TestCaseBase):
 
-class TestGaussian(unittest.TestCase):
+    @property
+    def root_test_data_path(self):
+        return ['solvers', 'gaussian']
 
     def test_calc_back_solve_vector_row(self):
         def expect_else(data):
@@ -23,9 +25,9 @@ class TestGaussian(unittest.TestCase):
             # print(act)
             self.assertAlmostEqual(act, exp, 5)
 
-        run_test(
+        utils.run_test(
             self,
-            file='gaussian.calc_back_solve_vector_row',
+            file='calc_back_solve_vector_row',
             expect_else=expect_else
         )
 
@@ -42,9 +44,9 @@ class TestGaussian(unittest.TestCase):
             # print(act)
             self.assertTrue(np.allclose(act, exp))
 
-        run_test(
+        utils.run_test(
             self,
-            file='gaussian.calc_back_solve_vector',
+            file='calc_back_solve_vector',
             expect_else=expect_else
         )
 
@@ -68,9 +70,9 @@ class TestGaussian(unittest.TestCase):
             self.assertEqual(act_fresult, exp_fresult)
             self.assertTrue(np.allclose(act_vresult, exp_vresult))
 
-        run_test(
+        utils.run_test(
             self,
-            file='gaussian.solve',
+            file='solve',
             expect_else=expect_else
         )
 
