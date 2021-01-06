@@ -196,6 +196,27 @@ class TestMatrixOperations(utils.TestCaseBase):
             expect_else=expect_else
         )
 
+    def test_percent_error(self):
+        def expect_else(test):
+            # print('')
+            # print(test.name)
+            inp_act = np.array(test.input.act).reshape(-1, 1)
+            inp_exp = np.array(test.input.exp).reshape(-1, 1)
+            exp = test.expect if test.expect != 'np.inf' else np.inf
+            act = matops.percent_error(inp_act, inp_exp)
+
+            # print(exp)
+            # print(act)
+
+            self.assertTrue(act >= 0.0)
+            self.assertAlmostEqual(act, exp)
+
+        utils.run_test(
+            self,
+            file='percent_error',
+            expect_else=expect_else
+        )
+
     def test_set_row_diagonal_to_one(self):
         def expect_else(test):
             inp = np.array(test.input.mat)

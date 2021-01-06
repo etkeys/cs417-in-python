@@ -1,0 +1,26 @@
+
+- name: happy path (1)
+  input:
+    path: data01
+    args: ["--check"]
+  expect: 0
+
+- name: happy path (2)
+  input:
+    path: data02
+    args: ["--check"]
+  expect: 0
+
+- name: bad path
+  input:
+    path: data03
+    args: ["--check"]
+  expect: 1
+
+- name: no DIR
+  input:
+    path: ~
+    args: ["--check"]
+  expect: 2
+
+

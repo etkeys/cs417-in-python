@@ -1,0 +1,31 @@
+
+- name: 2 rows (1)
+  input:
+    act: [1, 2]
+    exp: [1, 2]
+  expect: 0.0
+
+- name: 2 rows (2)
+  input:
+    act: [1, 2]
+    exp: [1, 1]
+  expect: 0.5
+
+- name: 2 rows (3)
+  input:
+    act: [1, -2]
+    exp: [1, 1]
+  expect: 1.5
+
+- name: 2 rows (4), divide by zero
+  input:
+    act: [1, 2]
+    exp: [0, 0]
+  expect: np.inf
+
+- name: 3 rows, should be positive
+  input:
+    act: [-19, 10, -19]
+    exp: [-19, 10, -9]
+  expect: 0.55555555
+

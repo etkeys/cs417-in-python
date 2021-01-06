@@ -1,12 +1,20 @@
 
 import os
 import shutil
+import yaml
 
 from .recursive_namespace import RecursiveNamespace
 from .test_case_base import TestCaseBase
 
 def check_dir_exists(path):
     return os.path.isdir(path)
+
+def build_path_to_test_data(fname=None, *args):
+    root_parts = ['tests', 'test_data']
+    root_parts.extend(args)
+    if fname:
+        root_parts.append(f'{fname}.yml')
+    return os.path.join(*root_parts)
 
 def delete_dir(path):
     def delete_dir_single(single_path):
@@ -20,11 +28,8 @@ def delete_dir(path):
         delete_dir_single(path)
 
 
-def load_test_data(name):
-    from os import path
-    import yaml
-
-    file = path.abspath(path.join('tests', 'test_data', '%s.yml' % name))
+def load_test_data(name, *args):
+    file = build_path_to_test_data(name, *args)
     with open(file, 'r') as fp:
         data = yaml.safe_load(fp.read())
 
@@ -33,9 +38,8 @@ def load_test_data(name):
 
 def run_test(testcase, **kwargs):
     data_file = kwargs['file']
-    if hasattr(testcase, 'root_test_data_path'):
-        data_file = os.path.join(*(testcase.root_test_data_path + [data_file]))
-    data = load_test_data(data_file)
+    path_parts_to_data_file = getattr(testcase, 'root_test_data_path', [])
+    data = load_test_data(data_file, *path_parts_to_data_file)
     for test in data:
         with testcase.subTest('Test: %s' % test.name):
             if isinstance(test.expect, str) and test.expect == 'throws':

@@ -18,16 +18,19 @@ def main(options):
     solver = solvers.GaussianSolver(aug)
     if (solver.solve()):
         res = solver.result.reshape((-1, 1))
-        err = matops.two_norm_of_error(A, b, res)
-        _solve_print_results(res, err)
+        err_norm = matops.two_norm_of_error(A, b, res)
+        _solve_print_results(res, err_norm)
 
         if options.check:
             if not matops.almost_equal(res, soln):
+                err_percent = matops.percent_error(res, soln)
                 eprint('Calculated result does not match expected solution.')
-                eprint("Two norm of error: %.6f" % err)
+                eprint('Two norm of error: %.6f' % err_norm)
+                eprint('Percent error: %.6f' % err_percent)
+                eprint('Files: %s' % options.dir )
                 return False
 
-        return _solve_check_two_norm_within_range(err)
+        return _solve_check_two_norm_within_range(err_norm)
 
     else:
         # TODO replace this with something better
@@ -47,4 +50,4 @@ def _solve_check_two_norm_within_range(norm_err):
 def _solve_print_results(result, norm_err):
     print('\nGaussian solver succeeded. Result matrix:')
     print(result)
-    print('\nTwo norm of the error: %.6f' % norm_err)
+    print('\nTwo norm of error: %.6f' % norm_err)

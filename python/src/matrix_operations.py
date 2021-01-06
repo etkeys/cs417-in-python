@@ -7,7 +7,7 @@ from tempfile import gettempdir, tempdir
 
 
 def almost_equal(mat1, mat2):
-    return np.allclose(mat1, mat2)
+    return np.allclose(mat1, mat2, atol=0.000_01)
 
 def create_augmented(matA, matb):
     """
@@ -278,6 +278,17 @@ def two_norm_of_error(matA, matb, matx):
     bax = subtract(matb, ax)
     ret = np.sum(bax[:,0] ** 2)
     ret = sqrt(ret)
+
+    return ret
+
+def percent_error(vec_actual, vec_expected):
+    top = np.sum(np.fabs(subtract(vec_expected, vec_actual)))
+    bot = np.sum(vec_expected)
+    try:
+        with np.errstate(divide='ignore'):
+            ret = np.fabs(top/bot)
+    except ZeroDivisionError:
+        ret = np.inf
 
     return ret
 

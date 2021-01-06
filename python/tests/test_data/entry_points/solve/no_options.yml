@@ -1,0 +1,14 @@
+
+- name: happy path (1)
+  input: data01
+  expect: 0
+
+- name: happy path (2)
+  input: data02
+  expect: 0
+
+- name: no DIR
+  input: ~
+  expect: 2
+
+
