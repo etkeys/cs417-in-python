@@ -1,6 +1,6 @@
-
 from .solver import _Solver
 import src.matrix_operations as matops
+
 
 class GaussianSolver(_Solver):
     """
@@ -9,7 +9,7 @@ class GaussianSolver(_Solver):
 
     def __init__(self, aug_matrix):
         if aug_matrix is None:
-            raise ValueError('Provided augmented matrix must not be None.')
+            raise ValueError("Provided augmented matrix must not be None.")
         self._mat = aug_matrix
 
     def solve(self):
@@ -23,7 +23,7 @@ class GaussianSolver(_Solver):
 
     def _calculate_back_solve_vector(self):
         if matops.is_singular(self._mat):
-            raise ValueError('Provided matrix is singular.')
+            raise ValueError("Provided matrix is singular.")
 
         if not matops.is_in_reduced_row_echelon(self._mat):
             self._mat = matops.to_reduced_row_echelon(self._mat)
@@ -58,13 +58,10 @@ class GaussianSolver(_Solver):
         seed = self._mat[calc_row, cmax]
         # print('Seed=%.6f' % seed)
 
-        subs = [(self._mat[calc_row, index] * bsvec[index]) \
-            for index in range(cmax - 1, calc_row, -1)]
+        subs = [
+            (self._mat[calc_row, index] * bsvec[index])
+            for index in range(cmax - 1, calc_row, -1)
+        ]
         # print(subs)
 
         return seed - sum(subs)
-
-
-
-
-

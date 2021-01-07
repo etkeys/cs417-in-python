@@ -1,4 +1,3 @@
-
 from copy import deepcopy as pydeepcopy
 import numpy as np
 from os import path, scandir, makedirs
@@ -9,18 +8,20 @@ from tempfile import gettempdir, tempdir
 def almost_equal(mat1, mat2):
     return np.allclose(mat1, mat2, atol=0.000_01)
 
+
 def create_augmented(matA, matb):
     """
     A new matrix is returned and inputs are not modified.
     """
     _, colsb = matb.shape
     if colsb > 1:
-        raise ValueError('Matrix b must have only 1 column, here has %i' % colsb)
+        raise ValueError("Matrix b must have only 1 column, here has %i" % colsb)
     return np.hstack((matA, matb))
+
 
 def create_random(size, single_column=False):
     if size < 2 or size > 500:
-        raise ValueError('size input must be between 2..500, here is %i' % size)
+        raise ValueError("size input must be between 2..500, here is %i" % size)
 
     columns = 1 if single_column else size
 
@@ -28,24 +29,26 @@ def create_random(size, single_column=False):
     # https://stackoverflow.com/a/8489498
     mat = np.zeros((size, columns))
     for i in range(size):
-        mat[i,:] = [uniform(-20,20) for c in range(columns)]
-    
+        mat[i, :] = [uniform(-20, 20) for c in range(columns)]
+
     return mat
+
 
 def create_random_diagonal_dominate(size):
     ABRITARY_SCALAR = 2
     mat = create_random(size)
-    sums = [np.sum(np.fabs(mat[r,:])) * ABRITARY_SCALAR for r in range(size)]
+    sums = [np.sum(np.fabs(mat[r, :])) * ABRITARY_SCALAR for r in range(size)]
     for i in range(size):
-        mat[i,i] = sums[i]
+        mat[i, i] = sums[i]
 
     return mat
 
-def create_zeros(rows: int=1, columns: int=0):
+
+def create_zeros(rows: int = 1, columns: int = 0):
     if not rows or rows < 1:
         rows = 1
     if columns and columns < 1:
-        raise ValueError('Columns is {}, but expected at least 1.'.format(columns))
+        raise ValueError("Columns is {}, but expected at least 1.".format(columns))
 
     if not columns:
         return np.zeros(rows)
@@ -64,6 +67,7 @@ def deepcopy(inp, do_it=True):
         return pydeepcopy(inp)
     return inp
 
+
 def is_in_reduced_row_echelon(matrix):
     rows, columns = matrix.shape
     if rows > columns:
@@ -77,23 +81,25 @@ def is_in_reduced_row_echelon(matrix):
         if r == 0:
             continue
         indices = np.arange(r)
-        row = np.take(matrix[r,:], indices)
+        row = np.take(matrix[r, :], indices)
         expect = np.zeros(indices.shape[0], dtype=float)
         if not np.allclose(row, expect):
             return False
 
     return True
 
+
 def is_augmented(matrix):
     rows, cols = matrix.shape
     return cols == rows + 1
+
 
 def is_singular(matrix):
     if not (is_square(matrix) ^ is_augmented(matrix)):
         return False
 
     if is_augmented(matrix):
-        temp = matrix[:,:matrix.shape[1] - 1]
+        temp = matrix[:, : matrix.shape[1] - 1]
     else:
         temp = matrix
 
@@ -111,18 +117,20 @@ def load_files(directory):
     with scandir(directory) as files:
         for file in files:
             fname, _ = path.splitext(path.basename(file))
-            with open(file, 'r') as fp:
-                if fname == 'A':
-                    A = np.loadtxt(fp, delimiter=' ')
-                elif fname == 'b':
-                    b = np.reshape(np.loadtxt(fp, delimiter=' '), (-1, 1))
-                elif fname == 'soln':
-                    soln = np.reshape(np.loadtxt(fp, delimiter=' '), (-1, 1))
+            with open(file, "r") as fp:
+                if fname == "A":
+                    A = np.loadtxt(fp, delimiter=" ")
+                elif fname == "b":
+                    b = np.reshape(np.loadtxt(fp, delimiter=" "), (-1, 1))
+                elif fname == "soln":
+                    soln = np.reshape(np.loadtxt(fp, delimiter=" "), (-1, 1))
 
     return (A, b, soln)
 
+
 def multiply(a, b):
-    return np.matmul(a,b)
+    return np.matmul(a, b)
+
 
 def multiply_row_by_scalar(matrix, row, scalar, inplace=True):
     """
@@ -135,7 +143,7 @@ def multiply_row_by_scalar(matrix, row, scalar, inplace=True):
 
     ret = deepcopy(matrix, (not inplace))
     # print('multiplying row %i by %.6f' % (row, scalar))
-    ret[row,:] = (ret[row,:] * scalar) + 0.0
+    ret[row, :] = (ret[row, :] * scalar) + 0.0
     return ret
 
 
@@ -143,6 +151,7 @@ def print_pretty(matrix):
     # TODO do we really need this?
     # https://stackoverflow.com/a/1988024
     raise NotImplementedError
+
 
 def set_rows_below_to_zero(matrix, base_row, inplace=True):
     """
@@ -178,8 +187,8 @@ def set_row_diagonal_to_one(matrix, row, inplace=True):
     # print('set row %i diagonal to 1 [in]' % row)
     # print(ret)
 
-    diag = ret[row,row]
-    ret = multiply_row_by_scalar(ret, row, (1.0/diag))
+    diag = ret[row, row]
+    ret = multiply_row_by_scalar(ret, row, (1.0 / diag))
 
     if ret[row, row] < 0:
         ret = multiply_row_by_scalar(ret, row, -1.0)
@@ -188,9 +197,11 @@ def set_row_diagonal_to_one(matrix, row, inplace=True):
     # print(ret)
     return ret
 
+
 # TODO needs tests
 def subtract(mat1, mat2):
     return np.subtract(mat1, mat2)
+
 
 def subtract_scalar_row_from_row(matrix, src_row, aff_row, inplace=True):
     """
@@ -210,11 +221,12 @@ def subtract_scalar_row_from_row(matrix, src_row, aff_row, inplace=True):
     # 2. multiply source row by leading value to get scalar row
     # 3. subtract scalar row from current row,
     # 4. multiply source row by inverse of leading value.
-    lead = ret[aff_row,src_row]
-    ret[aff_row,src_row:] = ret[aff_row,src_row:] - (ret[src_row,src_row:] * lead)
+    lead = ret[aff_row, src_row]
+    ret[aff_row, src_row:] = ret[aff_row, src_row:] - (ret[src_row, src_row:] * lead)
     # print('subtract scalar row of %i from row %i [out]' % (src_row, aff_row))
     # print(ret)
     return ret
+
 
 def swap_largest_pivot_to_top(matrix, pivot, inplace=True):
     """
@@ -229,7 +241,7 @@ def swap_largest_pivot_to_top(matrix, pivot, inplace=True):
     # print('swap rows [in]')
     # print(ret)
 
-    cols = np.fabs(np.reshape(ret[pivot:,pivot], (-1,1)))
+    cols = np.fabs(np.reshape(ret[pivot:, pivot], (-1, 1)))
     big, _ = np.where(cols == np.max(cols))
 
     swap = int(big) + pivot
@@ -241,6 +253,7 @@ def swap_largest_pivot_to_top(matrix, pivot, inplace=True):
     # print(ret)
     return ret
 
+
 # TODO Might need to move this into gaussian
 def to_reduced_row_echelon(matrix):
     """
@@ -250,7 +263,7 @@ def to_reduced_row_echelon(matrix):
     """
     if is_in_reduced_row_echelon(matrix):
         return matrix
-    
+
     # deepcopy because we don't want to muck with the original
     ret = deepcopy(matrix)
     for r in range(matrix.shape[0]):
@@ -265,41 +278,46 @@ def to_reduced_row_echelon(matrix):
 
     return ret
 
+
 def two_norm_of_error(matA, matb, matx):
     from math import sqrt
 
     if matA is None or matb is None or matx is None:
-        raise ValueError('Either input MatrixA, MatrixB, or solution matrix MatrixX is None.')
+        raise ValueError(
+            "Either input MatrixA, MatrixB, or solution matrix MatrixX is None."
+        )
 
     # reshape matx from 1xN to be Nx1 if need be
-    x = matx.reshape((matx.shape[0],1)) if len(matx.shape) == 1 else matx
+    x = matx.reshape((matx.shape[0], 1)) if len(matx.shape) == 1 else matx
 
     ax = multiply(matA, x)
     bax = subtract(matb, ax)
-    ret = np.sum(bax[:,0] ** 2)
+    ret = np.sum(bax[:, 0] ** 2)
     ret = sqrt(ret)
 
     return ret
+
 
 def percent_error(vec_actual, vec_expected):
     top = np.sum(np.fabs(subtract(vec_expected, vec_actual)))
     bot = np.sum(vec_expected)
     try:
-        with np.errstate(divide='ignore'):
-            ret = np.fabs(top/bot)
+        with np.errstate(divide="ignore"):
+            ret = np.fabs(top / bot)
     except ZeroDivisionError:
         ret = np.inf
 
     return ret
 
+
 def write_files(*args, **kwargs):
-    arg_directory = kwargs.get('directory', None)
-    out_dir = 'makemat' if not arg_directory else arg_directory
+    arg_directory = kwargs.get("directory", None)
+    out_dir = "makemat" if not arg_directory else arg_directory
     out_dir = out_dir if path.isabs(out_dir) else path.join(gettempdir(), out_dir)
     makedirs(out_dir, exist_ok=True)
 
     for m, name in args:
-        with open(path.join(out_dir, name), 'wt') as fp:
-            np.savetxt(fp, m, fmt='%.6f', delimiter=' ')
+        with open(path.join(out_dir, name), "wt") as fp:
+            np.savetxt(fp, m, fmt="%.6f", delimiter=" ")
 
     return out_dir

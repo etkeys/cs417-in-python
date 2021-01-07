@@ -1,22 +1,28 @@
-
 import src.matrix_operations as matops
 import src.solvers as solvers
 from src.utils import eprint
 
+
 def add_subparser(subparsers):
-    parser = subparsers.add_parser('solve',
-        help='Calculate solutions to matrix problems using a given method')
-    parser.add_argument('dir', metavar='DIR', help='The directory containing matrix definitions.')
-    parser.add_argument('--check',
-        action='store_true',
-        help='Compare the calculated result with the soln.def file.')
+    parser = subparsers.add_parser(
+        "solve", help="Calculate solutions to matrix problems using a given method"
+    )
+    parser.add_argument(
+        "dir", metavar="DIR", help="The directory containing matrix definitions."
+    )
+    parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Compare the calculated result with the soln.def file.",
+    )
+
 
 def main(options):
     A, b, soln = matops.load_files(options.dir)
     aug = matops.create_augmented(A, b)
 
     solver = solvers.GaussianSolver(aug)
-    if (solver.solve()):
+    if solver.solve():
         res = solver.result.reshape((-1, 1))
         err_norm = matops.two_norm_of_error(A, b, res)
         _solve_print_results(res, err_norm)
@@ -24,10 +30,10 @@ def main(options):
         if options.check:
             if not matops.almost_equal(res, soln):
                 err_percent = matops.percent_error(res, soln)
-                eprint('Calculated result does not match expected solution.')
-                eprint('Two norm of error: %.6f' % err_norm)
-                eprint('Percent error: %.6f' % err_percent)
-                eprint('Files: %s' % options.dir )
+                eprint("Calculated result does not match expected solution.")
+                eprint("Two norm of error: %.6f" % err_norm)
+                eprint("Percent error: %.6f" % err_percent)
+                eprint("Files: %s" % options.dir)
                 return False
 
         return _solve_check_two_norm_within_range(err_norm)
@@ -38,6 +44,7 @@ def main(options):
         print(solver.result)
         return False
 
+
 def _solve_check_two_norm_within_range(norm_err):
     l = 0.0
     u = 0.0005
@@ -47,7 +54,8 @@ def _solve_check_two_norm_within_range(norm_err):
         return False
     return True
 
+
 def _solve_print_results(result, norm_err):
-    print('\nGaussian solver succeeded. Result matrix:')
+    print("\nGaussian solver succeeded. Result matrix:")
     print(result)
-    print('\nTwo norm of error: %.6f' % norm_err)
+    print("\nTwo norm of error: %.6f" % norm_err)

@@ -1,14 +1,13 @@
-
 import numpy as np
 
 from src.solvers import GaussianSolver
 import tests.utils as utils
 
-class TestGaussian(utils.TestCaseBase):
 
+class TestGaussian(utils.TestCaseBase):
     @property
     def root_test_data_path(self):
-        return ['solvers', 'gaussian']
+        return ["solvers", "gaussian"]
 
     def test_calc_back_solve_vector_row(self):
         def expect_else(data):
@@ -25,11 +24,7 @@ class TestGaussian(utils.TestCaseBase):
             # print(act)
             self.assertAlmostEqual(act, exp, 5)
 
-        utils.run_test(
-            self,
-            file='calc_back_solve_vector_row',
-            expect_else=expect_else
-        )
+        utils.run_test(self, file="calc_back_solve_vector_row", expect_else=expect_else)
 
     def test_calc_back_solve_vector(self):
         def expect_else(data):
@@ -44,11 +39,7 @@ class TestGaussian(utils.TestCaseBase):
             # print(act)
             self.assertTrue(np.allclose(act, exp))
 
-        utils.run_test(
-            self,
-            file='calc_back_solve_vector',
-            expect_else=expect_else
-        )
+        utils.run_test(self, file="calc_back_solve_vector", expect_else=expect_else)
 
     def test_solve(self):
         def expect_else(data):
@@ -61,7 +52,6 @@ class TestGaussian(utils.TestCaseBase):
             act_fresult = actor.solve()
             act_vresult = actor.result
 
-
             # print(exp_fresult)
             # print(exp_vresult)
             # print(act_fresult)
@@ -70,9 +60,4 @@ class TestGaussian(utils.TestCaseBase):
             self.assertEqual(act_fresult, exp_fresult)
             self.assertTrue(np.allclose(act_vresult, exp_vresult))
 
-        utils.run_test(
-            self,
-            file='solve',
-            expect_else=expect_else
-        )
-
+        utils.run_test(self, file="solve", expect_else=expect_else)
