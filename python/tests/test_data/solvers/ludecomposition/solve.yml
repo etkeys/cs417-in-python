@@ -1,0 +1,24 @@
+
+- name: 4x4
+  input:
+    matA:
+      - [2, 3, 2, 1]
+      - [4, 8, 7, 3]
+      - [2, 1, 0, 2]
+      - [-4, -4, 1, 2]
+    matb: [9, -8, 7 ,-6]
+  expect:
+    func_result: true
+    vec_result: [200.5, -206, 160, -94]
+
+- name: 4x4 (shuffled)
+  input:
+    matA:
+      - [2, 1, 0, 2]
+      - [4, 8, 7, 3]
+      - [-4, -4, 1, 2]
+      - [2, 3, 2, 1]
+    matb: [7, -8, -6, 9]
+  expect:
+    func_result: true
+    vec_result: [200.5, -206, 160, -94]

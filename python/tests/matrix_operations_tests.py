@@ -1,3 +1,5 @@
+from pydoc import locate
+
 import numpy as np
 
 import src.matrix_operations as matops
@@ -8,6 +10,48 @@ class TestMatrixOperations(utils.TestCaseBase):
     @property
     def root_test_data_path(self):
         return ["matrix"]
+
+    def test_count_columns(self):
+        def expect_throws(test):
+            inp = np.array(test.input.mat) if hasattr(test.input, "mat") else None
+            err = utils.expect_to_error(test.expect)
+
+            self.assertRaises(err, matops.count_columns, inp)
+
+        def expect_else(test):
+            inp = np.array(test.input.mat) if hasattr(test.input, "mat") else None
+            exp = test.expect
+            act = matops.count_columns(inp)
+
+            self.assertEqual(act, exp)
+
+        utils.run_test(
+            self,
+            file="count_columns",
+            expect_else=expect_else,
+            expect_throws=expect_throws,
+        )
+
+    def test_count_rows(self):
+        def expect_throws(test):
+            inp = np.array(test.input.mat) if hasattr(test.input, "mat") else None
+            err = utils.expect_to_error(test.expect)
+
+            self.assertRaises(err, matops.count_rows, inp)
+
+        def expect_else(test):
+            inp = np.array(test.input.mat) if hasattr(test.input, "mat") else None
+            exp = test.expect
+            act = matops.count_rows(inp)
+
+            self.assertEqual(act, exp)
+
+        utils.run_test(
+            self,
+            file="count_rows",
+            expect_else=expect_else,
+            expect_throws=expect_throws,
+        )
 
     def test_create_augmented(self):
         def expect_throws(test):
@@ -30,6 +74,33 @@ class TestMatrixOperations(utils.TestCaseBase):
         utils.run_test(
             self,
             file="create_augmented",
+            expect_throws=expect_throws,
+            expect_else=expect_else,
+        )
+
+    def test_create_identity(self):
+        def expect_throws(test):
+            if "TypeError".lower() == test.expect.throws:
+                err = TypeError
+            else:
+                err = ValueError
+
+            self.assertRaises(
+                err,
+                matops.create_identity,
+                test.input,
+            )
+
+        def expect_else(test):
+            inp = test.input
+            exp = np.array(test.expect)
+            act = matops.create_identity(inp)
+
+            self.assertTrue(np.equal(act, exp).all())
+
+        utils.run_test(
+            self,
+            file="create_identity",
             expect_throws=expect_throws,
             expect_else=expect_else,
         )
@@ -113,6 +184,29 @@ class TestMatrixOperations(utils.TestCaseBase):
 
         utils.run_test(self, file="is_augmented", expect_else=expect_else)
 
+    def test_is_hvector(self):
+        def expect_else(test):
+            inp_as_raw = test.input.as_raw
+            inp_value = test.input.value if inp_as_raw else np.array(test.input.value)
+            exp = test.expect
+            act = matops.is_hvector(inp_value)
+
+            self.assertEqual(
+                act, exp, "Expect is_hvector to be %s, got %s" % (exp, act)
+            )
+
+        utils.run_test(self, file="is_hvector", expect_else=expect_else)
+
+    def test_is_in_crout_l_form(self):
+        def expect_else(test):
+            inp = np.array(test.input, dtype=float)
+            exp = test.expect
+            act = matops.is_in_crout_l_form(inp)
+
+            self.assertEqual(act, exp)
+
+        utils.run_test(self, file="is_in_crout_l_form", expect_else=expect_else)
+
     def test_is_in_reduced_row_echelon(self):
         def expect_else(test):
             inp = np.array(test.input)
@@ -120,6 +214,17 @@ class TestMatrixOperations(utils.TestCaseBase):
             self.assertEqual(act, test.expect)
 
         utils.run_test(self, file="is_in_reduced_row_echelon", expect_else=expect_else)
+
+    def test_is_matrix(self):
+        def expect_else(test):
+            inp_as_raw = test.input.as_raw
+            inp_value = test.input.value if inp_as_raw else np.array(test.input.value)
+            exp = test.expect
+            act = matops.is_matrix(inp_value)
+
+            self.assertEqual(act, exp, "Expect is_matrix to be %s, got %s" % (exp, act))
+
+        utils.run_test(self, file="is_matrix", expect_else=expect_else)
 
     def test_is_singular(self):
         def expect_else(test):
@@ -138,6 +243,30 @@ class TestMatrixOperations(utils.TestCaseBase):
             self.assertEqual(act, test.expect)
 
         utils.run_test(self, file="is_square", expect_else=expect_else)
+
+    def test_is_vector(self):
+        def expect_else(test):
+            inp_as_raw = test.input.as_raw
+            inp_value = test.input.value if inp_as_raw else np.array(test.input.value)
+            exp = test.expect
+            act = matops.is_vector(inp_value)
+
+            self.assertEqual(act, exp, "Expect is_vector to be %s, got %s" % (exp, act))
+
+        utils.run_test(self, file="is_vector", expect_else=expect_else)
+
+    def test_is_vvector(self):
+        def expect_else(test):
+            inp_as_raw = test.input.as_raw
+            inp_value = test.input.value if inp_as_raw else np.array(test.input.value)
+            exp = test.expect
+            act = matops.is_vvector(inp_value)
+
+            self.assertEqual(
+                act, exp, "Expect is_vvector to be %s, got %s" % (exp, act)
+            )
+
+        utils.run_test(self, file="is_vvector", expect_else=expect_else)
 
     def test_multiply(self):
         def expect_else(test):
@@ -184,6 +313,35 @@ class TestMatrixOperations(utils.TestCaseBase):
             self.assertAlmostEqual(act, exp)
 
         utils.run_test(self, file="percent_error", expect_else=expect_else)
+
+    def test_reshape(self):
+        def expect_throws(test):
+            inp_mat = np.array(test.input.mat) if hasattr(test.input, "mat") else None
+            inp_newshape = (
+                tuple(test.input.newshape.value)
+                if test.input.newshape.as_tuple
+                else test.input.newshape.value
+            )
+            err = utils.expect_to_error(test.expect)
+
+            self.assertRaises(err, matops.reshape, inp_mat, inp_newshape)
+
+        def expect_else(test):
+            inp_mat = np.array(test.input.mat)
+            inp_newshape = (
+                tuple(test.input.newshape.value)
+                if test.input.newshape.as_tuple
+                else test.input.newshape.value
+            )
+
+            exp = np.array(test.expect.mat)
+            act = matops.reshape(inp_mat, inp_newshape)
+
+            self.assertTrue(np.equal(act, exp).all())
+
+        utils.run_test(
+            self, file="reshape", expect_throws=expect_throws, expect_else=expect_else
+        )
 
     def test_set_row_diagonal_to_one(self):
         def expect_else(test):

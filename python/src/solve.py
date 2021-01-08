@@ -1,3 +1,5 @@
+import traceback
+
 import src.matrix_operations as matops
 import src.solvers as solvers
 from src.utils import eprint
@@ -41,7 +43,8 @@ def main(options):
     else:
         # TODO replace this with something better
         eprint("Solver failed")
-        print(solver.result)
+        eprint(solver.result)
+        eprint(traceback.print_tb(solver.result.__traceback__))
         return False
 
 
