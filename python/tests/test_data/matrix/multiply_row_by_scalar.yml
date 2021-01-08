@@ -1,0 +1,127 @@
+
+- name: 3x3 (1)
+  input:
+    mat: [
+      [2, 1, 3],
+      [0, -2, -29],
+      [3, 4, 5]
+    ]
+    inplace: false
+    row: 0
+    scalar: 2
+  expect:
+    mat: [
+      [4, 2, 6],
+      [0, -2, -29],
+      [3, 4, 5]
+    ]
+    inp_match_act: false
+
+- name: 3x3 (2)
+  input:
+    mat: [
+      [0, -2, -29],
+      [3, 4, 5],
+      [2, 1, 3]
+    ]
+    inplace: false
+    row: 2
+    scalar: 2
+  expect:
+    mat: [
+      [0, -2, -29],
+      [3, 4, 5],
+      [4, 2, 6]
+    ]
+    inp_match_act: false
+
+- name: 3x3 (3)
+  input:
+    mat: [
+      [2, 1, 3],
+      [0, -2, -29],
+      [3, 4, 5]
+    ]
+    inplace: true
+    row: 0
+    scalar: 2
+  expect:
+    mat: [
+      [4, 2, 6],
+      [0, -2, -29],
+      [3, 4, 5]
+    ]
+    inp_match_act: true
+
+
+- name: 3x3 row greater than max rows
+  input:
+    mat: [
+      [0, -2, -29],
+      [3, 4, 5],
+      [2, 1, 3]
+    ]
+    inplace: false
+    row: 3
+    scalar: 2
+  expect:
+    mat: [
+      [0, -2, -29],
+      [3, 4, 5],
+      [2, 1, 3]
+    ]
+    inp_match_act: true
+
+- name: 3x3 sclar = 1
+  input:
+    mat: [
+      [2, 1, 3],
+      [0, -2, -29],
+      [3, 4, 5]
+    ]
+    inplace: false
+    row: 0
+    scalar: 1
+  expect:
+    mat: [
+      [2, 1, 3],
+      [0, -2, -29],
+      [3, 4, 5]
+    ]
+    inp_match_act: true
+
+- name: 3x3 sclar = -1
+  input:
+    mat: [
+      [2, 1, 3],
+      [0, -2, -29],
+      [3, 4, 5]
+    ]
+    inplace: false
+    row: 0
+    scalar: -1
+  expect:
+    mat: [
+      [-2, -1, -3],
+      [0, -2, -29],
+      [3, 4, 5]
+    ]
+    inp_match_act: false
+
+- name: 3x3 scalar = -2, row = 1, might create -0
+  input:
+    mat: [
+      [1., 1.333333, 1.666667],
+      [0., -2., -29.],
+      [0., -1.666667, -0.333333]
+    ]
+    inplace: false
+    row: 1
+    scalar: -0.5
+  expect:
+    mat: [
+      [1., 1.333333, 1.666667],
+      [0., 1., 14.5],
+      [0., -1.666667, -0.333333]
+    ]
+    inp_match_act: false

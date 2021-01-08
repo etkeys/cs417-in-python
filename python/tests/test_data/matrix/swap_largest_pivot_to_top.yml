@@ -1,0 +1,136 @@
+
+- name: 3x3 1<>3
+  input:
+    mat: [
+      [2., 1., 3.],
+      [0., -2., -29.],
+      [3., 4., 5.]
+    ]
+    inplace: false
+    pivot: 0
+  expect:
+    mat: [
+      [3., 4., 5.],
+      [0., -2., -29.],
+      [2., 1., 3.]
+    ]
+    inp_match_act: false
+
+- name: 3x3 1<>3, mangle input
+  input:
+    mat: [
+      [2., 1., 3.],
+      [0., -2., -29.],
+      [3., 4., 5.]
+    ]
+    inplace: true
+    pivot: 0
+  expect:
+    mat: [
+      [3., 4., 5.],
+      [0., -2., -29.],
+      [2., 1., 3.]
+    ]
+    inp_match_act: true
+
+- name: 3x3 1<>2
+  input:
+    mat: [
+      [0., -2., -29.],
+      [3., 4., 5.],
+      [2., 1., 3.]
+    ]
+    inplace: false
+    pivot: 0
+  expect:
+    mat: [
+      [3., 4., 5.],
+      [0., -2., -29.],
+      [2., 1., 3.]
+    ]
+    inp_match_act: false
+
+- name: 3x3 no swap
+  input:
+    mat: [
+      [3., 4., 5.],
+      [0., -2., -29.],
+      [2., 1., 3.]
+    ]
+    inplace: false
+    pivot: 0
+  expect:
+    mat: [
+      [3., 4., 5.],
+      [0., -2., -29.],
+      [2., 1., 3.]
+    ]
+    inp_match_act: true
+
+- name: 3x3 ignore first row
+  input:
+    mat: [
+      [3., 4., 5.],
+      [2., 1., 3.],
+      [0., -2., -29.]
+    ]
+    inplace: false
+    pivot: 1
+  expect:
+    mat: [
+      [3., 4., 5.],
+      [0., -2., -29.],
+      [2., 1., 3.]
+    ]
+    inp_match_act: false
+
+- name: 3x4 1<>3
+  input:
+    mat: [
+      [2., 1., 3., .6],
+      [0., -2., -29., 7.],
+      [3., 4., 5., 8.]
+    ]
+    inplace: false
+    pivot: 0
+  expect:
+    mat: [
+      [3., 4., 5., 8.],
+      [0., -2., -29., 7.],
+      [2., 1., 3., .6]
+    ]
+    inp_match_act: false
+
+- name: 3x4 pivot equal to columns
+  input:
+    mat: [
+      [2., 1., 3., .6],
+      [0., -2., -29., 7.],
+      [3., 4., 5., 8.]
+    ]
+    inplace: false
+    pivot: 2
+  expect:
+    mat: [
+      [2., 1., 3., .6],
+      [0., -2., -29., 7.],
+      [3., 4., 5., 8.]
+    ]
+    inp_match_act: true
+
+- name: 3x4 pivot greater than columns
+  input:
+    mat: [
+      [2., 1., 3., .6],
+      [0., -2., -29., 7.],
+      [3., 4., 5., 8.]
+    ]
+    inplace: false
+    pivot: 3
+  expect:
+    mat: [
+      [2., 1., 3., .6],
+      [0., -2., -29., 7.],
+      [3., 4., 5., 8.]
+    ]
+    inp_match_act: true
