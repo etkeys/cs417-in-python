@@ -7,10 +7,23 @@ class GaussianSolver(_Solver):
     Gauss-Jordan elimination
     """
 
-    def __init__(self, aug_matrix):
-        if aug_matrix is None:
-            raise ValueError("Provided augmented matrix must not be None.")
-        self._mat = aug_matrix
+    def __init__(self, matA, matb):
+        if not matops.is_matrix(matA):
+            raise ValueError("Matrix A missing or not a matrix.")
+        if not matops.is_square(matA):
+            raise ValueError("Matrix A is not square.")
+        if not matops.is_vector(matb):
+            raise ValueError("Matrix b missing or not a vector.")
+
+        self._mat = (
+            matops.create_augmented(matA, matb)
+            if matops.is_vvector(matb)
+            else matops.create_augmented(matA, matops.reshape(matb, (-1, 1)))
+        )
+
+    @staticmethod
+    def get_solver_name():
+        return "Gaussian"
 
     def solve(self):
         try:

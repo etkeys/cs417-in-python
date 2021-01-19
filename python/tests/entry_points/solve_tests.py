@@ -20,16 +20,20 @@ class TestSolveEntryPoint(utils.TestCaseBase):
 
     def test_no_options(self):
         def expect_else(test):
-            inp = test.input
+            inp_dir = getattr(test.input, "dir", None)
+            inp_solver = getattr(test.input, "solver", None)
             exp = test.expect
 
             cmd = self._initial_command
-            if inp:
+            if inp_dir:
                 subtest_dir = self.root_test_data_path
-                subtest_dir.append(inp)
+                subtest_dir.append(inp_dir)
                 subtest_dir = utils.build_path_to_test_data(None, *subtest_dir)
                 cmd.append(subtest_dir)
+            if inp_solver:
+                cmd.append(inp_solver)
 
+            # print(cmd)
             act = subprocess.run(
                 cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding="utf-8"
             )
@@ -45,13 +49,13 @@ class TestSolveEntryPoint(utils.TestCaseBase):
     def test_with_check(self):
         def expect_else(test):
             inp_args = test.input.args
-            inp_path = test.input.path
+            inp_dir = test.input.dir
             exp = test.expect
 
             cmd = self._initial_command
-            if inp_path:
+            if inp_dir:
                 subtest_dir = self.root_test_data_path
-                subtest_dir.append(inp_path)
+                subtest_dir.append(inp_dir)
                 subtest_dir = utils.build_path_to_test_data(None, *subtest_dir)
                 cmd.append(subtest_dir)
 

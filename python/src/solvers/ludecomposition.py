@@ -21,16 +21,19 @@ class LuDecompositionSolver(_Solver):
         self._matA = matA
         self._matb = matb if matops.is_hvector(matb) else matops.reshape(matb, -1)
 
+    @staticmethod
+    def get_solver_name():
+        return "LuDecomposition"
+
     def solve(self):
         try:
             matL, matU = self._create_crout_lu_factors()
             maty = self._calculate_forward_solve_vector(matL)
-            aug = matops.create_augmented(matU, maty)
         except Exception as ex:
             self._result = ex
             return False
 
-        gs = GaussianSolver(aug)
+        gs = GaussianSolver(matU, maty)
         ret = gs.solve()
         self._result = gs.result
         return ret
