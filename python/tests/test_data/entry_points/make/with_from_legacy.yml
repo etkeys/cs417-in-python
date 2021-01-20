@@ -1,0 +1,74 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: happy path; 1
+  setup:
+    - delete_dir: '/tmp/makemat'
+  input: [--from-legacy, tests/test_data/entry_points/make/2x2]
+  expect:
+    returncode: 0
+    matrix_size: 2
+    out_dir: /tmp/makemat
+    
+- name: happy path; 2
+  setup:
+    - delete_dir: '/tmp/makemat'
+  input: [--from-legacy, tests/test_data/entry_points/make/10x10]
+  expect:
+    returncode: 0
+    matrix_size: 10
+    out_dir: /tmp/makemat
+
+- name: happy path; with -d flag
+  setup:
+    - delete_dir: '/tmp/makemat'
+    - delete_dir: '/tmp/makemat2'
+  input: [--from-legacy, tests/test_data/entry_points/make/10x10]
+  expect:
+    returncode: 0
+    matrix_size: 10
+    out_dir: /tmp/makemat2
+  teardown:
+    - delete_dir: '/tmp/makemat2'
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: bad path; no argument provided
+  setup:
+    - delete_dir: '/tmp/makemat'
+  input: [--from-legacy]
+  expect:
+    returncode: 2
+    matrix_size: 2
+    out_dir: /tmp/makemat
+
+- name: bad path; provided argument does not exist
+  setup:
+    - delete_dir: '/tmp/makemat'
+  input: [--from-legacy, test/test_data/does_not_exist]
+  expect:
+    returncode: 1
+    matrix_size: 2
+    out_dir: /tmp/makemat
+
+- name: bad path; size also given
+  setup:
+    - delete_dir: '/tmp/makemat'
+  input: ["2", --from-legacy, tests/test_data/entry_points/make/2x2]
+  expect:
+    returncode: 2
+    matrix_size: 2
+    out_dir: /tmp/makemat
+
+- name: bad path; size also given (swap order)
+  setup:
+    - delete_dir: '/tmp/makemat'
+  input: [--from-legacy, tests/test_data/entry_points/make/2x2, "2"]
+  expect:
+    returncode: 2
+    matrix_size: 2
+    out_dir: /tmp/makemat

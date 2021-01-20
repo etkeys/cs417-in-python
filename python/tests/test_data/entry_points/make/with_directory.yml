@@ -1,4 +1,8 @@
 
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
 - name: happy path (1), short arg
   setup:
     - delete_dir: '/tmp/makemat'
@@ -35,6 +39,10 @@
   expect:
     returncode: 0
     dir_exists: /tmp/some-dir/not-default-makemat
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
 
 - name: bad path (1), missing directory value
   setup:

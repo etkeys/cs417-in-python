@@ -7,7 +7,17 @@ def add_subparser(subparsers):
         description="Create matrix definition files suitable for use with solve",
         help="Create matrix definition files",
     )
-    parser.add_argument("size", metavar="SIZE", type=int, help="Size of matrix A")
+    exgroup = parser.add_mutually_exclusive_group()
+    exgroup.add_argument(
+        "size", metavar="SIZE", type=int, nargs="?", help="Size of matrix A"
+    )
+    exgroup.add_argument(
+        "--from-legacy",
+        dest="legacy_dir",
+        metavar="LEG_DIR",
+        type=str,
+        help="Convert legacy files in directory LEG_DIR to updated format.",
+    )
     parser.add_argument(
         "-d",
         "--directory",
@@ -19,13 +29,31 @@ def add_subparser(subparsers):
     )
 
 
+def _convert_legacy_files(directory):
+    matA, matb, matsoln = matops.load_files(directory, False)
+
+    size = int(matA[0])
+    matA = matops.reshape(matA[2:], (size, -1))
+    matb = matops.reshape(matb[2:], (-1, 1))
+    matsoln = matops.reshape(matsoln[2:], (-1, 1))
+
+    return (matA, matb, matsoln)
+
+
 def main(options):
-    a = matops.create_random_diagonal_dominate(options.size)
-    soln = matops.create_random(options.size, True)
-    b = matops.multiply(a, soln)
+    # print(options)
+    if getattr(options, "legacy_dir") is not None:
+        matA, matb, matsoln = _convert_legacy_files(options.legacy_dir)
+    else:
+        matA = matops.create_random_diagonal_dominate(options.size)
+        matsoln = matops.create_random(options.size, True)
+        matb = matops.multiply(matA, matsoln)
 
     tdir = matops.write_files(
-        (a, "A.def"), (b, "b.def"), (soln, "soln.def"), directory=options.directory
+        (matA, "A.def"),
+        (matb, "b.def"),
+        (matsoln, "soln.def"),
+        directory=options.directory,
     )
     print(tdir)
     return True

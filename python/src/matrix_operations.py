@@ -172,7 +172,20 @@ def is_vvector(matrix):
     return is_matrix(matrix) and not is_hvector(matrix) and matrix.shape[1] == 1
 
 
-def load_files(directory):
+def load_files(directory, do_reshape=None):
+    """
+    Load data from text files ine given directory
+
+    Parameters:
+        directory (str): The path, relative to the current directory, for which to
+            seach for files
+        do_reshape (bool): False, do not perform implicit reshaping based on file name;
+            otherwise, automatic reshaping is performed.
+
+    Returns:
+    (Matrix A, Matrix b, Matrix Soln)
+    """
+    do_reshape = True if do_reshape is None else do_reshape
     with scandir(directory) as files:
         for file in files:
             fname, _ = path.splitext(path.basename(file))
@@ -180,9 +193,13 @@ def load_files(directory):
                 if fname == "A":
                     A = np.loadtxt(fp, delimiter=" ")
                 elif fname == "b":
-                    b = np.reshape(np.loadtxt(fp, delimiter=" "), (-1, 1))
+                    b = np.loadtxt(fp, delimiter=" ")
+                    if do_reshape:
+                        b = reshape(b, (-1, 1))
                 elif fname == "soln":
-                    soln = np.reshape(np.loadtxt(fp, delimiter=" "), (-1, 1))
+                    soln = np.loadtxt(fp, delimiter=" ")
+                    if do_reshape:
+                        soln = reshape(soln, (-1, 1))
 
     return (A, b, soln)
 
