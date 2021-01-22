@@ -1,26 +1,53 @@
 
-- name: happy path (1)
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: gaussian, data01
   input:
-    path: data01
-    args: ["--check"]
+    dir: data01
+    args: [gaussian, --check]
   expect: 0
 
-- name: happy path (2)
+- name: gaussian, data02
   input:
-    path: data02
-    args: ["--check"]
+    dir: data02
+    args: [gaussian, --check]
   expect: 0
 
-- name: bad path
+- name: ludecomposition, data01
   input:
-    path: data03
-    args: ["--check"]
-  expect: 1
+    dir: data01
+    args: [ludecomposition, --check]
+  expect: 0
+
+- name: ludecomposition, data02
+  input:
+    dir: data02
+    args: [ludecomposition, --check]
+  expect: 0
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
 
 - name: no DIR
   input:
-    path: ~
-    args: ["--check"]
+    dir: ~
+    args: [gaussian, --check]
   expect: 2
+
+- name: gaussian, data03
+  input:
+    dir: data03
+    args: [gaussian, --check]
+  expect: 1
+
+- name: ludecomposition, data03
+  input:
+    dir: data03
+    args: [ludecomposition, --check]
+  expect: 1
+
 
 

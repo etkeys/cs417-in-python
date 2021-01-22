@@ -13,11 +13,12 @@ class TestGaussian(utils.TestCaseBase):
         def expect_else(data):
             # print('')
             # print(data.name)
-            inp_mat = np.array(data.input.mat)
+            inp_matA = np.array(data.input.matA)
+            inp_matb = np.array(data.input.matb)
             inp_vec = np.array(data.input.bsvec)
             inp_row = data.input.calc_row
             exp = data.expect
-            actor = GaussianSolver(inp_mat)
+            actor = GaussianSolver(inp_matA, inp_matb)
             act = actor._calculate_back_solve_vector_row(inp_vec, inp_row)
 
             # print(exp)
@@ -30,9 +31,10 @@ class TestGaussian(utils.TestCaseBase):
         def expect_else(data):
             # print('')
             # print(data.name)
-            inp = np.array(data.input)
+            inp_matA = np.array(data.input.matA)
+            inp_matb = np.array(data.input.matb)
             exp = np.array(data.expect)
-            actor = GaussianSolver(inp)
+            actor = GaussianSolver(inp_matA, inp_matb)
             act = actor._calculate_back_solve_vector()
 
             # print(exp)
@@ -45,10 +47,13 @@ class TestGaussian(utils.TestCaseBase):
         def expect_else(data):
             # print('')
             # print(data.name)
-            inp = np.array(data.input)
+            # TODO create utils function to call np.array() passing dtype=float
+            # TODO can the creation of inp_matA, inp_matb, actor be converted to a resuable function?
+            inp_matA = np.array(data.input.matA)
+            inp_matb = np.array(data.input.matb)
             exp_fresult = data.expect.func_result
             exp_vresult = data.expect.vec_result
-            actor = GaussianSolver(inp)
+            actor = GaussianSolver(inp_matA, inp_matb)
             act_fresult = actor.solve()
             act_vresult = actor.result
 

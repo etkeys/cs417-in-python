@@ -1,3 +1,4 @@
+from pydoc import locate
 import os
 import shutil
 import yaml
@@ -30,6 +31,11 @@ def delete_dir(path):
         delete_dir_single(path)
 
 
+def expect_to_error(expect):
+    ret = string_to_type(getattr(expect, "throws", ""), ValueError)
+    return ret
+
+
 def load_test_data(name, *args):
     file = build_path_to_test_data(name, *args)
     with open(file, "r") as fp:
@@ -40,15 +46,32 @@ def load_test_data(name, *args):
 
 
 def run_test(testcase, **kwargs):
+    def do_throws(data):
+        if "expect_throws" in kwargs:
+            kwargs["expect_throws"](data)
+        else:
+            testcase.fail("Condition not implemented!")
+
     data_file = kwargs["file"]
     path_parts_to_data_file = getattr(testcase, "root_test_data_path", [])
     data = load_test_data(data_file, *path_parts_to_data_file)
     for test in data:
         with testcase.subTest("Test: %s" % test.name):
-            if isinstance(test.expect, str) and test.expect == "throws":
-                if "expect_throws" in kwargs:
-                    kwargs["expect_throws"](test)
-                else:
-                    testcase.fail("Condition not implemented!")
+            if hasattr(test.expect, "throws"):
+                do_throws(test)
+
+            elif isinstance(test.expect, str) and test.expect == "throws":
+                do_throws(test)
+
             else:
                 kwargs["expect_else"](test)
+
+
+def string_to_type(type_string, default=None):
+    _default = default if default is not None else None
+    ret = None
+    if type_string is not None and len(type_string) > 0:
+        ret = locate(type_string)
+    if ret is None:
+        ret = _default
+    return ret

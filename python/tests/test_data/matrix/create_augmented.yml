@@ -14,6 +14,18 @@
     [3, 4, 6]
   ]
 
+- name: 2x2 + 1x2 = 2x3
+  input:
+    A: [
+      [1, 2],
+      [3, 4]
+    ]
+    b: [ [5, 6] ]
+  expect: [
+    [1, 2, 5],
+    [3, 4, 6]
+  ]
+
 - name: 2x2 + 3x1 = throws
   input:
     A: [
@@ -36,15 +48,6 @@
     b: [ [5] ]
   expect: throws
 
-- name: 2x2 + 1x2 = throws
-  input:
-    A: [
-      [1, 2],
-      [3, 4]
-    ]
-    b: [ [5, 6] ]
-  expect: throws
-
 - name: 2x2 + 2x2 = throws
   input:
     A: [
@@ -55,4 +58,12 @@
       [5, 6],
       [7, 8]
     ]
+  expect: throws
+
+- name: 2x2 + 1x3 = throws
+  input:
+    A:
+      - [1, 2]
+      - [3, 4]
+    b: [ [5, 6 ,7] ]
   expect: throws

@@ -1,17 +1,35 @@
-- name: 3x4, already in reduced row echelon
+- name: 3x4, already in reduced row echelon, matb is hvector
   input:
-    - [1., 0.333333, -0.666667, 3.666667]
-    - [0., 1., 0.4, 2.6]
-    - [0., 0., 1., -1]
+    matA:
+      - [1., 0.333333, -0.666667]
+      - [0., 1., 0.4]
+      - [0., 0., 1.]
+    matb: [3.666667, 2.6, -1]
+  expect:
+    func_result: true
+    vec_result: [2., 3., -1.]
+
+- name: 3x4, already in reduced row echelon, matb is vvector
+  input:
+    matA:
+      - [1., 0.333333, -0.666667]
+      - [0., 1., 0.4]
+      - [0., 0., 1.]
+    matb: 
+      - [3.666667]
+      - [2.6]
+      - [-1]
   expect:
     func_result: true
     vec_result: [2., 3., -1.]
 
 - name: 3x4, not in reduced row echelon
   input:
-    - [2., 1., -1., 8.]
-    - [-3., -1., 2., -11.]
-    - [-2., 1., 2., -3.]
+    matA:
+      - [2., 1., -1.]
+      - [-3., -1., 2.]
+      - [-2., 1., 2.]
+    matb: [8., -11., -3.]
   expect:
     func_result: true
     vec_result: [2., 3., -1.]

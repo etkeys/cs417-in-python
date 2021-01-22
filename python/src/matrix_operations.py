@@ -9,14 +9,39 @@ def almost_equal(mat1, mat2):
     return np.allclose(mat1, mat2, atol=0.000_01)
 
 
+def count_columns(matrix):
+    if not is_matrix(matrix):
+        _raise_not_a_matrix()
+    if is_hvector(matrix):
+        return len(matrix)
+    return matrix.shape[1]
+
+
+def count_rows(matrix):
+    if not is_matrix(matrix):
+        _raise_not_a_matrix()
+    return 1 if is_hvector(matrix) else matrix.shape[0]
+
+
 def create_augmented(matA, matb):
     """
     A new matrix is returned and inputs are not modified.
     """
-    _, colsb = matb.shape
-    if colsb > 1:
-        raise ValueError("Matrix b must have only 1 column, here has %i" % colsb)
-    return np.hstack((matA, matb))
+    if not is_vector(matb):
+        raise ValueError("Matrix b must be a vector.")
+    return (
+        np.hstack((matA, matb))
+        if is_vvector(matb)
+        else np.hstack((matA, reshape(matb, (-1, 1))))
+    )
+
+
+def create_identity(size):
+    if not isinstance(size, int):
+        raise TypeError("SIZE expected to be type in, but here is %s" % type(size))
+    if size < 1:
+        raise ValueError("SIZE expected to be greater than 0, here is %i" % size)
+    return np.identity(size)
 
 
 def create_random(size, single_column=False):
@@ -68,6 +93,18 @@ def deepcopy(inp, do_it=True):
     return inp
 
 
+def is_in_crout_l_form(matrix):
+    if not is_square(matrix):
+        return False
+
+    # For every row, does every column to the right of diagonal have a value of 0.0?
+    size = count_rows(matrix)
+    temp = matrix[np.triu_indices(size, k=1)]
+    zeros = create_zeros(temp.size)
+
+    return np.allclose(temp, zeros, atol=0.00001)
+
+
 def is_in_reduced_row_echelon(matrix):
     rows, columns = matrix.shape
     if rows > columns:
@@ -94,6 +131,20 @@ def is_augmented(matrix):
     return cols == rows + 1
 
 
+def is_hvector(matrix):
+    if not is_matrix(matrix):
+        return False
+    return len(matrix.shape) == 1 or matrix.shape[0] == 1
+
+
+def is_matrix(matrix):
+    # Have to confirm if matrix by checking shape length because "None" can
+    # be considered a Matrix (for some reason)
+    if isinstance(matrix, np.ndarray) and len(matrix.shape) > 0:
+        return True
+    return False
+
+
 def is_singular(matrix):
     if not (is_square(matrix) ^ is_augmented(matrix)):
         return False
@@ -113,7 +164,28 @@ def is_square(matrix):
     return rows > 0 and rows == cols
 
 
-def load_files(directory):
+def is_vector(matrix):
+    return is_vvector(matrix) or is_hvector(matrix)
+
+
+def is_vvector(matrix):
+    return is_matrix(matrix) and not is_hvector(matrix) and matrix.shape[1] == 1
+
+
+def load_files(directory, do_reshape=None):
+    """
+    Load data from text files ine given directory
+
+    Parameters:
+        directory (str): The path, relative to the current directory, for which to
+            seach for files
+        do_reshape (bool): False, do not perform implicit reshaping based on file name;
+            otherwise, automatic reshaping is performed.
+
+    Returns:
+    (Matrix A, Matrix b, Matrix Soln)
+    """
+    do_reshape = True if do_reshape is None else do_reshape
     with scandir(directory) as files:
         for file in files:
             fname, _ = path.splitext(path.basename(file))
@@ -121,9 +193,13 @@ def load_files(directory):
                 if fname == "A":
                     A = np.loadtxt(fp, delimiter=" ")
                 elif fname == "b":
-                    b = np.reshape(np.loadtxt(fp, delimiter=" "), (-1, 1))
+                    b = np.loadtxt(fp, delimiter=" ")
+                    if do_reshape:
+                        b = reshape(b, (-1, 1))
                 elif fname == "soln":
-                    soln = np.reshape(np.loadtxt(fp, delimiter=" "), (-1, 1))
+                    soln = np.loadtxt(fp, delimiter=" ")
+                    if do_reshape:
+                        soln = reshape(soln, (-1, 1))
 
     return (A, b, soln)
 
@@ -151,6 +227,28 @@ def print_pretty(matrix):
     # TODO do we really need this?
     # https://stackoverflow.com/a/1988024
     raise NotImplementedError
+
+
+def reshape(matrix, newshape=None):
+    if not is_matrix(matrix):
+        _raise_not_a_matrix()
+    if newshape is None:
+        newshape = -1
+    elif isinstance(newshape, int):
+        if not (newshape > 0 or newshape == -1):
+            raise ValueError("Argument newshape value must be -1 or greater than 0.")
+        # If newshape is just 1, caller only wants a single row, spare them the pain
+        # and just give them one row.
+        if newshape == 1:
+            newshape = -1
+    elif isinstance(newshape, tuple):
+        if not all([isinstance(v, int) for v in newshape]):
+            raise TypeError("Argument newshape must be of type int or tuple of ints.")
+        if not all([v > 0 or v == -1 for v in newshape]):
+            raise ValueError("Argument newshape values must be -1 or greater than 0.")
+    else:
+        raise TypeError("Argument newshape must be of type int or tuple of ints.")
+    return matrix.reshape(newshape)
 
 
 def set_rows_below_to_zero(matrix, base_row, inplace=True):
@@ -321,3 +419,7 @@ def write_files(*args, **kwargs):
             np.savetxt(fp, m, fmt="%.6f", delimiter=" ")
 
     return out_dir
+
+
+def _raise_not_a_matrix():
+    raise TypeError("Argument matrix is None or not a matrix.")

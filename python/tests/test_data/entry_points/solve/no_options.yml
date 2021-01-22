@@ -1,14 +1,68 @@
 
-- name: happy path (1)
-  input: data01
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: gaussian, data01
+  input:
+    dir: data01
+    solver: gaussian
   expect: 0
 
-- name: happy path (2)
-  input: data02
+- name: gaussian, data02
+  input:
+    dir: data02
+    solver: gaussian
   expect: 0
 
-- name: no DIR
-  input: ~
+- name: ludecomposition, data01
+  input:
+    dir: data01
+    solver: ludecomposition
+  expect: 0
+
+- name: ludecomposition, data02
+  input:
+    dir: data02
+    solver: ludecomposition
+  expect: 0
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: no DIR, no solver
+  input:
+    dir: ~
+    solver: ~
   expect: 2
+
+- name: DIR, no solver
+  input:
+    dir: data01
+    solver: ~
+  expect: 2
+
+- name: no DIR, solver (1)
+  input:
+    dir: ~
+    solver: gaussian
+  expect: 2
+
+- name: no DIR, solver (2)
+  input:
+    dir: ~
+    solver: ludecomposition
+  expect: 2
+
+- name: DIR, invalid solver
+  input:
+    dir: data01
+    solver: foo
+  expect: 2
+
+
+
+
 
 

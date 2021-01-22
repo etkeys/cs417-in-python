@@ -1,0 +1,72 @@
+
+- name: true horizontal vector
+  input:
+    as_raw: false
+    value: [1, 2, 3]
+  expect: true
+
+- name: true matrix with single row
+  input:
+    as_raw: false
+    value: [ [1, 2, 3] ]
+  expect: true
+
+- name: true matrix
+  input:
+    as_raw: false
+    value:
+      - [1, 2, 3]
+      - [4, 5, 6]
+      - [7, 8, 9]
+  expect: false
+
+- name: true vertical vector
+  input:
+    as_raw: false
+    value:
+      - [1]
+      - [2]
+      - [3]
+  expect: false
+
+- name: unconverted list (1)
+  input:
+    as_raw: true
+    value: [1, 2, 3]
+  expect: false
+
+- name: unconverted list (2)
+  input:
+    as_raw: true
+    value:
+      - [1, 2, 3]
+      - [4, 5, 6]
+      - [7, 8, 9]
+  expect: false
+
+- name: unconverted list (3)
+  input:
+    as_raw: true
+    value:
+      - [1]
+      - [2]
+      - [3]
+  expect: false
+
+- name: none is not a matrix
+  input:
+    as_raw: true
+    value: ~
+  expect: false
+
+- name: string is not a matrix
+  input:
+    as_raw: true
+    value: blah blah blah
+  expect: false
+
+- name: single int is not a matrix
+  input:
+    as_raw: true
+    value: 2
+  expect: false

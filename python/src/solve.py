@@ -1,3 +1,5 @@
+import traceback
+
 import src.matrix_operations as matops
 import src.solvers as solvers
 from src.utils import eprint
@@ -11,6 +13,9 @@ def add_subparser(subparsers):
         "dir", metavar="DIR", help="The directory containing matrix definitions."
     )
     parser.add_argument(
+        "solver", choices=solvers.get_solver_list(), help="The solver method to use."
+    )
+    parser.add_argument(
         "--check",
         action="store_true",
         help="Compare the calculated result with the soln.def file.",
@@ -18,18 +23,17 @@ def add_subparser(subparsers):
 
 
 def main(options):
-    A, b, soln = matops.load_files(options.dir)
-    aug = matops.create_augmented(A, b)
+    matA, matb, matsoln = matops.load_files(options.dir)
+    solver = solvers.get_solver_instance_by_name(options.solver, matA=matA, matb=matb)
 
-    solver = solvers.GaussianSolver(aug)
     if solver.solve():
         res = solver.result.reshape((-1, 1))
-        err_norm = matops.two_norm_of_error(A, b, res)
-        _solve_print_results(res, err_norm)
+        err_norm = matops.two_norm_of_error(matA, matb, res)
+        _solve_print_results(solver.get_solver_name(), res, err_norm)
 
         if options.check:
-            if not matops.almost_equal(res, soln):
-                err_percent = matops.percent_error(res, soln)
+            if not matops.almost_equal(res, matsoln):
+                err_percent = matops.percent_error(res, matsoln)
                 eprint("Calculated result does not match expected solution.")
                 eprint("Two norm of error: %.6f" % err_norm)
                 eprint("Percent error: %.6f" % err_percent)
@@ -41,7 +45,8 @@ def main(options):
     else:
         # TODO replace this with something better
         eprint("Solver failed")
-        print(solver.result)
+        eprint(solver.result)
+        eprint(traceback.print_tb(solver.result.__traceback__))
         return False
 
 
@@ -55,7 +60,7 @@ def _solve_check_two_norm_within_range(norm_err):
     return True
 
 
-def _solve_print_results(result, norm_err):
-    print("\nGaussian solver succeeded. Result matrix:")
+def _solve_print_results(solver_name, result, norm_err):
+    print("\n%s solver succeeded. Result matrix:" % solver_name)
     print(result)
     print("\nTwo norm of error: %.6f" % norm_err)
