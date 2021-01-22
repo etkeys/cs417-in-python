@@ -51,4 +51,5 @@
         - /tmp/not-default-makemat
         - /tmp/some-dir
   input: ['10', '-d']
-  expect: throws
+  expect:
+    returncode: 2

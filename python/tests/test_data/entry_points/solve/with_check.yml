@@ -3,28 +3,32 @@
 #     HAPPY PATHS
 ###########################################################
 
-- name: gaussian, data01
+- name: gaussian, 3x3
   input:
-    dir: data01
-    args: [gaussian, --check]
+    args2: [gaussian, --check]
+    dir: 3x3
   expect: 0
 
-- name: gaussian, data02
+- name: gaussian, 500x500
+  pytest:
+    mark: slow
   input:
-    dir: data02
-    args: [gaussian, --check]
+    args2: [gaussian, --check]
+    dir: 500x500
   expect: 0
 
-- name: ludecomposition, data01
+- name: ludecomposition, 3x3
   input:
-    dir: data01
-    args: [ludecomposition, --check]
+    args2: [ludecomposition, --check]
+    dir: 3x3
   expect: 0
 
-- name: ludecomposition, data02
+- name: ludecomposition, 500x500
+  pytest:
+    mark: slow
   input:
-    dir: data02
-    args: [ludecomposition, --check]
+    args2: [ludecomposition, --check]
+    dir: 500x500
   expect: 0
 
 ###########################################################
@@ -33,21 +37,17 @@
 
 - name: no DIR
   input:
-    dir: ~
-    args: [gaussian, --check]
+    args2: [gaussian, --check]
   expect: 2
 
-- name: gaussian, data03
+- name: gaussian, 3x3_bad_soln
   input:
-    dir: data03
-    args: [gaussian, --check]
+    args2: [gaussian, --check]
+    dir: 3x3_bad_soln
   expect: 1
 
-- name: ludecomposition, data03
+- name: ludecomposition, 3x3_bad_soln
   input:
-    dir: data03
-    args: [ludecomposition, --check]
+    args2: [ludecomposition, --check]
+    dir: 3x3_bad_soln
   expect: 1
-
-
-

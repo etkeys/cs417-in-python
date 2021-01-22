@@ -69,16 +69,14 @@ def create_random_diagonal_dominate(size):
     return mat
 
 
-def create_zeros(rows: int = 1, columns: int = 0):
+def create_zeros(rows: int = None, columns: int = None):
     if not rows or rows < 1:
         rows = 1
     if columns and columns < 1:
         raise ValueError("Columns is {}, but expected at least 1.".format(columns))
 
-    if not columns:
-        return np.zeros(rows)
-    else:
-        return np.zeros((rows, columns))
+    inp = (rows, columns) if columns is not None and columns > 0 else rows
+    return np.zeros(inp)
 
 
 def deepcopy(inp, do_it=True):

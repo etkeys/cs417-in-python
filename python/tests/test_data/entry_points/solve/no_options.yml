@@ -3,62 +3,62 @@
 #     HAPPY PATHS
 ###########################################################
 
-- name: gaussian, data01
+- name: gaussian, 3x3
   input:
-    dir: data01
-    solver: gaussian
+    args2: [gaussian]
+    dir: 3x3
   expect: 0
 
-- name: gaussian, data02
+- name: gaussian, 500x500
+  pytest:
+    mark: slow
   input:
-    dir: data02
-    solver: gaussian
+    args2: [gaussian]
+    dir: 500x500
   expect: 0
 
-- name: ludecomposition, data01
+- name: ludecomposition, 3x3
   input:
-    dir: data01
-    solver: ludecomposition
+    args2: [ludecomposition]
+    dir: 3x3
   expect: 0
 
-- name: ludecomposition, data02
+- name: ludecomposition, 500x500
+  pytest:
+    mark: slow
   input:
-    dir: data02
-    solver: ludecomposition
+    args2: [ludecomposition]
+    dir: 500x500
   expect: 0
+
 
 ###########################################################
 #     FAIL CONDITIONS
 ###########################################################
 
 - name: no DIR, no solver
-  input:
-    dir: ~
-    solver: ~
+  input: ~
   expect: 2
 
 - name: DIR, no solver
   input:
-    dir: data01
-    solver: ~
+    dir: 3x3
   expect: 2
 
 - name: no DIR, solver (1)
   input:
-    dir: ~
-    solver: gaussian
+    args2: [gaussian]
   expect: 2
 
 - name: no DIR, solver (2)
   input:
-    dir: ~
-    solver: ludecomposition
+    args2: [ludecomposition]
   expect: 2
 
 - name: DIR, invalid solver
   input:
-    dir: data01
-    solver: foo
+    args2: [foo]
+    dir: 3x3
   expect: 2
 
 
