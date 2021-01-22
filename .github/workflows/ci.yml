@@ -42,9 +42,7 @@ jobs:
           pip install -r ./python/requirements.txt
 
       - name: Check code formatting
-        run: |
-          black --target-version py36 --check ./python/src && \
-          black --target-version py36 --check ./python/tests
+        run: ./python/.scripts/check-black-formatting.bash
 
       - name: Test with unittest
         run: |
