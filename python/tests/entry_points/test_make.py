@@ -1,12 +1,14 @@
 # from copy import deepcopy as dcopy
 from os import path
 import subprocess
+from tempfile import gettempdir
 
 import pytest
 
 import src.matrix_operations as matops
 import tests.utils as utils
 
+_DEFAULT_OUT_DIR = path.join(gettempdir(), "makemat")
 _NULL = subprocess.DEVNULL
 _PIPE = subprocess.PIPE
 
@@ -93,9 +95,7 @@ def test_with_from_legacy(name, data, exception, base_command, data_dir):
         # print(act.stderr)
 
         exp_code = data.expect.returncode
-        # HACK this isn't portable
-        # HACK the data file has this info too... :(
-        exp_dir = "/tmp/makemat"
+        exp_dir = _DEFAULT_OUT_DIR
         exp_size = data.expect.matrix_size
 
         assert act.returncode == exp_code
@@ -112,6 +112,13 @@ def test_with_size(name, data, exception, base_command):
     with exception:
         act = subprocess.run(base_command, stderr=_NULL, stdout=_NULL)
 
-        exp = data.expect
+        exp_code = data.expect.returncode
 
-        assert act.returncode == exp
+        assert act.returncode == exp_code
+
+        if exp_code == 0:
+            exp_dir = _DEFAULT_OUT_DIR
+            exp_size = data.expect.size
+            _assert_expected_matrix_sizes(exp_dir, exp_size)
+
+
