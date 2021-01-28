@@ -22,7 +22,7 @@ def _get_test_data_file(module, function):
     mod_path_head, mod_path_tail = path.split(module_name_to_path())
 
     parts = mod_path_head.split("/")
-    parts.insert(1, "test_data")
+    parts.insert(1, "data")
     parts.append(strip_prefix(mod_path_tail))
     parts.append(f"{strip_prefix(function.__name__)}.yml")
 
