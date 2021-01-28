@@ -44,12 +44,12 @@ jobs:
       - name: Check code formatting
         run: ./python/.scripts/check-black-formatting.bash
 
-      - name: Test with unittest
+      - name: Run unittests
         run: |
           cd ./python
           .scripts/run-unittests.bash
 
-      - name: Test using simulated use cases
+      - name: Run simulated use cases
         run: |
           cd ./python
           .scripts/run-simulated-cases.bash
