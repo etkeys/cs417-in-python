@@ -10,6 +10,8 @@
   input: ['2']
   expect: 0
 - name: happy path (3)
+  pytest:
+    mark: slow
   input: ['500']
   expect: 0
 
@@ -41,4 +43,3 @@
 - name: bad size (8)
   input: []
   expect: 1
-

@@ -1,0 +1,53 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: gaussian, 3x3
+  input:
+    args2: [gaussian, --check]
+    dir: 3x3
+  expect: 0
+
+- name: gaussian, 500x500
+  pytest:
+    mark: slow
+  input:
+    args2: [gaussian, --check]
+    dir: 500x500
+  expect: 0
+
+- name: ludecomposition, 3x3
+  input:
+    args2: [ludecomposition, --check]
+    dir: 3x3
+  expect: 0
+
+- name: ludecomposition, 500x500
+  pytest:
+    mark: slow
+  input:
+    args2: [ludecomposition, --check]
+    dir: 500x500
+  expect: 0
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: no DIR
+  input:
+    args2: [gaussian, --check]
+  expect: 2
+
+- name: gaussian, 3x3_bad_soln
+  input:
+    args2: [gaussian, --check]
+    dir: 3x3_bad_soln
+  expect: 1
+
+- name: ludecomposition, 3x3_bad_soln
+  input:
+    args2: [ludecomposition, --check]
+    dir: 3x3_bad_soln
+  expect: 1

@@ -26,7 +26,7 @@
 - name: bad size (1), type error
   input: blah
   expect:
-    throws: typeerror
+    throws: TypeError
 
 - name: bad size (1), value error
   input: -3

@@ -3,29 +3,36 @@
 #     HAPPY PATHS
 ###########################################################
 
-- name: happy path; 1
+- name: happy path (1); 2x2
   setup:
     - delete_dir: '/tmp/makemat'
-  input: [--from-legacy, tests/test_data/entry_points/make/2x2]
+  input:
+    args: [--from-legacy]
+    data_dir: 2x2
   expect:
     returncode: 0
     matrix_size: 2
     out_dir: /tmp/makemat
     
-- name: happy path; 2
+- name: happy path (2); 10x10
   setup:
     - delete_dir: '/tmp/makemat'
-  input: [--from-legacy, tests/test_data/entry_points/make/10x10]
+  input:
+    args: [--from-legacy]
+    data_dir: 10x10
   expect:
     returncode: 0
     matrix_size: 10
     out_dir: /tmp/makemat
 
-- name: happy path; with -d flag
+- name: happy path (3); with -d flag
   setup:
     - delete_dir: '/tmp/makemat'
     - delete_dir: '/tmp/makemat2'
-  input: [--from-legacy, tests/test_data/entry_points/make/10x10]
+  input:
+    args: [--from-legacy]
+    args2: [-d, /tmp/makemat2]
+    data_dir: 10x10
   expect:
     returncode: 0
     matrix_size: 10
@@ -40,7 +47,8 @@
 - name: bad path; no argument provided
   setup:
     - delete_dir: '/tmp/makemat'
-  input: [--from-legacy]
+  input:
+    args: [--from-legacy]
   expect:
     returncode: 2
     matrix_size: 2
@@ -49,7 +57,9 @@
 - name: bad path; provided argument does not exist
   setup:
     - delete_dir: '/tmp/makemat'
-  input: [--from-legacy, test/test_data/does_not_exist]
+  input:
+    args: [--from-legacy]
+    data_dir: does_not_exist
   expect:
     returncode: 1
     matrix_size: 2
@@ -58,7 +68,9 @@
 - name: bad path; size also given
   setup:
     - delete_dir: '/tmp/makemat'
-  input: ["2", --from-legacy, tests/test_data/entry_points/make/2x2]
+  input:
+    args: ["2", --from-legacy]
+    data_dir: 2x2
   expect:
     returncode: 2
     matrix_size: 2
@@ -67,7 +79,10 @@
 - name: bad path; size also given (swap order)
   setup:
     - delete_dir: '/tmp/makemat'
-  input: [--from-legacy, tests/test_data/entry_points/make/2x2, "2"]
+  input:
+    args: [--from-legacy]
+    args2: ["2"]
+    data_dir: 2x2
   expect:
     returncode: 2
     matrix_size: 2
