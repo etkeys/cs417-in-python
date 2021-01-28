@@ -120,5 +120,3 @@ def test_with_size(name, data, exception, base_command):
             exp_dir = _DEFAULT_OUT_DIR
             exp_size = data.expect.size
             _assert_expected_matrix_sizes(exp_dir, exp_size)
-
-
