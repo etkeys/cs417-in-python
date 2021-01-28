@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-pytest -v --durations=0 --withslow
+coverage run --source=src -m pytest -v --durations=0 --withslow &&
+coverage report -m
