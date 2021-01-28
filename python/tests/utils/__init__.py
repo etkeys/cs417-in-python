@@ -40,4 +40,3 @@ def string_to_type(type_string, default=None):
 
 def test_expects_exception(test_data):
     return hasattr(test_data.expect, "throws") or test_data.expect == "throws"
-
