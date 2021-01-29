@@ -7,6 +7,7 @@ import pytest
 
 import src.matrix_operations as matops
 import tests.utils as utils
+from . import setup as pkg_setup, teardown as pkg_teardown
 
 _DEFAULT_OUT_DIR = path.join(gettempdir(), "makemat")
 _NULL = subprocess.DEVNULL
@@ -15,13 +16,10 @@ _PIPE = subprocess.PIPE
 
 def _assert_expected_matrix_sizes(directory, exp_size):
     def assert_vector(vector):
-        # self.assertTrue(matops.is_vector(vector))
         assert matops.is_vector(vector)
         if matops.is_vvector(vector):
-            # self.assertEqual(matops.count_rows(vector), exp_size)
             assert matops.count_rows(vector) == exp_size
         else:
-            # self.assertEqual(matops.count_columns(vector), exp_size)
             assert matops.count_columns(vector) == exp_size
 
     if not path.isdir(directory):
@@ -38,27 +36,13 @@ def _assert_expected_matrix_sizes(directory, exp_size):
     assert_vector(matsoln)
 
 
-def _custom_teardown(data):
-    for step in data:
-        if "delete_dir" in step:
-            utils.delete_dir(step.delete_dir)
-
-
-# TODO this is used by other methods than "with_directory" make more generic
-def _setup_with_directory(data):
-    for step in data:
-        if "delete_dir" in step:
-            utils.delete_dir(step.delete_dir)
-
-
 @pytest.fixture
 def base_command():
     return ["python", "-m", "src", "make"]
 
 
 def test_with_directory(name, data, exception, base_command):
-    if "setup" in data:
-        _setup_with_directory(data.setup)
+    pkg_setup(data)
 
     inp = data.input
     base_command.extend(inp)
@@ -77,8 +61,7 @@ def test_with_directory(name, data, exception, base_command):
 
 
 def test_with_from_legacy(name, data, exception, base_command, data_dir):
-    if "setup" in data:
-        _setup_with_directory(data.setup)
+    pkg_setup(data)
 
     inp_args = data.input.args
     if "data_dir" in data.input:
@@ -101,8 +84,7 @@ def test_with_from_legacy(name, data, exception, base_command, data_dir):
         assert act.returncode == exp_code
         _assert_expected_matrix_sizes(exp_dir, exp_size)
 
-    if "teardown" in data:
-        _custom_teardown(data.teardown)
+    pkg_teardown(data)
 
 
 def test_with_size(name, data, exception, base_command):
