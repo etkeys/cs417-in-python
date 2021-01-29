@@ -313,6 +313,18 @@ def test_set_rows_below_to_zero(name, data, exception):
         assert np.allclose(act, inp_mat) == data.expect.inp_match_act
 
 
+def test_subtract(name, data, exception):
+    inp_mat1 = np.array(data.input.mat1, dtype=float)
+    inp_mat2 = np.array(data.input.mat2, dtype=float)
+
+    with exception:
+        act = matops.subtract(inp_mat1, inp_mat2)
+
+        exp = np.array(data.expect.mat, dtype=float)
+
+        assert matops.almost_equal(act, exp)
+
+
 def test_subtract_scalar_row_from_row(name, data, exception):
     inp_inplace = data.input.inplace
     inp_mat = np.array(data.input.mat)
