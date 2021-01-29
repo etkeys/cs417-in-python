@@ -294,7 +294,6 @@ def set_row_diagonal_to_one(matrix, row, inplace=True):
     return ret
 
 
-# TODO needs tests
 def subtract(mat1, mat2):
     return np.subtract(mat1, mat2)
 
