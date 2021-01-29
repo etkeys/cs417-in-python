@@ -1,16 +1,16 @@
 from math import isclose
 
-import numpy as np
-
+from src.matrix_operations import almost_equal
 from src.solvers import GaussianSolver
+from tests.utils import create_matrix
 
 
 def test_calc_back_solve_vector_row(name, data, exception):
     # print('')
     # print(data.name)
-    inp_matA = np.array(data.input.matA)
-    inp_matb = np.array(data.input.matb)
-    inp_vec = np.array(data.input.bsvec)
+    inp_matA = create_matrix(data.input.matA)
+    inp_matb = create_matrix(data.input.matb)
+    inp_vec = create_matrix(data.input.bsvec)
     inp_row = data.input.calc_row
 
     with exception:
@@ -27,27 +27,26 @@ def test_calc_back_solve_vector_row(name, data, exception):
 def test_calc_back_solve_vector(name, data, exception):
     # print('')
     # print(data.name)
-    inp_matA = np.array(data.input.matA)
-    inp_matb = np.array(data.input.matb)
+    inp_matA = create_matrix(data.input.matA)
+    inp_matb = create_matrix(data.input.matb)
 
     with exception:
         actor = GaussianSolver(inp_matA, inp_matb)
         act = actor._calculate_back_solve_vector()
 
-        exp = np.array(data.expect)
+        exp = create_matrix(data.expect)
 
         # print(exp)
         # print(act)
-        assert np.allclose(act, exp)
+        assert almost_equal(act, exp)
 
 
 def test_solve(name, data, exception):
     # print('')
     # print(data.name)
-    # TODO create utils function to call np.array() passing dtype=float
     # TODO can the creation of inp_matA, inp_matb, actor be converted to a resuable function?
-    inp_matA = np.array(data.input.matA)
-    inp_matb = np.array(data.input.matb)
+    inp_matA = create_matrix(data.input.matA)
+    inp_matb = create_matrix(data.input.matb)
 
     with exception:
         actor = GaussianSolver(inp_matA, inp_matb)
@@ -55,7 +54,7 @@ def test_solve(name, data, exception):
         act_vresult = actor.result
 
         exp_fresult = data.expect.func_result
-        exp_vresult = np.array(data.expect.vec_result)
+        exp_vresult = create_matrix(data.expect.vec_result)
 
         # print(exp_fresult)
         # print(exp_vresult)
@@ -63,4 +62,4 @@ def test_solve(name, data, exception):
         # print(act_vresult)
 
         assert act_fresult == exp_fresult
-        assert np.allclose(act_vresult, exp_vresult)
+        assert almost_equal(act_vresult, exp_vresult)
