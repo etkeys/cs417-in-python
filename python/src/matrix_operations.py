@@ -183,19 +183,23 @@ def load_files(directory, do_reshape=None):
     Returns:
     (Matrix A, Matrix b, Matrix Soln)
     """
+
+    def _call_load(fp):
+        return np.loadtxt(fp, dtype=float, delimiter=" ")
+
     do_reshape = True if do_reshape is None else do_reshape
     with scandir(directory) as files:
         for file in files:
             fname, _ = path.splitext(path.basename(file))
             with open(file, "r") as fp:
                 if fname == "A":
-                    A = np.loadtxt(fp, delimiter=" ")
+                    A = _call_load(fp)
                 elif fname == "b":
-                    b = np.loadtxt(fp, delimiter=" ")
+                    b = _call_load(fp)
                     if do_reshape:
                         b = reshape(b, (-1, 1))
                 elif fname == "soln":
-                    soln = np.loadtxt(fp, delimiter=" ")
+                    soln = _call_load(fp)
                     if do_reshape:
                         soln = reshape(soln, (-1, 1))
 

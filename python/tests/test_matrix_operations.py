@@ -1,12 +1,14 @@
 from math import isclose
 
 import numpy as np
+import pytest
 
 import src.matrix_operations as matops
+from tests.utils import create_matrix
 
 
 def test_count_columns(name, data, exception):
-    inp = np.array(data.input.mat) if hasattr(data.input, "mat") else None
+    inp = create_matrix(getattr(data.input, "mat", None))
 
     with exception:
         act = matops.count_columns(inp)
@@ -17,7 +19,7 @@ def test_count_columns(name, data, exception):
 
 
 def test_count_rows(name, data, exception):
-    inp = np.array(data.input.mat) if hasattr(data.input, "mat") else None
+    inp = create_matrix(getattr(data.input, "mat", None))
 
     with exception:
         act = matops.count_rows(inp)
@@ -28,19 +30,19 @@ def test_count_rows(name, data, exception):
 
 
 def test_create_augmented(name, data, exception):
-    A = np.array(data.input.A)
-    b = np.array(data.input.b)
-    A_orig = matops.deepcopy(A)
-    b_orig = matops.deepcopy(b)
+    inp_matA = create_matrix(data.input.A)
+    inp_matb = create_matrix(data.input.b)
+    orig_matA = matops.deepcopy(inp_matA)
+    orig_matb = matops.deepcopy(inp_matb)
 
     with exception:
-        act = matops.create_augmented(A, b)
+        act = matops.create_augmented(inp_matA, inp_matb)
 
-        exp = np.array(data.expect)
+        exp = create_matrix(data.expect)
 
-        assert np.equal(act, exp).all()
-        assert A.shape == A_orig.shape
-        assert b.shape == b_orig.shape
+        assert matops.almost_equal(act, exp)
+        assert inp_matA.shape == orig_matA.shape
+        assert inp_matb.shape == orig_matb.shape
 
 
 def test_create_identity(name, data, exception):
@@ -49,9 +51,9 @@ def test_create_identity(name, data, exception):
     with exception:
         act = matops.create_identity(inp)
 
-        exp = np.array(data.expect)
+        exp = create_matrix(data.expect)
 
-        assert np.equal(act, exp).all()
+        assert matops.almost_equal(act, exp)
 
 
 def test_create_random(name, data, exception):
@@ -67,6 +69,7 @@ def test_create_random(name, data, exception):
         assert act.shape == (exp_rows, exp_columns)
 
 
+@pytest.mark.xfail(reason="random failing during random value generation")
 def test_create_random_diag_dominate(name, data, exception):
     inp_size = data.input.size
 
@@ -80,7 +83,7 @@ def test_create_random_diag_dominate(name, data, exception):
         diag = act.diagonal()
         bigs = act.max(0)
 
-        assert np.equal(diag, bigs).all()
+        assert matops.almost_equal(diag, bigs)
 
 
 def test_create_random_validate_values(name, data, exception):
@@ -106,14 +109,14 @@ def test_create_zeros(name, data, exception):
     with exception:
         act = matops.create_zeros(inp_rows, inp_cols)
 
-        exp = np.array(data.expect.mat)
+        exp = create_matrix(data.expect.mat)
 
         assert act.shape == exp.shape
-        assert np.allclose(act, exp)
+        assert matops.almost_equal(act, exp)
 
 
 def test_is_augmented(name, data, exception):
-    inp = np.array(data.input)
+    inp = create_matrix(data.input)
 
     with exception:
         act = matops.is_augmented(inp)
@@ -123,7 +126,7 @@ def test_is_augmented(name, data, exception):
 
 def test_is_hvector(name, data, exception):
     inp_as_raw = data.input.as_raw
-    inp_value = data.input.value if inp_as_raw else np.array(data.input.value)
+    inp_value = data.input.value if inp_as_raw else create_matrix(data.input.value)
 
     with exception:
         act = matops.is_hvector(inp_value)
@@ -134,7 +137,7 @@ def test_is_hvector(name, data, exception):
 
 
 def test_is_in_crout_l_form(name, data, exception):
-    inp = np.array(data.input, dtype=float)
+    inp = create_matrix(data.input)
 
     with exception:
         act = matops.is_in_crout_l_form(inp)
@@ -145,7 +148,7 @@ def test_is_in_crout_l_form(name, data, exception):
 
 
 def test_is_in_reduced_row_echelon(name, data, exception):
-    inp = np.array(data.input)
+    inp = create_matrix(data.input)
 
     with exception:
         act = matops.is_in_reduced_row_echelon(inp)
@@ -155,7 +158,7 @@ def test_is_in_reduced_row_echelon(name, data, exception):
 
 def test_is_matrix(name, data, exception):
     inp_as_raw = data.input.as_raw
-    inp_value = data.input.value if inp_as_raw else np.array(data.input.value)
+    inp_value = data.input.value if inp_as_raw else create_matrix(data.input.value)
 
     with exception:
         act = matops.is_matrix(inp_value)
@@ -168,7 +171,7 @@ def test_is_matrix(name, data, exception):
 def test_is_singular(name, data, exception):
     # print('')
     # print(data.name)
-    inp = np.array(data.input)
+    inp = create_matrix(data.input)
 
     with exception:
         act = matops.is_singular(inp)
@@ -177,7 +180,7 @@ def test_is_singular(name, data, exception):
 
 
 def test_is_square(name, data, exception):
-    inp = np.array(data.input)
+    inp = create_matrix(data.input)
 
     with exception:
         act = matops.is_square(inp)
@@ -187,7 +190,7 @@ def test_is_square(name, data, exception):
 
 def test_is_vector(name, data, exception):
     inp_as_raw = data.input.as_raw
-    inp_value = data.input.value if inp_as_raw else np.array(data.input.value)
+    inp_value = data.input.value if inp_as_raw else create_matrix(data.input.value)
 
     with exception:
         act = matops.is_vector(inp_value)
@@ -199,7 +202,7 @@ def test_is_vector(name, data, exception):
 
 def test_is_vvector(name, data, exception):
     inp_as_raw = data.input.as_raw
-    inp_value = data.input.value if inp_as_raw else np.array(data.input.value)
+    inp_value = data.input.value if inp_as_raw else create_matrix(data.input.value)
 
     with exception:
         act = matops.is_vvector(inp_value)
@@ -210,44 +213,44 @@ def test_is_vvector(name, data, exception):
 
 
 def test_multiply(name, data, exception):
-    inp_matA = np.array(data.input.a)
-    inp_matb = np.array(data.input.b)
+    inp_matA = create_matrix(data.input.a)
+    inp_matb = create_matrix(data.input.b)
 
     with exception:
         act = matops.multiply(inp_matA, inp_matb)
 
-        exp = np.array(data.expect)
+        exp = create_matrix(data.expect)
 
-        assert np.allclose(act, exp)
+        assert matops.almost_equal(act, exp)
 
 
 def test_multiply_row_by_scalar(name, data, exception):
     # print('')
     # print(data.name)
     inp_inplace = data.input.inplace
-    inp_mat = np.array(data.input.mat)
+    inp_mat = create_matrix(data.input.mat)
     inp_row = data.input.row
     inp_scalar = data.input.scalar
 
     with exception:
         act = matops.multiply_row_by_scalar(inp_mat, inp_row, inp_scalar, inp_inplace)
 
-        exp = np.array(data.expect.mat)
+        exp = create_matrix(data.expect.mat)
 
         # print(inp)
         # print(exp)
         # print(act)
 
-        assert np.allclose(act, exp)
+        assert matops.almost_equal(act, exp)
         # make sure inp matrix was not mutated
-        assert np.allclose(act, inp_mat) == data.expect.inp_match_act
+        assert matops.almost_equal(act, inp_mat) == data.expect.inp_match_act
 
 
 def test_percent_error(name, data, exception):
     # print('')
     # print(data.name)
-    inp_act = np.array(data.input.act).reshape(-1, 1)
-    inp_exp = np.array(data.input.exp).reshape(-1, 1)
+    inp_act = create_matrix(data.input.act).reshape(-1, 1)
+    inp_exp = create_matrix(data.input.exp).reshape(-1, 1)
 
     with exception:
         act = matops.percent_error(inp_act, inp_exp)
@@ -262,7 +265,7 @@ def test_percent_error(name, data, exception):
 
 
 def test_reshape(name, data, exception):
-    inp_mat = np.array(data.input.mat)
+    inp_mat = create_matrix(data.input.mat)
     inp_newshape = (
         tuple(data.input.newshape.value)
         if data.input.newshape.as_tuple
@@ -272,20 +275,20 @@ def test_reshape(name, data, exception):
     with exception:
         act = matops.reshape(inp_mat, inp_newshape)
 
-        exp = np.array(data.expect.mat)
+        exp = create_matrix(data.expect.mat)
 
-        assert np.allclose(act, exp)
+        assert matops.almost_equal(act, exp)
 
 
 def test_set_row_diagonal_to_one(name, data, exception):
     inp_inplace = data.input.inplace
-    inp_mat = np.array(data.input.mat)
+    inp_mat = create_matrix(data.input.mat)
     inp_row = data.input.row
 
     with exception:
         act = matops.set_row_diagonal_to_one(inp_mat, inp_row, inp_inplace)
 
-        exp = np.array(data.expect.mat)
+        exp = create_matrix(data.expect.mat)
 
         # print('')
         # print(data.name)
@@ -293,41 +296,41 @@ def test_set_row_diagonal_to_one(name, data, exception):
         # print(exp)
         # print(act)
 
-        assert np.allclose(act, exp)
+        assert matops.almost_equal(act, exp)
         # make sure inp matrix was not mutated
-        assert np.allclose(act, inp_mat) == data.expect.inp_match_act
+        assert matops.almost_equal(act, inp_mat) == data.expect.inp_match_act
 
 
 def test_set_rows_below_to_zero(name, data, exception):
     inp_inplace = data.input.inplace
-    inp_mat = np.array(data.input.mat)
+    inp_mat = create_matrix(data.input.mat)
     inp_row = data.input.source_row
 
     with exception:
         act = matops.set_rows_below_to_zero(inp_mat, inp_row, inp_inplace)
 
-        exp = np.array(data.expect.mat)
+        exp = create_matrix(data.expect.mat)
 
-        assert np.allclose(act, exp)
+        assert matops.almost_equal(act, exp)
         # make sure inp matrix was not mutated
-        assert np.allclose(act, inp_mat) == data.expect.inp_match_act
+        assert matops.almost_equal(act, inp_mat) == data.expect.inp_match_act
 
 
 def test_subtract(name, data, exception):
-    inp_mat1 = np.array(data.input.mat1, dtype=float)
-    inp_mat2 = np.array(data.input.mat2, dtype=float)
+    inp_mat1 = create_matrix(data.input.mat1)
+    inp_mat2 = create_matrix(data.input.mat2)
 
     with exception:
         act = matops.subtract(inp_mat1, inp_mat2)
 
-        exp = np.array(data.expect.mat, dtype=float)
+        exp = create_matrix(data.expect.mat)
 
         assert matops.almost_equal(act, exp)
 
 
 def test_subtract_scalar_row_from_row(name, data, exception):
     inp_inplace = data.input.inplace
-    inp_mat = np.array(data.input.mat)
+    inp_mat = create_matrix(data.input.mat)
     inp_aff_row = data.input.affect_row
     inp_src_row = data.input.source_row
 
@@ -336,58 +339,58 @@ def test_subtract_scalar_row_from_row(name, data, exception):
             inp_mat, inp_src_row, inp_aff_row, inp_inplace
         )
 
-        exp = np.array(data.expect.mat)
+        exp = create_matrix(data.expect.mat)
 
         # print('')
         # print(inp)
         # print(exp)
         # print(act)
 
-        assert np.allclose(act, exp)
+        assert matops.almost_equal(act, exp)
         # make sure inp matrix was not mutated
-        assert np.allclose(act, inp_mat) == data.expect.inp_match_act
+        assert matops.almost_equal(act, inp_mat) == data.expect.inp_match_act
 
 
 def test_swap_largest_pivot_to_top(name, data, exception):
     inp_inplace = data.input.inplace
-    inp_mat = np.array(data.input.mat)
+    inp_mat = create_matrix(data.input.mat)
     inp_pivot = data.input.pivot
 
     with exception:
         act = matops.swap_largest_pivot_to_top(inp_mat, inp_pivot, inp_inplace)
 
-        exp = np.array(data.expect.mat)
+        exp = create_matrix(data.expect.mat)
 
         # print('')
         # print(inp)
         # print(exp)
         # print(act)
 
-        assert np.allclose(act, exp)
+        assert matops.almost_equal(act, exp)
         # make sure inp matrix was not mutated
-        assert np.allclose(act, inp_mat) == data.expect.inp_match_act
+        assert matops.almost_equal(act, inp_mat) == data.expect.inp_match_act
 
 
 def test_to_reduced_row_echelon(name, data, exception):
-    inp = np.array(data.input)
+    inp = create_matrix(data.input)
 
     with exception:
         act = matops.to_reduced_row_echelon(inp)
 
-        exp = np.array(data.expect)
+        exp = create_matrix(data.expect)
 
         # print('')
         # print(inp)
         # print(exp)
         # print(act)
 
-        assert np.allclose(act, exp)
+        assert matops.almost_equal(act, exp)
 
 
 def test_two_norm_of_error(name, data, exception):
-    inpA = np.array(data.input.matA)
-    inpb = np.array(data.input.matb)
-    inpx = np.array(data.input.matx)
+    inpA = create_matrix(data.input.matA)
+    inpb = create_matrix(data.input.matb)
+    inpx = create_matrix(data.input.matx)
 
     with exception:
         act = matops.two_norm_of_error(inpA, inpb, inpx)

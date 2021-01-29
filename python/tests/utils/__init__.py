@@ -2,7 +2,14 @@ from pydoc import locate
 import os
 import shutil
 
+import numpy as np
+
 from .recursive_namespace import RecursiveNamespace
+
+
+def create_matrix(mat_def):
+    ret = np.array(mat_def, dtype=float) if mat_def is not None else None
+    return ret
 
 
 def check_dir_exists(path):
