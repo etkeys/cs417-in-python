@@ -1,17 +1,14 @@
 # from copy import deepcopy as dcopy
 from os import path
-import subprocess
 from tempfile import gettempdir
 
 import pytest
 
 import src.matrix_operations as matops
 import tests.utils as utils
-from . import setup as pkg_setup, teardown as pkg_teardown
+from . import call_subprocess, setup as pkg_setup, teardown as pkg_teardown
 
 _DEFAULT_OUT_DIR = path.join(gettempdir(), "makemat")
-_NULL = subprocess.DEVNULL
-_PIPE = subprocess.PIPE
 
 
 def _assert_expected_matrix_sizes(directory, exp_size):
@@ -48,12 +45,12 @@ def test_with_directory(name, data, exception, base_command):
     base_command.extend(inp)
 
     with exception:
-        act = subprocess.run(base_command, stderr=_PIPE, stdout=_PIPE, encoding="utf-8")
-        # print(act.stdout)
-        # print(act.stderr)
+        act_code, act_output = call_subprocess(base_command)
+        # print(act_output.stdout)
+        # print(act_output.stderr)
 
         exp_code = data.expect.returncode
-        assert act.returncode == exp_code
+        assert act_code == exp_code
 
         if hasattr(data.expect, "dir_exists"):
             exp_dir = data.expect.dir_exists
@@ -72,16 +69,15 @@ def test_with_from_legacy(name, data, exception, base_command, data_dir):
     base_command.extend(inp_args)
 
     with exception:
-        # TODO can this subprocess call be refactor to be reusable?
-        act = subprocess.run(base_command, stderr=_PIPE, stdout=_PIPE, encoding="utf-8")
-        # print(act.stdout)
-        # print(act.stderr)
+        act_code, act_output = call_subprocess(base_command)
+        # print(act_output.stdout)
+        # print(act_output.stderr)
 
         exp_code = data.expect.returncode
         exp_dir = _DEFAULT_OUT_DIR
         exp_size = data.expect.matrix_size
 
-        assert act.returncode == exp_code
+        assert act_code == exp_code
         _assert_expected_matrix_sizes(exp_dir, exp_size)
 
     pkg_teardown(data)
@@ -92,11 +88,11 @@ def test_with_size(name, data, exception, base_command):
     base_command.extend(inp)
 
     with exception:
-        act = subprocess.run(base_command, stderr=_NULL, stdout=_NULL)
+        act_code, _ = call_subprocess(base_command)
 
         exp_code = data.expect.returncode
 
-        assert act.returncode == exp_code
+        assert act_code == exp_code
 
         if exp_code == 0:
             exp_dir = _DEFAULT_OUT_DIR

@@ -1,10 +1,8 @@
 from os import path
-import subprocess
 
 import pytest
 
-_NULL = subprocess.DEVNULL
-_PIPE = subprocess.PIPE
+from . import call_subprocess
 
 
 @pytest.fixture
@@ -26,11 +24,11 @@ def test_no_options(name, data, exception, base_command, data_dir):
     # print(base_command)
 
     with exception:
-        act = subprocess.run(base_command, stderr=_PIPE, stdout=_PIPE, encoding="utf-8")
+        act_code, _ = call_subprocess(base_command)
 
         exp = data.expect
 
-        assert act.returncode == exp
+        assert act_code == exp
 
 
 def test_with_check(name, data, exception, base_command, data_dir):
@@ -44,8 +42,8 @@ def test_with_check(name, data, exception, base_command, data_dir):
     # print(base_command)
 
     with exception:
-        act = subprocess.run(base_command, stderr=_PIPE, stdout=_PIPE, encoding="utf-8")
+        act_code, _ = call_subprocess(base_command)
 
         exp = data.expect
 
-        assert act.returncode == exp
+        assert act_code == exp
