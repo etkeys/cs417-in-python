@@ -69,16 +69,14 @@ def create_random_diagonal_dominate(size):
     return mat
 
 
-def create_zeros(rows: int = 1, columns: int = 0):
+def create_zeros(rows: int = None, columns: int = None):
     if not rows or rows < 1:
         rows = 1
     if columns and columns < 1:
         raise ValueError("Columns is {}, but expected at least 1.".format(columns))
 
-    if not columns:
-        return np.zeros(rows)
-    else:
-        return np.zeros((rows, columns))
+    inp = (rows, columns) if columns is not None and columns > 0 else rows
+    return np.zeros(inp)
 
 
 def deepcopy(inp, do_it=True):
@@ -185,19 +183,23 @@ def load_files(directory, do_reshape=None):
     Returns:
     (Matrix A, Matrix b, Matrix Soln)
     """
+
+    def _call_load(fp):
+        return np.loadtxt(fp, dtype=float, delimiter=" ")
+
     do_reshape = True if do_reshape is None else do_reshape
     with scandir(directory) as files:
         for file in files:
             fname, _ = path.splitext(path.basename(file))
             with open(file, "r") as fp:
                 if fname == "A":
-                    A = np.loadtxt(fp, delimiter=" ")
+                    A = _call_load(fp)
                 elif fname == "b":
-                    b = np.loadtxt(fp, delimiter=" ")
+                    b = _call_load(fp)
                     if do_reshape:
                         b = reshape(b, (-1, 1))
                 elif fname == "soln":
-                    soln = np.loadtxt(fp, delimiter=" ")
+                    soln = _call_load(fp)
                     if do_reshape:
                         soln = reshape(soln, (-1, 1))
 
@@ -296,7 +298,6 @@ def set_row_diagonal_to_one(matrix, row, inplace=True):
     return ret
 
 
-# TODO needs tests
 def subtract(mat1, mat2):
     return np.subtract(mat1, mat2)
 

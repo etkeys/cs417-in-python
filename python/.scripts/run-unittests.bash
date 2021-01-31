@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-python -m unittest discover -v -s tests -p "*_tests.py" -t .
+coverage run --source=src -m pytest -v --durations=0 --withslow &&
+coverage report -m
