@@ -44,7 +44,6 @@ def test_calc_back_solve_vector(name, data, exception):
 def test_solve(name, data, exception):
     # print('')
     # print(data.name)
-    # TODO can the creation of inp_matA, inp_matb, actor be converted to a resuable function?
     inp_matA = create_matrix(data.input.matA)
     inp_matb = create_matrix(data.input.matb)
 
