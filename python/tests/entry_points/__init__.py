@@ -1,4 +1,5 @@
 import subprocess
+from types import SimpleNamespace
 
 import tests.utils as utils
 
@@ -13,7 +14,7 @@ def call_subprocess(cmd_parts):
         cmd_parts, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding="utf-8"
     )
 
-    return (act.returncode, {"stderr": act.stderr, "stdout": act.stdout})
+    return (act.returncode, SimpleNamespace(stderr=act.stderr, stdout=act.stdout))
 
 
 def setup(data):

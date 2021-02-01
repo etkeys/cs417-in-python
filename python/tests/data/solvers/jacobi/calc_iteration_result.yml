@@ -1,0 +1,61 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: 2x2, zeros guess
+  input:
+    matA:
+      - [2, 1]
+      - [5, 7]
+    matb: [11, 13]
+    matC:
+      - [0, 1]
+      - [5, 0]
+    matD:
+      - [0.5, 0]
+      - [0, 0.142857]
+    mat_guess: [0, 0]
+    guess: MATRIX_OF_ZEROS
+  expect:
+    mat: [5.5, 1.857141]
+    
+- name: 2x2, random guess
+  input:
+    matA:
+      - [2, 1]
+      - [5, 7]
+    matb: [11, 13]
+    matC:
+      - [0, 1]
+      - [5, 0]
+    matD:
+      - [0.5, 0]
+      - [0, 0.142857]
+    mat_guess: [-17, 6.14]
+    guess: RANDOM_MATRIX
+  expect:
+    mat: [2.43, 13.999986]
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: 2x2, zeros guess not a vector
+  input:
+    matA:
+      - [2, 1]
+      - [5, 7]
+    matb: [11, 13]
+    matC:
+      - [0, 1]
+      - [5, 0]
+    matD:
+      - [0.5, 0]
+      - [0, 0.142857]
+    mat_guess:
+      - [0, 0]
+      - [0, 0]
+    guess: MATRIX_OF_ZEROS
+  expect:
+    throws: ~

@@ -31,6 +31,19 @@
     dir: 500x500
   expect: 0
 
+- name: jacobi, 3x3
+  input:
+    args2: [jacobi]
+    dir: 3x3
+  expect: 0
+
+- name: jacobi, 500x500
+  pytest:
+    mark: slow
+  input:
+    args2: [jacobi]
+    dir: 500x500
+  expect: 0
 
 ###########################################################
 #     FAIL CONDITIONS
@@ -60,6 +73,18 @@
     args2: [foo]
     dir: 3x3
   expect: 2
+
+- name: solve fails, ludecomposition
+  input:
+    args2: [ludecomposition]
+    dir: 2x2_solve_fails
+  expect: 1
+
+- name: solve fails, jacobi
+  input:
+    args2: [jacobi]
+    dir: 2x2_solve_fails
+  expect: 1
 
 
 
