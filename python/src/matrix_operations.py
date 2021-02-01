@@ -36,12 +36,52 @@ def create_augmented(matA, matb):
     )
 
 
+def create_based_on_diagonal_terms(matrix):
+    if not is_matrix(matrix):
+        _raise_not_a_matrix()
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square.")
+
+    diag = np.diag(matrix)
+    size = matrix.shape[0]
+    ret = create_zeros(size, size)
+    np.fill_diagonal(ret, diag)
+
+    return ret
+
+
+def create_based_on_non_diagonal_terms(matrix):
+    if not is_matrix(matrix):
+        _raise_not_a_matrix()
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square")
+
+    ret = deepcopy(matrix)
+    np.fill_diagonal(ret, 0.0)
+
+    return ret
+
+
 def create_identity(size):
     if not isinstance(size, int):
         raise TypeError("SIZE expected to be type in, but here is %s" % type(size))
     if size < 1:
         raise ValueError("SIZE expected to be greater than 0, here is %i" % size)
     return np.identity(size)
+
+
+def create_inverted(matrix):
+    if not is_matrix(matrix):
+        _raise_not_a_matrix()
+    if not is_square(matrix) or is_singular(matrix):
+        raise ValueError("Only square, non-singular matrices have an inverse")
+
+    # It seems that we don't need to care about creating diagonal only
+    # inverse (jacobi) and an entire matrix inverse. This function seems
+    # to handle them both.
+    ret = np.linalg.inv(matrix)
+
+    return ret
 
 
 def create_random(size, single_column=False):
@@ -143,14 +183,13 @@ def is_matrix(matrix):
     return False
 
 
-def is_singular(matrix):
-    if not (is_square(matrix) ^ is_augmented(matrix)):
+def is_singular(matrix, allow_augmented=True):
+    is_aug = is_augmented(matrix)
+    is_sqr = is_square(matrix)
+    if not (is_sqr ^ is_aug):
         return False
 
-    if is_augmented(matrix):
-        temp = matrix[:, : matrix.shape[1] - 1]
-    else:
-        temp = matrix
+    temp = matrix[:, : matrix.shape[1] - 1] if is_aug else matrix
 
     sign, logdet = np.linalg.slogdet(temp)
     # print('sign={};logdet={}'.format(sign, logdet))

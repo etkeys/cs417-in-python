@@ -13,27 +13,47 @@ def add_subparser(subparsers):
         "dir", metavar="DIR", help="The directory containing matrix definitions."
     )
     parser.add_argument(
-        "solver", choices=solvers.get_solver_list(), help="The solver method to use."
+        "solver",
+        choices=solvers.get_solver_list(),
+        type=str,
+        help="The solver method to use.",
     )
     parser.add_argument(
         "--check",
         action="store_true",
         help="Compare the calculated result with the soln.def file.",
     )
+    parser.add_argument(
+        "--guess",
+        action="store",
+        choices=["default", "random", "zeros"],
+        default="default",
+        type=str,
+        help="Specifies the initial guess type for iterative solvers.",
+    )
 
 
 def main(options):
     matA, matb, matsoln = matops.load_files(options.dir)
-    solver = solvers.get_solver_instance_by_name(options.solver, matA=matA, matb=matb)
+    solver = solvers.get_solver_instance(options, matA=matA, matb=matb)
 
     if solver.solve():
-        res = solver.result.reshape((-1, 1))
-        err_norm = matops.two_norm_of_error(matA, matb, res)
-        _solve_print_results(solver.get_solver_name(), res, err_norm)
+        res = solver.result
+        add_msgs = []
+        if isinstance(res, solvers.ComplexResult):
+            res_vec = res[solvers.ComplexResult.Attributes.RESULT_VECTOR]
+            add_msgs = [
+                "Iterations: %i" % res[solvers.ComplexResult.Attributes.ITERATIONS]
+            ]
+        else:
+            res_vec = matops.reshape(res, (-1, 1))
+
+        err_norm = matops.two_norm_of_error(matA, matb, res_vec)
+        _solve_print_results(solver.get_solver_name(), res_vec, err_norm, *add_msgs)
 
         if options.check:
-            if not matops.almost_equal(res, matsoln):
-                err_percent = matops.percent_error(res, matsoln)
+            if not matops.almost_equal(res_vec, matsoln):
+                err_percent = matops.percent_error(res_vec, matsoln)
                 eprint("Calculated result does not match expected solution.")
                 eprint("Two norm of error: %.6f" % err_norm)
                 eprint("Percent error: %.6f" % err_percent)
@@ -43,10 +63,14 @@ def main(options):
         return _solve_check_two_norm_within_range(err_norm)
 
     else:
-        # TODO replace this with something better
-        eprint("Solver failed")
-        eprint(solver.result)
-        eprint(traceback.print_tb(solver.result.__traceback__))
+        res = solver.result
+        if isinstance(res, solvers.ComplexResult):
+            err = res[solvers.ComplexResult.Attributes.ERROR]
+        else:
+            err = res
+        eprint("%s solver failed!" % solver.get_solver_name())
+        eprint(err)
+        eprint(traceback.print_tb(err.__traceback__))
         return False
 
 
@@ -60,7 +84,9 @@ def _solve_check_two_norm_within_range(norm_err):
     return True
 
 
-def _solve_print_results(solver_name, result, norm_err):
-    print("\n%s solver succeeded. Result matrix:" % solver_name)
-    print(result)
-    print("\nTwo norm of error: %.6f" % norm_err)
+def _solve_print_results(solver_name, result_vec, norm_err, *args):
+    print("%s solver succeeded!" % solver_name)
+    print("Result matrix:\n{}".format(result_vec))
+    print("Two norm of error: %.6f" % norm_err)
+    for msg in args:
+        print(msg)

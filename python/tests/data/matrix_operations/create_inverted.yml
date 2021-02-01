@@ -1,0 +1,87 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: 2x2
+  input:
+    mat:
+      - [1, 2]
+      - [3, 4]
+  expect:
+    - [-2, 1]
+    - [1.5, -0.5]
+
+- name: 3x3
+  input:
+    mat:
+      - [1, 2, 3]
+      - [4, 5, 6]
+      - [7, 2, 9]
+  expect:
+    - [-0.916667, 0.333333, 0.083333]
+    - [-0.166667, 0.333333, -0.166667]
+    - [0.75, -0.333333, 0.083333]
+
+- name: 3x3, diagonal matrix
+  input:
+    mat:
+      - [1, 0, 0]
+      - [0, 5, 0]
+      - [0, 0, 9]
+  expect:
+    - [1, 0, 0]
+    - [0, 0.2, 0]
+    - [0, 0, 0.111111]
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: 2x2 is singular
+  input:
+    mat:
+      - [1,1]
+      - [1,1]
+  expect:
+    throws: ~
+  
+- name: 3x3 is singular
+  input:
+    mat:
+      - [1, 2, 3]
+      - [4, 5, 6]
+      - [7, 8, 9]
+  expect:
+    throws: ~
+
+- name: hvector is not a matrix
+  input:
+    mat: [1,2,3,4]
+  expect:
+    throws: ~
+
+- name: vvector is not square
+  input:
+    mat:
+      - [1]
+      - [2]
+      - [3]
+      - [4]
+  expect:
+    throws: ~
+
+- name: null is not a matrix
+  input:
+    mat: ~
+  expect:
+    throws: TypeError
+
+- name: augmented has no inverse
+  input:
+    mat:
+      - [1,2,3,8]
+      - [4,5,6,10]
+      - [7,2,9,11]
+  expect:
+    throws: ~

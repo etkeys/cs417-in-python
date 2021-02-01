@@ -1,5 +1,20 @@
 from .gaussian import GaussianSolver
+from .jacobi import JacobiSolver
 from .ludecomposition import LuDecompositionSolver
+from .solver import ComplexResult
+
+
+def get_solver_instance(cli_options, **kwargs):
+    if cli_options is None:
+        raise ValueError("cli_options argument not given.")
+    if not hasattr(cli_options, "solver"):
+        raise TypeError('cli_options missing attribute "solver".')
+    if not isinstance(cli_options.solver, str):
+        raise TypeError("cli_options.solver value is not type str.")
+    if "jacobi" == cli_options.solver:
+        return JacobiSolver.create(cli_options, **kwargs)
+    else:
+        return get_solver_instance_by_name(cli_options.solver, **kwargs)
 
 
 def get_solver_instance_by_name(name: str = None, **kwargs):
@@ -27,4 +42,16 @@ def get_solver_instance_by_name(name: str = None, **kwargs):
 def get_solver_list():
     from .solver import _Solver
 
-    return [solver.get_solver_name().lower() for solver in _Solver.__subclasses__()]
+    def is_public(s: str):
+        return False if s.__name__.startswith("_") else True
+
+    def collect_subclasses(seed):
+        subclasses = []
+        for subclass in seed.__subclasses__():
+            if is_public(subclass):
+                subclasses.append(subclass.get_solver_name().lower())
+            subclasses.extend(collect_subclasses(subclass))
+        return subclasses
+
+    solvers = sorted(collect_subclasses(_Solver))
+    return solvers

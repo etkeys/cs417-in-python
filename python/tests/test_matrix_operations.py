@@ -45,11 +45,44 @@ def test_create_augmented(name, data, exception):
         assert inp_matb.shape == orig_matb.shape
 
 
+def test_create_based_on_diagonal_terms(name, data, exception):
+    inp = create_matrix(data.input.mat)
+
+    with exception:
+        act = matops.create_based_on_diagonal_terms(inp)
+
+        exp = create_matrix(data.expect)
+
+        assert matops.almost_equal(act, exp)
+
+
+def test_create_based_on_non_diagonal_terms(name, data, exception):
+    inp = create_matrix(data.input.mat)
+
+    with exception:
+        act = matops.create_based_on_non_diagonal_terms(inp)
+
+        exp = create_matrix(data.expect)
+
+        assert matops.almost_equal(act, exp)
+
+
 def test_create_identity(name, data, exception):
     inp = data.input
 
     with exception:
         act = matops.create_identity(inp)
+
+        exp = create_matrix(data.expect)
+
+        assert matops.almost_equal(act, exp)
+
+
+def test_create_inverted(name, data, exception):
+    inp = create_matrix(data.input.mat)
+
+    with exception:
+        act = matops.create_inverted(inp)
 
         exp = create_matrix(data.expect)
 

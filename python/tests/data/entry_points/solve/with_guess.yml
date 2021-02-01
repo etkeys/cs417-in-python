@@ -1,0 +1,62 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: gaussian, 3x3 (guess ignored)
+  input:
+    args2: [gaussian, --guess, default]
+    dir: 3x3
+  expect: 0
+
+- name: ludecomposition, 3x3 (guess ignored)
+  input:
+    args2: [ludecomposition, --guess, default]
+    dir: 3x3
+  expect: 0
+
+- name: jacobi, 3x3 (guess random)
+  input:
+    args2: [jacobi, --guess, random]
+    dir: 3x3
+  expect: 0
+
+- name: jacobi, 3x3 (guess zeros)
+  input:
+    args2: [jacobi, --guess, zeros]
+    dir: 3x3
+  expect: 0
+
+- name: jacobi, 3x3 (guess default)
+  input:
+    args2: [jacobi, --guess, default]
+    dir: 3x3
+  expect: 0
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: gaussian, 3x3 (guess ignored) (bad)
+  input:
+    args2: [gaussian, --guess, apple]
+    dir: 3x3
+  expect: 2
+
+- name: ludecomposition, 3x3 (guess ignored) (bad)
+  input:
+    args2: [ludecomposition, --guess, apple]
+    dir: 3x3
+  expect: 2
+
+- name: jacobi, 3x3 (guess invalid) (1)
+  input:
+    args2: [jacobi, --guess, apple]
+    dir: 3x3
+  expect: 2
+
+- name: jacobi, 3x3 (guess invalid) (2)
+  input:
+    args2: [jacobi, --guess, matrix-c]
+    dir: 3x3
+  expect: 2

@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-solvers=('gaussian' 'ludecomposition')
+# export TIME="\t%E"
+export TIMEFORMAT="Elapsed time (seconds): %E"
+
+solvers=('gaussian' 'ludecomposition' 'jacobi')
 
 function run_size {
     size=$1
@@ -14,8 +17,8 @@ function run_size {
     (
         for solver in "${solvers[@]}"; do
             (
-                echo "Check $solver" &&
-                python -m src solve /tmp/makemat "$solver" --check > /dev/null
+                echo "**** Check $solver ****" &&
+                time python -m src solve /tmp/makemat "$solver" --check 2>&1
             ) || exit 1
         done
     )

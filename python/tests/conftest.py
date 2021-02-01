@@ -60,6 +60,10 @@ def pytest_generate_tests(metafunc):
                 mgr,
                 marks=pytest.mark.skip(reason="requested to skip slow test"),
             )
+        elif item_has_mark("xfail"):
+            ret = pytest.param(
+                item.name, item, mgr, marks=pytest.mark.xfail(strict=True)
+            )
         else:
             ret = (item.name, item, mgr)
 
