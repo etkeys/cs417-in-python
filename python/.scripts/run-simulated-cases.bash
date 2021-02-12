@@ -8,6 +8,7 @@ solvers=('gaussian' 'ludecomposition' 'jacobi')
 function run_size {
     size=$1
 
+    echo "==================="
     echo "Clean makemat" &&
     rm -rf /tmp/makemat &&
 
@@ -17,8 +18,8 @@ function run_size {
     (
         for solver in "${solvers[@]}"; do
             (
-                echo "**** Check $solver ****" &&
-                time python -m src solve /tmp/makemat "$solver" --check 2>&1
+                echo "---- Check $solver ----" &&
+                time python -m src solve --quite /tmp/makemat "$solver" --check 2>&1
             ) || exit 1
         done
     )
