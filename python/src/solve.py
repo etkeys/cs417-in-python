@@ -31,6 +31,14 @@ def add_subparser(subparsers):
         type=str,
         help="Specifies the initial guess type for iterative solvers.",
     )
+    parser.add_argument(
+        "-q",
+        "--quite",
+        action="store_true",
+        default=False,
+        dest="quite",
+        help="Do not print the result vector when printing results.",
+    )
 
 
 def main(options):
@@ -49,7 +57,9 @@ def main(options):
             res_vec = matops.reshape(res, (-1, 1))
 
         err_norm = matops.two_norm_of_error(matA, matb, res_vec)
-        _solve_print_results(solver.get_solver_name(), res_vec, err_norm, *add_msgs)
+        _solve_print_results(
+            solver.get_solver_name(), res_vec, err_norm, options.quite, *add_msgs
+        )
 
         if options.check:
             if not matops.almost_equal(res_vec, matsoln):
@@ -84,9 +94,10 @@ def _solve_check_two_norm_within_range(norm_err):
     return True
 
 
-def _solve_print_results(solver_name, result_vec, norm_err, *args):
+def _solve_print_results(solver_name, result_vec, norm_err, quite, *args):
     print("%s solver succeeded!" % solver_name)
-    print("Result matrix:\n{}".format(result_vec))
+    if not quite:
+        print("Result matrix:\n{}".format(result_vec))
     print("Two norm of error: %.6f" % norm_err)
     for msg in args:
         print(msg)
