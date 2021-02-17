@@ -3,21 +3,21 @@
 #     HAPPY PATHS
 ###########################################################
 
-- name: 3x3, guess = zeros
+- name: 3x3, guess = zero
   input:
     matA:
       - [1,2,3]
       - [4,5,6]
       - [7,2,9]
     matb: [10, 11, 12]
-    guess: MATRIX_OF_ZEROS
+    guess: zero
   expect:
     matA:
       - [1,2,3]
       - [4,5,6]
       - [7,2,9]
     matb: [10, 11, 12]
-    guess: MATRIX_OF_ZEROS
+    guess: zero
 
 
 - name: 3x3, guess = random
@@ -27,14 +27,30 @@
       - [4,5,6]
       - [7,2,9]
     matb: [10, 11, 12]
-    guess: RANDOM_MATRIX
+    guess: random
   expect:
     matA:
       - [1,2,3]
       - [4,5,6]
       - [7,2,9]
     matb: [10, 11, 12]
-    guess: RANDOM_MATRIX
+    guess: random
+
+- name: 3x3, guess = default
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: default
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
 
 - name: 3x3, matb is vvector
   input:
@@ -46,14 +62,14 @@
       - [10]
       - [11]
       - [12]
-    guess: RANDOM_MATRIX
+    guess: random
   expect:
     matA:
       - [1,2,3]
       - [4,5,6]
       - [7,2,9]
     matb: [10, 11, 12]
-    guess: RANDOM_MATRIX
+    guess: random
 
 ###########################################################
 #     FAIL CONDITIONS
@@ -70,20 +86,20 @@
       - [4,5,6]
       - [7,2,9]
     matb: [10, 11, 12]
-    guess: RANDOM_MATRIX
+    guess: random
   expect:
     matA:
       - [1,2,3]
       - [4,5,6]
       - [7,2,9]
     matb: [10, 11, 12]
-    guess: MATRIX_OF_ZEROS
+    guess: zero
 
 - name: mat A is not a matrix
   input:
     matA: ~
     matb: [10, 11, 12]
-    guess: RANDOM_MATRIX
+    guess: random
   expect:
     throws: ~
 
@@ -94,7 +110,7 @@
       - [4,5,6,11]
       - [7,2,9,12]
     matb: [10, 11, 12]
-    guess: RANDOM_MATRIX
+    guess: random
   expect:
     throws: ~
 
@@ -105,7 +121,7 @@
       - [4,5,6]
       - [7,2,9]
     matb: ~
-    guess: RANDOM_MATRIX
+    guess: random
   expect:
     throws: ~
 
@@ -119,7 +135,7 @@
       - [1,2,3]
       - [4,5,6]
       - [7,2,9]
-    guess: RANDOM_MATRIX
+    guess: random
   expect:
     throws: ~
 
@@ -130,6 +146,6 @@
       - [4,5,6]
       - [7,2,9]
     matb: [10, 11, 12]
-    guess: MATRIX_C
+    guess: matrix-c
   expect:
     throws: ~

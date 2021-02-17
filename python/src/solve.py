@@ -2,6 +2,7 @@ import traceback
 
 import src.matrix_operations as matops
 import src.solvers as solvers
+from src.solvers.solver import IterativeInitialGuess
 from src.utils import eprint
 
 
@@ -26,8 +27,8 @@ def add_subparser(subparsers):
     parser.add_argument(
         "--guess",
         action="store",
-        choices=["default", "random", "zeros"],
-        default="default",
+        choices=IterativeInitialGuess.as_strings(),
+        default=IterativeInitialGuess.to_string(IterativeInitialGuess.DEFAULT),
         type=str,
         help="Specifies the initial guess type for iterative solvers.",
     )
