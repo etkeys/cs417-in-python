@@ -1,31 +1,21 @@
+from .gaus_seidel import GausSeidelSolver
 from .gaussian import GaussianSolver
 from .jacobi import JacobiSolver
 from .ludecomposition import LuDecompositionSolver
-from .solver import ComplexResult
+from .solver import ComplexResult, IterativeInitialGuess
 
 
-def get_solver_instance(cli_options, **kwargs):
-    if cli_options is None:
-        raise ValueError("cli_options argument not given.")
-    if not hasattr(cli_options, "solver"):
-        raise TypeError('cli_options missing attribute "solver".')
-    if not isinstance(cli_options.solver, str):
-        raise TypeError("cli_options.solver value is not type str.")
-    if "jacobi" == cli_options.solver:
-        return JacobiSolver.create(cli_options, **kwargs)
-    else:
-        return get_solver_instance_by_name(cli_options.solver, **kwargs)
-
-
-def get_solver_instance_by_name(name: str = None, **kwargs):
-    if not name:
-        raise ValueError("Name argument must be a valid string.")
+def get_solver_instance(options, **kwargs):
+    if options is None:
+        raise ValueError("options argument not given.")
 
     # TODO these might not be a requirement for all solvers
     if not "matA" in kwargs:
         raise KeyError("Matrix A not provided.")
     if not "matb" in kwargs:
         raise KeyError("Matrix b not provided.")
+
+    name = options.solver
 
     # TODO Can this name lookup be done via dictionary?
     # For example:
@@ -35,6 +25,12 @@ def get_solver_instance_by_name(name: str = None, **kwargs):
         return GaussianSolver(kwargs["matA"], kwargs["matb"])
     elif "ludecomposition" == name:
         return LuDecompositionSolver(kwargs["matA"], kwargs["matb"])
+    elif JacobiSolver.get_solver_name().lower() == name:
+        return JacobiSolver(
+            kwargs["matA"],
+            kwargs["matb"],
+            IterativeInitialGuess.from_string(options.guess),
+        )
     else:
         raise ValueError('Solver "%s" has no create implementation.' % name)
 

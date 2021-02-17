@@ -21,9 +21,9 @@
     dir: 3x3
   expect: 0
 
-- name: jacobi, 3x3 (guess zeros)
+- name: jacobi, 3x3 (guess zero)
   input:
-    args2: [jacobi, --guess, zeros]
+    args2: [jacobi, --guess, zero]
     dir: 3x3
   expect: 0
 
@@ -59,4 +59,4 @@
   input:
     args2: [jacobi, --guess, matrix-c]
     dir: 3x3
-  expect: 2
+  expect: 1

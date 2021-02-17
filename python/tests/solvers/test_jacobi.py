@@ -1,16 +1,11 @@
 import pytest
 
 import src.matrix_operations as matops
-from src.solvers import JacobiSolver
+from src.solvers import JacobiSolver, IterativeInitialGuess
 
-# from src.solvers.jacobi import InitialGuess
 from src.solvers.solver import ComplexResult
 from tests import utils
 from tests.utils import create_matrix, string_to_type
-
-
-def initial_guess_path(member):
-    return f"src.solvers.jacobi.InitialGuess.{member}"
 
 
 def caveats_path(member):
@@ -18,7 +13,7 @@ def caveats_path(member):
 
 
 def test_init(name, data, exception):
-    inp_guess = string_to_type(initial_guess_path(data.input.guess))
+    inp_guess = IterativeInitialGuess.from_string(data.input.guess)
     inp_matA = create_matrix(data.input.matA)
     inp_matb = create_matrix(data.input.matb)
 
@@ -29,7 +24,7 @@ def test_init(name, data, exception):
         act_matA = actor._matA
         act_matb = actor._matb
 
-        exp_guess = string_to_type(initial_guess_path(data.expect.guess))
+        exp_guess = IterativeInitialGuess.from_string(data.expect.guess)
         exp_matA = create_matrix(data.expect.matA)
         exp_matb = matops.reshape(create_matrix(data.expect.matb), (-1, 1))
 
@@ -39,8 +34,26 @@ def test_init(name, data, exception):
         assert matops.almost_equal(act_matb, exp_matb)
 
 
+def test_build_interim_matricies(name, data, exception):
+    inp_guess = IterativeInitialGuess.from_string(data.input.guess)
+    inp_matA = create_matrix(data.input.matA)
+    inp_matb = create_matrix(data.input.matb)
+
+    with exception:
+        actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
+        actor._build_interim_matricies()
+
+        act_matC = actor._matC
+        act_matD = actor._matD
+        exp_matC = create_matrix(data.expect.matC)
+        exp_matD = create_matrix(data.expect.matD)
+
+        assert matops.almost_equal(act_matC, exp_matC)
+        assert matops.almost_equal(act_matD, exp_matD)
+
+
 def test_calc_iteration_result(name, data, exception):
-    inp_guess = string_to_type(initial_guess_path(data.input.guess))
+    inp_guess = IterativeInitialGuess.from_string(data.input.guess)
     inp_matA = create_matrix(data.input.matA)
     inp_matb = create_matrix(data.input.matb)
     inp_matC = create_matrix(data.input.matC)
@@ -58,24 +71,8 @@ def test_calc_iteration_result(name, data, exception):
         assert matops.almost_equal(act, exp)
 
 
-def test_create_interim_matricies(name, data, exception):
-    inp_guess = string_to_type(initial_guess_path(data.input.guess))
-    inp_matA = create_matrix(data.input.matA)
-    inp_matb = create_matrix(data.input.matb)
-
-    with exception:
-        actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
-        act_matC, act_matD = actor._create_interim_matricies()
-
-        exp_matC = create_matrix(data.expect.matC)
-        exp_matD = create_matrix(data.expect.matD)
-
-        assert matops.almost_equal(act_matC, exp_matC)
-        assert matops.almost_equal(act_matD, exp_matD)
-
-
 def test_iterate_until_solved(name, data, exception):
-    inp_guess = string_to_type(initial_guess_path(data.input.guess))
+    inp_guess = IterativeInitialGuess.from_string(data.input.guess)
     inp_matA = create_matrix(data.input.matA)
     inp_matb = create_matrix(data.input.matb)
     inp_matC = create_matrix(data.input.matC)
@@ -85,7 +82,8 @@ def test_iterate_until_solved(name, data, exception):
         actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
         actor._matC = inp_matC
         actor._matD = inp_matD
-        act_vec, act_iter_count = actor._iterate_until_solved()
+        init_guess = actor._create_guess()
+        act_vec, act_iter_count = actor._iterate_until_solved(init_guess)
 
         exp_vec = matops.reshape(create_matrix(data.expect.mat), (-1, 1))
         exp_iter_count = data.expect.iter_count
@@ -121,7 +119,7 @@ def test_solve(name, data, exception):
         for attr in attributes:
             assert attr in inp
 
-    inp_guess = string_to_type(initial_guess_path(data.input.guess))
+    inp_guess = IterativeInitialGuess.from_string(data.input.guess)
     inp_matA = create_matrix(data.input.matA)
     inp_matb = create_matrix(data.input.matb)
 

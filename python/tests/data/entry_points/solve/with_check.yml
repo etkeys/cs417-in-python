@@ -43,9 +43,9 @@
     dir: 3x3
   expect: 0
 
-- name: jacobi, 3x3 (guess = zeros)
+- name: jacobi, 3x3 (guess = zero)
   input:
-    args2: [jacobi, --check, --guess, zeros]
+    args2: [jacobi, --check, --guess, zero]
     dir: 3x3
   expect: 0
 
@@ -65,11 +65,11 @@
     dir: 500x500
   expect: 0
 
-- name: jacobi, 500x500 (guess = zeros)
+- name: jacobi, 500x500 (guess = zero)
   pytest:
     mark: slow
   input:
-    args2: [jacobi, --check, --guess, zeros]
+    args2: [jacobi, --check, --guess, zero]
     dir: 500x500
   expect: 0
 

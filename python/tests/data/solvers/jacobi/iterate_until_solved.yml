@@ -3,7 +3,7 @@
 #     HAPPY PATHS
 ###########################################################
 
-- name: 2x2, zeros guess
+- name: 2x2, zero guess
   input:
     matA:
       - [2, 1]
@@ -15,7 +15,7 @@
     matD:
       - [0.5, 0]
       - [0, 0.142857]
-    guess: MATRIX_OF_ZEROS
+    guess: zero
   expect:
     mat: [7.111109, -3.222217]
     iter_count: 26
@@ -33,7 +33,7 @@
     matD:
       - [0.5, 0]
       - [0, 0.142857]
-    guess: RANDOM_MATRIX
+    guess: random
   expect:
     mat: [7.111109, -3.222217]
     iter_count: [16, 36]
@@ -56,7 +56,7 @@
       - [0, 0.090909, 0, 0]
       - [0, 0, 0.1, 0]
       - [0, 0, 0, 0.125]
-    guess: MATRIX_OF_ZEROS
+    guess: zero
   expect:
     mat: [1, 2, -1, 1]
     iter_count: 16
@@ -79,7 +79,7 @@
       - [0, 0.090909, 0, 0]
       - [0, 0, 0.1, 0]
       - [0, 0, 0, 0.125]
-    guess: RANDOM_MATRIX
+    guess: random
   expect:
     mat: [1, 2, -1, 1]
     iter_count: [6, 26]
