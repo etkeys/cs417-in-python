@@ -16,6 +16,7 @@ class ComplexResult(collections.MutableMapping):
 
     class Caveats(Enum):
         NORMAL = 0
+        # TODO lame convergence should be "Divergent" and raise exception
         LAME_CONVERGANCE = 1
         ERROR = 200
         MULTIPLE = 255
@@ -184,7 +185,9 @@ class _IterativeSolver(_ComplexResultSolver):
         if not matops.is_vector(matb):
             raise ValueError("Matrix b missing or not a vector.")
         if guess_source not in self._allowed_guess_sources:
-            raise ValueError("Guess choice {} is not valid in this context.".format(guess_source))
+            raise ValueError(
+                "Guess choice {} is not valid in this context.".format(guess_source)
+            )
 
         self._guess_source = guess_source
         self._matA = matops.deepcopy(matA)

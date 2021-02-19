@@ -45,6 +45,22 @@
     dir: 500x500
   expect: 0
 
+- name: gaussseidel, 3x3
+  input:
+    args2: [gaussseidel]
+    dir: 3x3
+  expect: 0
+
+- name: gaussseidel, 500x500
+  pytest:
+    mark: slow
+  input:
+    args2: [gaussseidel]
+    dir: 500x500
+  expect: 0
+
+
+
 ###########################################################
 #     FAIL CONDITIONS
 ###########################################################
@@ -86,8 +102,20 @@
     dir: 2x2_solve_fails
   expect: 1
 
+- name: solve fails, gaussseidel
+  input:
+    args2: [gaussseidel]
+    dir: 2x2_solve_fails
+  expect: 1
 
+- name: divergent, jacobi
+  input:
+    args2: [jacobi]
+    dir: 2x2_divergent
+  expect: 1
 
-
-
-
+- name: divergent, gaussseidel
+  input:
+    args2: [gaussseidel]
+    dir: 2x2_divergent
+  expect: 1

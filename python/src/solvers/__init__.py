@@ -1,4 +1,4 @@
-from .gaus_seidel import GausSeidelSolver
+from .gauss_seidel import GaussSeidelSolver
 from .gaussian import GaussianSolver
 from .jacobi import JacobiSolver
 from .ludecomposition import LuDecompositionSolver
@@ -27,6 +27,12 @@ def get_solver_instance(options, **kwargs):
         return LuDecompositionSolver(kwargs["matA"], kwargs["matb"])
     elif JacobiSolver.get_solver_name().lower() == name:
         return JacobiSolver(
+            kwargs["matA"],
+            kwargs["matb"],
+            IterativeInitialGuess.from_string(options.guess),
+        )
+    elif GaussSeidelSolver.get_solver_name().lower() == name:
+        return GaussSeidelSolver(
             kwargs["matA"],
             kwargs["matb"],
             IterativeInitialGuess.from_string(options.guess),

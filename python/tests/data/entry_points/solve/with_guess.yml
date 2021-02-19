@@ -33,6 +33,31 @@
     dir: 3x3
   expect: 0
 
+- name: gaussseidel, 3x3 (guess matrix-c)
+  input:
+    args2: [gaussseidel, --guess, matrix-c]
+    dir: 3x3
+  expect: 0
+
+- name: gaussseidel, 3x3 (guess random)
+  input:
+    args2: [gaussseidel, --guess, random]
+    dir: 3x3
+  expect: 0
+
+- name: gaussseidel, 3x3 (guess zero)
+  input:
+    args2: [gaussseidel, --guess, zero]
+    dir: 3x3
+  expect: 0
+
+- name: gaussseidel, 3x3 (guess default)
+  input:
+    args2: [gaussseidel, --guess, default]
+    dir: 3x3
+  expect: 0
+
+
 ###########################################################
 #     FAIL CONDITIONS
 ###########################################################
@@ -60,3 +85,9 @@
     args2: [jacobi, --guess, matrix-c]
     dir: 3x3
   expect: 1
+
+- name: gaussseidel, 3x3 (guess invalid)
+  input:
+    args2: [gaussseidel, --guess, apple]
+    dir: 3x3
+  expect: 2
