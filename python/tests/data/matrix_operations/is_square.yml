@@ -46,3 +46,11 @@
     [7, 8, 9, 12]
   ]
   expect: false
+
+- name: 1x3, hvector
+  input: [1, 2, 3]
+  expect: false
+
+- name: None is not a matrix
+  input: ~
+  expect: false

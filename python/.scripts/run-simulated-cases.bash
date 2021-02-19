@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 
-# export TIME="\t%E"
 export TIMEFORMAT="Elapsed time (seconds): %E"
 
-solvers=('gaussian' 'ludecomposition' 'jacobi')
+solvers=('gaussian' 'ludecomposition' 'jacobi' 'gaussseidel')
 
 function run_size {
     size=$1
 
     echo "==================="
-    echo "Clean makemat" &&
     rm -rf /tmp/makemat &&
 
     echo "Make $size" &&

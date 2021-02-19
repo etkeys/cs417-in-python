@@ -1,0 +1,131 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: 2x2, diag_zero = true
+  input:
+    mat:
+      - [1, 2]
+      - [3, 4]
+    diag_zero: true
+  expect:
+    mat:
+      - [0, 2]
+      - [0, 0]
+
+- name: 5x5, diag_zero = true
+  input:
+    mat:
+      - [1, 2, 3, 4, 5]
+      - [6, 7, 8, 9, 10]
+      - [11, 12, 13, 14, 15]
+      - [16, 17, 18, 19, 20]
+      - [21, 22, 23, 24, 25]
+    diag_zero: true
+  expect:
+    mat:
+      - [0, 2, 3, 4, 5]
+      - [0, 0, 8, 9, 10]
+      - [0, 0, 0, 14, 15]
+      - [0, 0, 0, 0, 20]
+      - [0, 0, 0, 0, 0]
+
+- name: 1x1, diag_zero = true
+  input:
+    mat: [[1]]
+    diag_zero: true
+  expect:
+    mat: [[0]]
+
+- name: 2x2, diag_zero = false
+  input:
+    mat:
+      - [1, 2]
+      - [3, 4]
+    diag_zero: false
+  expect:
+    mat:
+      - [1, 2]
+      - [0, 4]
+
+- name: 5x5, diag_zero = false
+  input:
+    mat:
+      - [1, 2, 3, 4, 5]
+      - [6, 7, 8, 9, 10]
+      - [11, 12, 13, 14, 15]
+      - [16, 17, 18, 19, 20]
+      - [21, 22, 23, 24, 25]
+    diag_zero: false
+  expect:
+    mat:
+      - [1, 2, 3, 4, 5]
+      - [0, 7, 8, 9, 10]
+      - [0, 0, 13, 14, 15]
+      - [0, 0, 0, 19, 20]
+      - [0, 0, 0, 0, 25]
+
+- name: 1x1, diag_zero = false
+  input:
+    mat: [[1]]
+    diag_zero: false
+  expect:
+    mat: [[1]]
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: 3x4
+  input:
+    mat:
+      - [1,2,3,4]
+      - [5,6,7,8]
+      - [9,10,11,12]
+    diag_zero: true
+  expect:
+    throws: ~
+
+- name: 4x3
+  input:
+    mat:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,8,9]
+      - [10,11,12]
+    diag_zero: true
+  expect:
+    throws: ~
+
+- name: 1x3 (1)
+  input:
+    mat: [1, 2, 3]
+    diag_zero: true
+  expect:
+    throws: ~
+
+- name: 1x3 (2)
+  input:
+    mat:
+      - [1,2,3]
+    diag_zero: true
+  expect:
+    throws: ~
+
+- name: 3x1
+  input:
+    mat:
+      - [1]
+      - [2]
+      - [3]
+    diag_zero: true
+  expect:
+    throws: ~
+
+- name: matrix is None
+  input:
+    mat: ~
+    diag_zero: true
+  expect:
+    throws: ~

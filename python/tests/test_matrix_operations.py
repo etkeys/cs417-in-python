@@ -7,6 +7,18 @@ import src.matrix_operations as matops
 from tests.utils import create_matrix
 
 
+def test_add(name, data, exception):
+    inp_matA = create_matrix(data.input.matA)
+    inp_matB = create_matrix(data.input.matB)
+
+    with exception:
+        act = matops.add(inp_matA, inp_matB)
+
+        exp = create_matrix(data.expect.mat)
+
+        assert matops.almost_equal(act, exp)
+
+
 def test_count_columns(name, data, exception):
     inp = create_matrix(getattr(data.input, "mat", None))
 
@@ -56,6 +68,17 @@ def test_create_based_on_diagonal_terms(name, data, exception):
         assert matops.almost_equal(act, exp)
 
 
+def test_create_based_on_l_component(name, data, exception):
+    inp = create_matrix(data.input.mat)
+
+    with exception:
+        act = matops.create_based_on_l_component(inp)
+
+        exp = create_matrix(data.expect.mat)
+
+        assert matops.almost_equal(act, exp)
+
+
 def test_create_based_on_non_diagonal_terms(name, data, exception):
     inp = create_matrix(data.input.mat)
 
@@ -63,6 +86,18 @@ def test_create_based_on_non_diagonal_terms(name, data, exception):
         act = matops.create_based_on_non_diagonal_terms(inp)
 
         exp = create_matrix(data.expect)
+
+        assert matops.almost_equal(act, exp)
+
+
+def test_create_based_on_u_component(name, data, exception):
+    inp_mat = create_matrix(data.input.mat)
+    inp_diag_zero = data.input.diag_zero
+
+    with exception:
+        act = matops.create_based_on_u_component(inp_mat, inp_diag_zero)
+
+        exp = create_matrix(data.expect.mat)
 
         assert matops.almost_equal(act, exp)
 

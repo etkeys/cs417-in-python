@@ -1,0 +1,67 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: 2x2, zeros guess
+  input:
+    matA:
+      - [16, 3]
+      - [7, -11]
+    matb: [11, 13]
+    guess: zero
+  expect:
+    func_result: true
+    vec_result: [0.812182, -0.664975]
+    iter_count: 7
+    caveats:
+      - NORMAL
+
+# Taken from python example in guass-seidel method article
+- name: 4x4, zeros guess
+  input:
+    matA:
+      - [10, -1, 2, 0]
+      - [-1, 11, -1, 3]
+      - [2, -1, 10, -1]
+      - [0, 3, -1, 8]
+    matb: [6, 25, -11, 15]
+    guess: zero
+  expect:
+    func_result: true
+    vec_result: [1, 2, -1, 1]
+    iter_count: 7
+    caveats:
+      - NORMAL
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: 2x2, solve fails
+  input:
+    matA:
+      - [0, 3]
+      - [3, 1]
+    matb: [1, 0]
+    guess: random
+  expect:
+      func_result: false
+      caveats:
+        - ERROR
+      throws: ~
+
+- name: 2x2 deverges
+  input:
+    matA:
+      - [2, 3]
+      - [5, 7]
+    matb: [11, 13]
+    guess: random
+  expect:
+    func_result: true
+    vec_result: [-38, 29]
+    iter_count: 1001
+    caveats:
+      - LAME_CONVERGANCE
+    

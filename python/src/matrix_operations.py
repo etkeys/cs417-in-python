@@ -5,6 +5,10 @@ from random import uniform
 from tempfile import gettempdir, tempdir
 
 
+def add(a, b):
+    return a + b
+
+
 def almost_equal(mat1, mat2):
     return np.allclose(mat1, mat2, atol=0.000_01)
 
@@ -50,6 +54,12 @@ def create_based_on_diagonal_terms(matrix):
     return ret
 
 
+def create_based_on_l_component(matrix):
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square")
+    return np.tril(matrix)
+
+
 def create_based_on_non_diagonal_terms(matrix):
     if not is_matrix(matrix):
         _raise_not_a_matrix()
@@ -60,6 +70,13 @@ def create_based_on_non_diagonal_terms(matrix):
     np.fill_diagonal(ret, 0.0)
 
     return ret
+
+
+def create_based_on_u_component(matrix, diag_zero: bool = True):
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square")
+    offset = 1 if diag_zero else 0
+    return np.triu(matrix, offset)
 
 
 def create_identity(size):
@@ -172,7 +189,12 @@ def is_augmented(matrix):
 def is_hvector(matrix):
     if not is_matrix(matrix):
         return False
-    return len(matrix.shape) == 1 or matrix.shape[0] == 1
+    if len(matrix.shape) == 1:
+        rows = 1
+        cols = matrix.shape[0]
+    else:
+        rows, cols = matrix.shape
+    return rows == 1 and cols > rows
 
 
 def is_matrix(matrix):
@@ -197,6 +219,10 @@ def is_singular(matrix, allow_augmented=True):
 
 
 def is_square(matrix):
+    if not is_matrix(matrix):
+        return False
+    if is_vector(matrix):
+        return False
     rows, cols = matrix.shape
     return rows > 0 and rows == cols
 
@@ -206,7 +232,12 @@ def is_vector(matrix):
 
 
 def is_vvector(matrix):
-    return is_matrix(matrix) and not is_hvector(matrix) and matrix.shape[1] == 1
+    return (
+        is_matrix(matrix)
+        and not is_hvector(matrix)
+        and matrix.shape[1] == 1
+        and matrix.shape[0] > matrix.shape[1]
+    )
 
 
 def load_files(directory, do_reshape=None):
