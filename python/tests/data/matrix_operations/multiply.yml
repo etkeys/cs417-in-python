@@ -1,3 +1,7 @@
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
 - name: 1x3 by 3x1 = 1x1
   input:
     a: [
@@ -41,3 +45,91 @@
     [58, 64],
     [139, 154]
   ]
+
+- name: 2x2 by -1
+  input:
+    a:
+      - [1,2]
+      - [3,4]
+    b: -1
+  expect:
+    - [-1,-2]
+    - [-3,-4]
+
+- name: 3x3 by 2
+  input:
+    a:
+      - [9,8,7]
+      - [6,5,4]
+      - [3,2,1]
+    b: 2
+  expect:
+    - [18,16,14]
+    - [12,10,8]
+    - [6,4,2]
+
+- name: 3x3 by 0.5
+  input:
+    a:
+      - [18,16,14]
+      - [12,10,8]
+      - [6,4,2]
+    b: 0.5
+  expect:
+    - [9,8,7]
+    - [6,5,4]
+    - [3,2,1]
+
+- name: 1x3 by 2
+  input:
+    a: [1,2,3]
+    b: 2
+  expect: [2,4,6]
+
+- name: 3x1 by 2
+  input:
+    a:
+      - [1]
+      - [2]
+      - [3]
+    b: 2
+  expect:
+    - [2]
+    - [4]
+    - [6]
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: a must be a matrix (1)
+  input:
+    a: ~
+    b: -1
+  expect:
+    throws: TypeError
+
+- name: a must be a matrix (2)
+  input:
+    a: 1
+    b: -1
+  expect:
+    throws: TypeError
+
+- name: b is not matrix or scalar (1)
+  input:
+    a:
+      - [1,2]
+      - [3,4]
+    b: ~
+  expect:
+    throws: TypeError
+
+- name: b is not matrix or scalar (2)
+  input:
+    a:
+      - [1,2]
+      - [3,4]
+    b: string
+  expect:
+    throws: TypeError

@@ -1,0 +1,113 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: gaussian, 3x3 (omega ignored)
+  input:
+    args2: [gaussian, --omega, "0.5"]
+    dir: 3x3
+  expect: 0
+
+- name: ludecomposition, 3x3 (omega ignored)
+  input:
+    args2: [ludecomposition, --omega, "0.5"]
+    dir: 3x3
+  expect: 0
+
+- name: jacobi, 3x3 (omega ignored)
+  input:
+    args2: [jacobi, --omega, "0.5"]
+    dir: 3x3
+  expect: 0
+
+- name: gaussseidel, 3x3 (omega ignored)
+  input:
+    args2: [gaussseidel, --omega, "0.5"]
+    dir: 3x3
+  expect: 0
+
+- name: sor, 3x3 omega 1.0
+  input:
+    args2: [sor, --omega, "1.0"]
+    dir: 3x3
+  expect: 0
+
+- name: sor, 3x3 omega 1
+  input:
+    args2: [sor, --omega, "1"]
+    dir: 3x3
+  expect: 0
+
+- name: sor, 3x3 omega 0.5
+  input:
+    args2: [sor, --omega, "0.5"]
+    dir: 3x3
+  expect: 0
+
+# TODO these values cause dirvergence. Need to come back
+#     and make passing tests when Divergent error is a thing
+# - name: sor, 3x3 omega 0.00001
+#   input:
+#     args2: [sor, --omega, "0.00001"]
+#     dir: 3x3
+#   expect: 0
+
+# - name: sor, 3x3 omega 1.99999
+#   input:
+#     args2: [sor, --omega, "1.99999"]
+#     dir: 3x3
+#   expect: 0
+
+- name: sor, 3x3 omega 1.5
+  input:
+    args2: [sor, --omega, "1.5"]
+    dir: 3x3
+  expect: 0
+
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: gaussian, 3x3 (omega ignored) (bad)
+  input:
+    args2: [gaussian, --omega, apple]
+    dir: 3x3
+  expect: 2
+
+- name: ludecomposition, 3x3 (omega ignored) (bad)
+  input:
+    args2: [ludecomposition, --omega, apple]
+    dir: 3x3
+  expect: 2
+
+- name: jacobi, 3x3 (omega invalid)
+  input:
+    args2: [jacobi, --omega, apple]
+    dir: 3x3
+  expect: 2
+
+- name: gaussseidel, 3x3 (omega invalid)
+  input:
+    args2: [gaussseidel, --omega, apple]
+    dir: 3x3
+  expect: 2
+
+- name: sor, 3x3 (omega invalid) (1)
+  input:
+    args2: [sor, --omega, apple]
+    dir: 3x3
+  expect: 2
+
+- name: sor, 3x3 (omega invalid) (2)
+  input:
+    args2: [sor, --omega, "2.1"]
+    dir: 3x3
+  expect: 1
+
+- name: sor, 3x3 (omega invalid) (3)
+  input:
+    args2: [sor, --omega, "-0.5"]
+    dir: 3x3
+  expect: 1

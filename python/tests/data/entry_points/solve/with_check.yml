@@ -31,25 +31,13 @@
     dir: 500x500
   expect: 0
 
-- name: jacobi, 3x3 (guess = default)
+- name: jacobi, 3x3
   input:
     args2: [jacobi, --check]
     dir: 3x3
   expect: 0
 
-- name: jacobi, 3x3 (guess = random)
-  input:
-    args2: [jacobi, --check, --guess, random]
-    dir: 3x3
-  expect: 0
-
-- name: jacobi, 3x3 (guess = zero)
-  input:
-    args2: [jacobi, --check, --guess, zero]
-    dir: 3x3
-  expect: 0
-
-- name: jacobi, 500x500 (guess = default)
+- name: jacobi, 500x500 
   pytest:
     mark: slow
   input:
@@ -57,47 +45,13 @@
     dir: 500x500
   expect: 0
 
-- name: jacobi, 500x500 (guess = random)
-  pytest:
-    mark: slow
-  input:
-    args2: [jacobi, --check, --guess, random]
-    dir: 500x500
-  expect: 0
-
-- name: jacobi, 500x500 (guess = zero)
-  pytest:
-    mark: slow
-  input:
-    args2: [jacobi, --check, --guess, zero]
-    dir: 500x500
-  expect: 0
-
-- name: gaussseidel, 3x3 (guess = default)
+- name: gaussseidel, 3x3
   input:
     args2: [gaussseidel, --check]
     dir: 3x3
   expect: 0
 
-- name: gaussseidel, 3x3 (guess = matrix-c)
-  input:
-    args2: [gaussseidel, --check, --guess, matrix-c]
-    dir: 3x3
-  expect: 0
-
-- name: gaussseidel, 3x3 (guess = random)
-  input:
-    args2: [gaussseidel, --check, --guess, random]
-    dir: 3x3
-  expect: 0
-
-- name: gaussseidel, 3x3 (guess = zero)
-  input:
-    args2: [gaussseidel, --check, --guess, zero]
-    dir: 3x3
-  expect: 0
-
-- name: gaussseidel, 500x500 (guess = default)
+- name: gaussseidel, 500x500
   pytest:
     mark: slow
   input:
@@ -105,27 +59,17 @@
     dir: 500x500
   expect: 0
 
-- name: gaussseidel, 500x500 (guess = matrix-c)
-  pytest:
-    mark: slow
+- name: sor, 3x3
   input:
-    args2: [gaussseidel, --check, --guess, matrix-c]
-    dir: 500x500
+    args2: [sor, --check]
+    dir: 3x3
   expect: 0
 
-- name: gaussseidel, 500x500 (guess = random)
+- name: sor, 500x500
   pytest:
     mark: slow
   input:
-    args2: [gaussseidel, --check, --guess, random]
-    dir: 500x500
-  expect: 0
-
-- name: gaussseidel, 500x500 (guess = zero)
-  pytest:
-    mark: slow
-  input:
-    args2: [gaussseidel, --check, --guess, zero]
+    args2: [sor, --check]
     dir: 500x500
   expect: 0
 
@@ -171,5 +115,17 @@
 - name: gaussseidel, divergent
   input:
     args2: [gaussseidel, --check]
+    dir: 2x2_divergent
+  expect: 1
+
+- name: sor, 3x3_bad_soln
+  input:
+    args2: [sor, --check]
+    dir: 3x3_bad_soln
+  expect: 1
+
+- name: sor, divergent
+  input:
+    args2: [sor, --check]
     dir: 2x2_divergent
   expect: 1

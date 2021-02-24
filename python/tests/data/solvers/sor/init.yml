@@ -1,0 +1,292 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: 3x3, guess = zero
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 1.0
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 1.0
+
+- name: 3x3, guess = random
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: random
+    omega: 1.0
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: random
+    omega: 1.0
+
+
+- name: 3x3, guess = default
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: default
+    omega: 1.0
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 1.0
+
+- name: 3x3, matb is vvector
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb:
+      - [10]
+      - [11]
+      - [12]
+    guess: random
+    omega: 1.0
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: random
+    omega: 1.0
+
+- name: 3x3, omega is int
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 1
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 1.0
+
+- name: 3x3, omega is some acceptable float (1)
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 0.666
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 0.666
+
+- name: 3x3, omega is some acceptable float (2)
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 1.99998
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 1.99998
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+# This test makes sure that the test functions provide the
+# correct string to enum value conversion for guess
+- name: 3x3, test correct guess choice
+  pytest:
+    mark: xfail
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: random
+    omega: 1
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 1
+
+- name: 3x3, guess = matrix c
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: matrix-c
+    omega: 1
+  expect:
+    throws: ~
+
+- name: mat A is not a matrix
+  input:
+    matA: ~
+    matb: [10, 11, 12]
+    guess: random
+    omega: 1
+  expect:
+    throws: ~
+
+- name: mat A is not square
+  input:
+    matA:
+      - [1,2,3,10]
+      - [4,5,6,11]
+      - [7,2,9,12]
+    matb: [10, 11, 12]
+    guess: random
+    omega: 1
+  expect:
+    throws: ~
+
+- name: mat b is not vector (1)
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: ~
+    guess: random
+    omega: 1
+  expect:
+    throws: ~
+
+- name: mat b is not vector (2)
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    guess: random
+    omega: 1
+  expect:
+    throws: ~
+
+- name: 3x3, omega is negative
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: -1
+  expect:
+    throws: ~
+
+- name: 3x3, omega is positive but out of bounds
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 3
+  expect:
+    throws: ~
+
+- name: 3x3, omega is 0
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 0
+  expect:
+    throws: ~
+
+- name: 3x3, omega is 2
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: 2
+  expect:
+    throws: ~
+
+- name: 3x3, omega is None
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: ~
+  expect:
+    throws: ~
+
+- name: 3x3, omega is not numeric
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [10, 11, 12]
+    guess: zero
+    omega: one
+  expect:
+    throws: TypeError

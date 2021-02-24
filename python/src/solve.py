@@ -33,6 +33,13 @@ def add_subparser(subparsers):
         help="Specifies the initial guess type for iterative solvers.",
     )
     parser.add_argument(
+        "--omega",
+        action="store",
+        default=1.0,
+        type=float,
+        help="Specifies the relaxation factor for SOR solver.",
+    )
+    parser.add_argument(
         "-q",
         "--quite",
         action="store_true",

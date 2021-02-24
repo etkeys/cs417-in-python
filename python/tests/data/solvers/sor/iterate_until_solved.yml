@@ -1,0 +1,81 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: 2x2, guess = zero
+  input:
+    matA:
+      - [16,3]
+      - [7,-11]
+    matb: [11,13]
+    guess: zero
+  expect:
+    mat: [0.812182, -0.664975]
+    iter_count: 19
+
+- name: 2x2, guess = random
+  input:
+    matA:
+      - [16,3]
+      - [7,-11]
+    matb: [11,13]
+    guess: random
+  expect:
+    mat: [0.812182, -0.664975]
+    iter_count: [9,29]
+
+
+- name: 4x4, guess = default
+  input:
+    matA:
+      - [4,-1,-6,0]
+      - [-5,-4,10,8]
+      - [0,9,4,-2]
+      - [1,0,-7,5]
+    matb: [2,21,-12,-6]
+    guess: default
+  expect:
+    mat: [3,-2,2,1]
+    iter_count: 29
+
+- name: 4x4, guess = zero
+  input:
+    matA:
+      - [4,-1,-6,0]
+      - [-5,-4,10,8]
+      - [0,9,4,-2]
+      - [1,0,-7,5]
+    matb: [2,21,-12,-6]
+    guess: zero
+  expect:
+    mat: [3,-2,2,1]
+    iter_count: 29
+
+- name: 4x4, guess = random
+  input:
+    matA:
+      - [4,-1,-6,0]
+      - [-5,-4,10,8]
+      - [0,9,4,-2]
+      - [1,0,-7,5]
+    matb: [2,21,-12,-6]
+    guess: random
+  expect:
+    mat: [3,-2,2,1]
+    iter_count: [19, 39]
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: 2x2, zero guess, divergent
+  input:
+    matA:
+      - [2,3]
+      - [5,7]
+    matb: [11,13]
+    guess: zero
+  expect:
+    mat: [0.812182, -0.664975]
+    iter_count: 1001

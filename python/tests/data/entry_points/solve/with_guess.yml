@@ -57,6 +57,23 @@
     dir: 3x3
   expect: 0
 
+- name: sor, 3x3 (guess random)
+  input:
+    args2: [sor, --guess, random]
+    dir: 3x3
+  expect: 0
+
+- name: sor, 3x3 (guess zero)
+  input:
+    args2: [sor, --guess, zero]
+    dir: 3x3
+  expect: 0
+
+- name: sor, 3x3 (guess default)
+  input:
+    args2: [sor, --guess, default]
+    dir: 3x3
+  expect: 0
 
 ###########################################################
 #     FAIL CONDITIONS
@@ -91,3 +108,15 @@
     args2: [gaussseidel, --guess, apple]
     dir: 3x3
   expect: 2
+
+- name: sor, 3x3 (guess invalid) (1)
+  input:
+    args2: [sor, --guess, apple]
+    dir: 3x3
+  expect: 2
+
+- name: sor, 3x3 (guess invalid) (2)
+  input:
+    args2: [sor, --guess, matrix-c]
+    dir: 3x3
+  expect: 1
