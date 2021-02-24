@@ -1,4 +1,5 @@
 from copy import deepcopy as pydeepcopy
+from typing import Type
 import numpy as np
 from os import path, scandir, makedirs
 from random import uniform
@@ -277,7 +278,14 @@ def load_files(directory, do_reshape=None):
 
 
 def multiply(a, b):
-    return np.matmul(a, b)
+    if not is_matrix(a):
+        _raise_not_a_matrix()
+    if is_matrix(b):
+        return np.matmul(a, b)
+    elif isinstance(b, (int, float)):
+        return a * b
+    else:
+        raise TypeError("Argument 2 expected to be matrix or scalar, but here is %s" % type(b).__name__)
 
 
 def multiply_row_by_scalar(matrix, row, scalar, inplace=True):

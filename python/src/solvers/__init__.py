@@ -3,6 +3,7 @@ from .gaussian import GaussianSolver
 from .jacobi import JacobiSolver
 from .ludecomposition import LuDecompositionSolver
 from .solver import ComplexResult, IterativeInitialGuess
+from .sor_solver import SORSolver
 
 
 def get_solver_instance(options, **kwargs):
@@ -36,6 +37,13 @@ def get_solver_instance(options, **kwargs):
             kwargs["matA"],
             kwargs["matb"],
             IterativeInitialGuess.from_string(options.guess),
+        )
+    elif SORSolver.get_solver_name().lower() == name:
+        return SORSolver(
+            kwargs["matA"],
+            kwargs["matb"],
+            IterativeInitialGuess.from_string(options.guess),
+            options.omega
         )
     else:
         raise ValueError('Solver "%s" has no create implementation.' % name)

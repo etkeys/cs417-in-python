@@ -282,10 +282,12 @@ def test_is_vvector(name, data, exception):
 
 def test_multiply(name, data, exception):
     inp_matA = create_matrix(data.input.a)
-    inp_matb = create_matrix(data.input.b)
+    inp_b = data.input.b
+    if isinstance(inp_b, list):
+        inp_b = create_matrix(inp_b)
 
     with exception:
-        act = matops.multiply(inp_matA, inp_matb)
+        act = matops.multiply(inp_matA, inp_b)
 
         exp = create_matrix(data.expect)
 
