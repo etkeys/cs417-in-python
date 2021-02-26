@@ -6,9 +6,11 @@ from . import call_subprocess
 
 pytestmark = pytest.mark.subprocess
 
+
 @pytest.fixture
 def base_command():
     return ["python", "-m", "src", "solve"]
+
 
 def test_no_options(name, data, exception, base_command, data_dir):
     inp_args = getattr(data.input, "args", None)
@@ -71,6 +73,7 @@ def test_with_guess(name, data, exception, base_command, data_dir):
         exp = data.expect
 
         assert act_code == exp
+
 
 def test_with_omega(name, data, exception, base_command, data_dir):
     inp_args2 = data.input.args2

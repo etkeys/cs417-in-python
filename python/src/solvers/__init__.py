@@ -43,7 +43,7 @@ def get_solver_instance(options, **kwargs):
             kwargs["matA"],
             kwargs["matb"],
             IterativeInitialGuess.from_string(options.guess),
-            options.omega
+            options.omega,
         )
     else:
         raise ValueError('Solver "%s" has no create implementation.' % name)

@@ -1,7 +1,7 @@
-
 from .solver import _IterativeSolver, IterativeInitialGuess
 
 import src.matrix_operations as matops
+
 
 class SORSolver(_IterativeSolver):
     """
@@ -25,10 +25,15 @@ class SORSolver(_IterativeSolver):
             if omega is None:
                 raise ValueError("Omega cannot be None")
             if not (0.0 < omega < 2.0):
-                raise ValueError("Omega must be in the interval (0,2), but here is %f" % omega)
+                raise ValueError(
+                    "Omega must be in the interval (0,2), but here is %f" % omega
+                )
             self._omega = omega
         except TypeError:
-            raise TypeError("Omega must be castable to type float, here is %s" % type(omega).__name__)
+            raise TypeError(
+                "Omega must be castable to type float, here is %s"
+                % type(omega).__name__
+            )
 
     @staticmethod
     def get_solver_name():
@@ -36,7 +41,7 @@ class SORSolver(_IterativeSolver):
 
     def _build_interim_matricies(self):
         self._matD = matops.create_based_on_diagonal_terms(self._matA)
-        
+
         matL = matops.create_based_on_l_component(self._matA)
         self._matL = matops.subtract(matL, self._matD)
 
@@ -62,18 +67,18 @@ class SORSolver(_IterativeSolver):
         U = self._matU
         w = self._omega
 
-        T1 = matops.multiply(L, w)          # wL
-        T1 = matops.add(D, T1)              # D + wL
-        T1 = matops.create_inverted(T1)     # (D + wL)^-1
+        T1 = matops.multiply(L, w)  # wL
+        T1 = matops.add(D, T1)  # D + wL
+        T1 = matops.create_inverted(T1)  # (D + wL)^-1
 
-        T7 = matops.multiply(D, (w - 1))    # (w-1)D
-        T6 = matops.multiply(U, w)          # wU
-        T5 = matops.add(T6, T7)             # wU + (w-1)D
-        T4 = matops.multiply(T5, g)         # (wU + (w-1)D)g
-        T3 = matops.multiply(b, w)          # wb
-        T2 = matops.subtract(T3, T4)        # wb - ((wU + (w-1)D)g
+        T7 = matops.multiply(D, (w - 1))  # (w-1)D
+        T6 = matops.multiply(U, w)  # wU
+        T5 = matops.add(T6, T7)  # wU + (w-1)D
+        T4 = matops.multiply(T5, g)  # (wU + (w-1)D)g
+        T3 = matops.multiply(b, w)  # wb
+        T2 = matops.subtract(T3, T4)  # wb - ((wU + (w-1)D)g
 
-        ret = matops.multiply(T1,T2)        # ((D + wL)^-1) * (wb - (wU + (w-1)D)g)
+        ret = matops.multiply(T1, T2)  # ((D + wL)^-1) * (wb - (wU + (w-1)D)g)
 
         return ret
 

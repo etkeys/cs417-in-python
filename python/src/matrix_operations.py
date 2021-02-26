@@ -285,7 +285,10 @@ def multiply(a, b):
     elif isinstance(b, (int, float)):
         return a * b
     else:
-        raise TypeError("Argument 2 expected to be matrix or scalar, but here is %s" % type(b).__name__)
+        raise TypeError(
+            "Argument 2 expected to be matrix or scalar, but here is %s"
+            % type(b).__name__
+        )
 
 
 def multiply_row_by_scalar(matrix, row, scalar, inplace=True):
