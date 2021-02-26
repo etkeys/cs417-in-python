@@ -14,17 +14,14 @@
     [3, 4, 6]
   ]
 
-- name: 2x2 + 1x2 = 2x3
+- name: 2x2 + 1x2 = throws
   input:
     A: [
       [1, 2],
       [3, 4]
     ]
     b: [ [5, 6] ]
-  expect: [
-    [1, 2, 5],
-    [3, 4, 6]
-  ]
+  expect: throws
 
 - name: 2x2 + 3x1 = throws
   input:

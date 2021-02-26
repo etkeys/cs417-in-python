@@ -26,13 +26,20 @@ def _assert_expected_matrix_sizes(directory, exp_size):
         # just silently continue
         return
 
-    matA, matb, matsoln = matops.load_files(directory)
+    items = matops.load_files(directory, None, False)
+    print(items)
 
-    assert matops.is_matrix(matA)
-    assert matops.is_square(matA)
-    assert matops.count_rows(matA) == exp_size
-    assert_vector(matb)
-    assert_vector(matsoln)
+    assert matops.is_square(items["matA"])
+    assert matops.count_rows(items["matA"]) == exp_size
+    assert_vector(items["matb"])
+    assert_vector(items["matsoln"])
+    if "omega" in items:
+        # assert matops.is_matrix(items["omega"])
+        # assert matops.is_square(items["omega"])
+        # assert matops.count_rows(items["omega"]) == 1
+        print(items["omega"])
+        print(type(items["omega"]))
+        assert isinstance(items["omega"], float)
 
 
 @pytest.fixture
@@ -72,8 +79,8 @@ def test_with_from_legacy(name, data, exception, base_command, data_dir):
 
     with exception:
         act_code, act_output = call_subprocess(base_command)
-        # print(act_output.stdout)
-        # print(act_output.stderr)
+        print(act_output.stdout)
+        print(act_output.stderr)
 
         exp_code = data.expect.returncode
         exp_dir = _DEFAULT_OUT_DIR

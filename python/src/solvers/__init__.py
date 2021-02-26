@@ -6,14 +6,14 @@ from .solver import ComplexResult, IterativeInitialGuess
 from .sor_solver import SORSolver
 
 
-def get_solver_instance(options, **kwargs):
+def get_solver_instance(inputs, options):
     if options is None:
         raise ValueError("options argument not given.")
 
     # TODO these might not be a requirement for all solvers
-    if not "matA" in kwargs:
+    if not "matA" in inputs:
         raise KeyError("Matrix A not provided.")
-    if not "matb" in kwargs:
+    if not "matb" in inputs:
         raise KeyError("Matrix b not provided.")
 
     name = options.solver
@@ -23,27 +23,27 @@ def get_solver_instance(options, **kwargs):
     #   mapping = {'gaussian': _create_gaussian_instance}
     # Or by a static method, create_instance, available on all solvers?
     if "gaussian" == name:
-        return GaussianSolver(kwargs["matA"], kwargs["matb"])
+        return GaussianSolver(inputs["matA"], inputs["matb"])
     elif "ludecomposition" == name:
-        return LuDecompositionSolver(kwargs["matA"], kwargs["matb"])
+        return LuDecompositionSolver(inputs["matA"], inputs["matb"])
     elif JacobiSolver.get_solver_name().lower() == name:
         return JacobiSolver(
-            kwargs["matA"],
-            kwargs["matb"],
+            inputs["matA"],
+            inputs["matb"],
             IterativeInitialGuess.from_string(options.guess),
         )
     elif GaussSeidelSolver.get_solver_name().lower() == name:
         return GaussSeidelSolver(
-            kwargs["matA"],
-            kwargs["matb"],
+            inputs["matA"],
+            inputs["matb"],
             IterativeInitialGuess.from_string(options.guess),
         )
     elif SORSolver.get_solver_name().lower() == name:
         return SORSolver(
-            kwargs["matA"],
-            kwargs["matb"],
+            inputs["matA"],
+            inputs["matb"],
             IterativeInitialGuess.from_string(options.guess),
-            options.omega,
+            inputs.get("omega", options.omega),
         )
     else:
         raise ValueError('Solver "%s" has no create implementation.' % name)

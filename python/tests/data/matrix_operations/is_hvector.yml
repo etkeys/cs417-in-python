@@ -5,6 +5,18 @@
     value: [1, 2, 3]
   expect: true
 
+- name: 1x1 true horizontal vector
+  input:
+    as_raw: false
+    value: [1]
+  expect: true
+
+- name: 1x1 matrix horizontal vector
+  input:
+    as_raw: false
+    value: [[1]]
+  expect: true
+
 - name: true matrix with single row
   input:
     as_raw: false
@@ -71,9 +83,4 @@
     value: 2
   expect: false
 
-- name: 1x1 is not a horizontal vector
-  input:
-    as_raw: false
-    value: [[1]]
-  expect: false
 

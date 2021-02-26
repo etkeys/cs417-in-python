@@ -50,8 +50,8 @@ def add_subparser(subparsers):
 
 
 def main(options):
-    matA, matb, matsoln = matops.load_files(options.dir)
-    solver = solvers.get_solver_instance(options, matA=matA, matb=matb)
+    inputs = matops.load_files(options.dir)
+    solver = solvers.get_solver_instance(inputs, options)
 
     if solver.solve():
         res = solver.result
@@ -64,14 +64,14 @@ def main(options):
         else:
             res_vec = matops.reshape(res, (-1, 1))
 
-        err_norm = matops.two_norm_of_error(matA, matb, res_vec)
+        err_norm = matops.two_norm_of_error(inputs["matA"], inputs["matb"], res_vec)
         _solve_print_results(
             solver.get_solver_name(), res_vec, err_norm, options.quite, *add_msgs
         )
 
         if options.check:
-            if not matops.almost_equal(res_vec, matsoln):
-                err_percent = matops.percent_error(res_vec, matsoln)
+            if not matops.almost_equal(res_vec, inputs["matsoln"]):
+                err_percent = matops.percent_error(res_vec, inputs["matsoln"])
                 eprint("Calculated result does not match expected solution.")
                 eprint("Two norm of error: %.6f" % err_norm)
                 eprint("Percent error: %.6f" % err_percent)
