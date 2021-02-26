@@ -55,7 +55,6 @@ def test_build_interim_matricies(name, data, exception):
         exp_matL = create_matrix(data.expect.matL)
         exp_matU = create_matrix(data.expect.matU)
 
-
         assert matops.almost_equal(act_matD, exp_matD)
         assert matops.almost_equal(act_matL, exp_matL)
         assert matops.almost_equal(act_matU, exp_matU)

@@ -37,8 +37,12 @@ def pytest_addoption(parser):
         "--withslow", action="store_true", default=False, help="include slow tests"
     )
     parser.addoption(
-        "--withsubprocess", action="store_true", default=False, help="include tests that use subprocess"
+        "--withsubprocess",
+        action="store_true",
+        default=False,
+        help="include tests that use subprocess",
     )
+
 
 def pytest_collection_modifyitems(session, config, items):
     def has_mark(item, pytest_mark):
@@ -49,17 +53,17 @@ def pytest_collection_modifyitems(session, config, items):
 
     for item in items:
         if has_mark(item, pytest.mark.subprocess) and not has_option("withsubprocess"):
-            item.add_marker(pytest.mark.skip(
-                reason="requested to skip test using subprocess"
-            ))
+            item.add_marker(
+                pytest.mark.skip(reason="requested to skip test using subprocess")
+            )
         elif has_mark(item, pytest.mark.slow):
-            item.add_marker(pytest.mark.skip(
-                reason="requested to skip slow test"
-            ))
+            item.add_marker(pytest.mark.skip(reason="requested to skip slow test"))
+
 
 def pytest_configure(config):
     config.addinivalue_line("markers", "slow: mark tests as slow running.")
     config.addinivalue_line("markers", "subprocess: mark tests a using suprocess calls")
+
 
 def pytest_generate_tests(metafunc):
     def generate_test(item):
@@ -77,12 +81,7 @@ def pytest_generate_tests(metafunc):
             mgr = does_not_raise()
 
         if item_has_mark("slow") and not metafunc.config.getoption("--withslow"):
-            ret = pytest.param(
-                item.name,
-                item,
-                mgr,
-                marks=pytest.mark.slow
-            )
+            ret = pytest.param(item.name, item, mgr, marks=pytest.mark.slow)
         elif item_has_mark("xfail"):
             ret = pytest.param(
                 item.name, item, mgr, marks=pytest.mark.xfail(strict=True)
@@ -91,7 +90,7 @@ def pytest_generate_tests(metafunc):
             ret = (item.name, item, mgr)
 
         return ret
-    
+
     full_path, parent_dir = _get_test_data_file(metafunc.module, metafunc.function)
 
     with open(full_path, "r") as fp:
