@@ -3,6 +3,10 @@
   input: [[1]]
   expect: true
 
+- name: 1x1, hvector
+  input: [1]
+  expect: true
+
 - name: 2x2
   input: [
     [1, 2],

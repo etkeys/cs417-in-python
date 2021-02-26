@@ -3,7 +3,7 @@
 #     HAPPY PATHS
 ###########################################################
 
-- name: happy path (1); 2x2
+- name: 2x2
   setup:
     - delete_dir: '/tmp/makemat'
   input:
@@ -14,7 +14,7 @@
     matrix_size: 2
     out_dir: /tmp/makemat
     
-- name: happy path (2); 10x10
+- name: 10x10
   setup:
     - delete_dir: '/tmp/makemat'
   input:
@@ -25,7 +25,7 @@
     matrix_size: 10
     out_dir: /tmp/makemat
 
-- name: happy path (3); with -d flag
+- name: with -d flag
   setup:
     - delete_dir: '/tmp/makemat'
     - delete_dir: '/tmp/makemat2'
@@ -39,6 +39,17 @@
     out_dir: /tmp/makemat2
   teardown:
     - delete_dir: '/tmp/makemat2'
+
+- name: with omega.def
+  setup:
+    - delete_dir: '/tmp/makemat'
+  input:
+    args: [--from-legacy]
+    data_dir: 10x10_with_omega
+  expect:
+    returncode: 0
+    matrix_size: 10
+    out_dir: /tmp/makemat
 
 ###########################################################
 #     FAIL CONDITIONS

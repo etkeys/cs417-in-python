@@ -65,8 +65,14 @@
     value: 2
   expect: false
 
-- name: 1x1 is not a vector
+- name: 1x1 is a vector (1)
   input:
     as_raw: false
     value: [[1]]
-  expect: false
+  expect: true
+
+- name: 1x1 is a vector (2)
+  input:
+    as_raw: false
+    value: [1]
+  expect: true

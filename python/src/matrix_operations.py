@@ -195,7 +195,7 @@ def is_hvector(matrix):
         cols = matrix.shape[0]
     else:
         rows, cols = matrix.shape
-    return rows == 1 and cols > rows
+    return rows == 1 and cols >= rows
 
 
 def is_matrix(matrix):
@@ -222,26 +222,26 @@ def is_singular(matrix, allow_augmented=True):
 def is_square(matrix):
     if not is_matrix(matrix):
         return False
-    if is_vector(matrix):
-        return False
+    if is_vector(matrix) and len(matrix.shape) < 2:
+        return matrix.shape[0] == 1
     rows, cols = matrix.shape
     return rows > 0 and rows == cols
 
 
 def is_vector(matrix):
-    return is_vvector(matrix) or is_hvector(matrix)
+    return is_hvector(matrix) or is_vvector(matrix)
 
 
 def is_vvector(matrix):
-    return (
-        is_matrix(matrix)
-        and not is_hvector(matrix)
-        and matrix.shape[1] == 1
-        and matrix.shape[0] > matrix.shape[1]
-    )
+    if not is_matrix(matrix):
+        return False
+    if is_hvector(matrix):
+        return matrix.shape[0] == 1
+    rows, cols = matrix.shape
+    return cols == 1 and rows >= cols
 
 
-def load_files(directory, do_reshape=None):
+def load_files(directory, do_reshape=None, omega_as_matrix: bool = False):
     """
     Load data from text files ine given directory
 
@@ -258,23 +258,33 @@ def load_files(directory, do_reshape=None):
     def _call_load(fp):
         return np.loadtxt(fp, dtype=float, delimiter=" ")
 
+    ret = {}
     do_reshape = True if do_reshape is None else do_reshape
     with scandir(directory) as files:
         for file in files:
             fname, _ = path.splitext(path.basename(file))
             with open(file, "r") as fp:
                 if fname == "A":
-                    A = _call_load(fp)
+                    obj = _call_load(fp)
+                    fname = "mat" + fname
                 elif fname == "b":
-                    b = _call_load(fp)
+                    obj = _call_load(fp)
                     if do_reshape:
-                        b = reshape(b, (-1, 1))
+                        obj = reshape(obj, (-1, 1))
+                    fname = "mat" + fname
+                elif fname == "omega":
+                    obj = _call_load(fp)
+                    if not omega_as_matrix:
+                        obj = obj.item(0)
                 elif fname == "soln":
-                    soln = _call_load(fp)
+                    obj = _call_load(fp)
                     if do_reshape:
-                        soln = reshape(soln, (-1, 1))
+                        obj = reshape(obj, (-1, 1))
+                    fname = "mat" + fname
 
-    return (A, b, soln)
+                ret[fname] = obj
+
+    return ret
 
 
 def multiply(a, b):
@@ -490,15 +500,17 @@ def percent_error(vec_actual, vec_expected):
     return ret
 
 
-def write_files(*args, **kwargs):
+def write_files(items_dict, **kwargs):
     arg_directory = kwargs.get("directory", None)
     out_dir = "makemat" if not arg_directory else arg_directory
     out_dir = out_dir if path.isabs(out_dir) else path.join(gettempdir(), out_dir)
     makedirs(out_dir, exist_ok=True)
 
-    for m, name in args:
-        with open(path.join(out_dir, name), "wt") as fp:
-            np.savetxt(fp, m, fmt="%.6f", delimiter=" ")
+    for k, v in items_dict.items():
+        fname = k[3:] if k.startswith("mat") else k
+        fname = f"{fname}.def"
+        with open(path.join(out_dir, fname), "wt") as fp:
+            np.savetxt(fp, v, fmt="%.6f", delimiter=" ")
 
     return out_dir
 

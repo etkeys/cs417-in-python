@@ -30,30 +30,29 @@ def add_subparser(subparsers):
 
 
 def _convert_legacy_files(directory):
-    matA, matb, matsoln = matops.load_files(directory, False)
+    inputs = matops.load_files(directory, False, True)
 
-    size = int(matA[0])
-    matA = matops.reshape(matA[2:], (size, -1))
-    matb = matops.reshape(matb[2:], (-1, 1))
-    matsoln = matops.reshape(matsoln[2:], (-1, 1))
+    size = int(inputs["matA"][0])
+    inputs["matA"] = matops.reshape(inputs["matA"][2:], (size, -1))
+    inputs["matb"] = matops.reshape(inputs["matb"][2:], (-1, 1))
+    inputs["matsoln"] = matops.reshape(inputs["matsoln"][2:], (-1, 1))
+    if "omega" in inputs:
+        inputs["omega"] = matops.reshape(inputs["omega"][2:], (-1, 1))
 
-    return (matA, matb, matsoln)
+    return inputs
 
 
 def main(options):
     # print(options)
     if getattr(options, "legacy_dir") is not None:
-        matA, matb, matsoln = _convert_legacy_files(options.legacy_dir)
+        inputs = _convert_legacy_files(options.legacy_dir)
     else:
-        matA = matops.create_random_diagonal_dominate(options.size)
-        matsoln = matops.create_random(options.size, True)
-        matb = matops.multiply(matA, matsoln)
+        inputs = {}
+        inputs["matA"] = matops.create_random_diagonal_dominate(options.size)
+        inputs["matsoln"] = matops.create_random(options.size, True)
+        inputs["matb"] = matops.multiply(inputs["matA"], inputs["matsoln"])
 
-    tdir = matops.write_files(
-        (matA, "A.def"),
-        (matb, "b.def"),
-        (matsoln, "soln.def"),
-        directory=options.directory,
-    )
+    tdir = matops.write_files(inputs, directory=options.directory)
+
     print(tdir)
     return True

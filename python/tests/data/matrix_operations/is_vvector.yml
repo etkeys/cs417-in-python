@@ -65,8 +65,8 @@
     value: 2
   expect: false
 
-- name: 1x1 is not a vertical vector
+- name: 1x1 is vertical vector
   input:
     as_raw: false
     value: [[1]]
-  expect: false
+  expect: true
