@@ -8,6 +8,8 @@ import src.matrix_operations as matops
 import tests.utils as utils
 from . import call_subprocess, setup as pkg_setup, teardown as pkg_teardown
 
+pytestmark = pytest.mark.subprocess
+
 _DEFAULT_OUT_DIR = path.join(gettempdir(), "makemat")
 
 

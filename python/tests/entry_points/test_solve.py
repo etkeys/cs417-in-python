@@ -4,11 +4,11 @@ import pytest
 
 from . import call_subprocess
 
+pytestmark = pytest.mark.subprocess
 
 @pytest.fixture
 def base_command():
     return ["python", "-m", "src", "solve"]
-
 
 def test_no_options(name, data, exception, base_command, data_dir):
     inp_args = getattr(data.input, "args", None)
