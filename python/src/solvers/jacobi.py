@@ -37,10 +37,12 @@ class JacobiSolver(_IterativeSolver):
         return ret
 
     def _create_guess(self):
+        if not hasattr(self, "_matD"):
+            self._build_interim_matricies()
         ret = (
-            matops.create_random(matops.count_rows(self._matC), True)
+            matops.create_random(matops.count_rows(self._matb), True)
             if self._guess_source == IterativeInitialGuess.RANDOM_MATRIX
-            else matops.create_zeros(matops.count_rows(self._matC))
+            else matops.create_zeros(matops.count_rows(self._matb))
         )
         ret = matops.reshape(ret, (-1, 1))
         return ret

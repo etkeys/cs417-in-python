@@ -1,25 +1,18 @@
-from .solver import _IterativeSolver, IterativeInitialGuess
+from .jacobi import JacobiSolver
+from .solver import IterativeInitialGuess
 
 import src.matrix_operations as matops
 
 
-class SORSolver(_IterativeSolver):
+class SORSolver(JacobiSolver):
     """
     Yes, SOR is a varient of Gauss-Seidel, but implementation of some mechanics
-    make inheritance more trouble than helpful.
+    make inheritance more trouble than helpful. So we inherit from Jacobi because
+    Jacobi implements a lot of the same functionality already!!
     """
 
-    # TODO inherit from Jacobi to reuse most of __init__
-    # then add handling here for omega
     def __init__(self, matA, matb, guess_source: IterativeInitialGuess, omega: float):
-        self._allowed_guess_sources = [
-            IterativeInitialGuess.DEFAULT,
-            IterativeInitialGuess.MATRIX_OF_ZEROS,
-            IterativeInitialGuess.RANDOM_MATRIX,
-        ]
         super().__init__(matA, matb, guess_source)
-        if guess_source == IterativeInitialGuess.DEFAULT:
-            self._guess_source = IterativeInitialGuess.MATRIX_OF_ZEROS
 
         try:
             if omega is None:
@@ -80,17 +73,4 @@ class SORSolver(_IterativeSolver):
 
         ret = matops.multiply(T1, T2)  # ((D + wL)^-1) * (wb - (wU + (w-1)D)g)
 
-        return ret
-
-    # TODO inherit from Jacobi to reuse _create_guess
-    # Make sure to change _matC to _matb
-    def _create_guess(self):
-        if not hasattr(self, "_matD"):
-            self._build_interim_matricies()
-        ret = (
-            matops.create_random(matops.count_rows(self._matb), True)
-            if self._guess_source == IterativeInitialGuess.RANDOM_MATRIX
-            else matops.create_zeros(matops.count_rows(self._matb))
-        )
-        ret = matops.reshape(ret, (-1, 1))
         return ret
