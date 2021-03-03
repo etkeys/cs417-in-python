@@ -1,3 +1,4 @@
+import numpy as np
 import pytest
 
 import src.matrix_operations as matops
@@ -69,6 +70,31 @@ def test_calc_iteration_result(name, data, exception):
         exp = matops.reshape(create_matrix(data.expect.mat), (-1, 1))
 
         assert matops.almost_equal(act, exp)
+
+
+def test_create_guess(name, data, exception):
+    inp_guess = IterativeInitialGuess.from_string(data.input.guess)
+    inp_matA = create_matrix(data.input.matA)
+    inp_matb = create_matrix(data.input.matb)
+    inp_skip_build_interim = data.input.skip_build_interim
+
+    with exception:
+        actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
+        if not inp_skip_build_interim:
+            actor._build_interim_matricies()
+        act = actor._create_guess()
+
+        if inp_guess != IterativeInitialGuess.RANDOM_MATRIX:
+            exp = matops.reshape(create_matrix(data.expect.mat), (-1, 1))
+            assert act.shape == exp.shape
+            assert matops.almost_equal(act, exp)
+        else:
+            act = np.fabs(act)
+            exp_shape = actor._matb.shape
+            exp_mat_zero = matops.create_zeros(exp_shape[0], exp_shape[1])
+            assert act.shape == exp_shape
+            assert not matops.almost_equal(act, exp_mat_zero)
+            assert (act <= 20.0).all()
 
 
 def test_iterate_until_solved(name, data, exception):
