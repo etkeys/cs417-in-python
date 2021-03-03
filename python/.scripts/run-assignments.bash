@@ -2,6 +2,7 @@
 #!/usr/bin/env bash
 
 function run_app {
+    echo "" &&
     echo "Check Assignment $1" &&
     python -m src solve "assignments/$2" "$3" --check --quite
 }
