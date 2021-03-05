@@ -11,6 +11,9 @@ class RecursiveNamespace(SimpleNamespace):
 
         return entry
 
+    def get(self, key: str, default=None):
+        return getattr(self, key, default)
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         for key, val in kwargs.items():

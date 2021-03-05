@@ -2,94 +2,39 @@ from os import path
 
 import pytest
 
-from . import call_subprocess
-
-pytestmark = pytest.mark.subprocess
+from . import assert_call_app_main
 
 
 @pytest.fixture
-def base_command():
-    return ["python", "-m", "src", "solve"]
+def base_args():
+    return ["src", "solve"]
 
 
-def test_no_options(name, data, exception, base_command, data_dir):
-    inp_args = getattr(data.input, "args", None)
-    inp_args2 = getattr(data.input, "args2", None)
-    inp_dir = getattr(data.input, "dir", None)
+def _do_common_test(data, mocker, base_args, data_dir):
+    inp_args = data.input.get("args", [])
+    inp_args2 = data.input.get("args2", [])
+    inp_dir = data.input.get("dir")
 
-    if inp_args:
-        base_command.extend(inp_args)
+    base_args.extend(inp_args)
     if inp_dir:
-        base_command.append(path.join(data_dir, inp_dir))
-    if inp_args2:
-        base_command.extend(inp_args2)
-    print(base_command)
+        base_args.append(path.join(data_dir, inp_dir))
+    base_args.extend(inp_args2)
 
-    with exception:
-        act_code, act_output = call_subprocess(base_command)
-        print(act_output.stdout)
-        print(act_output.stderr)
-
-        exp = data.expect
-
-        assert act_code == exp
+    exp_code = data.expect
+    assert_call_app_main(mocker, base_args, exp_code)
 
 
-def test_with_check(name, data, exception, base_command, data_dir):
-    inp_args2 = data.input.args2
-    inp_dir = getattr(data.input, "dir", None)
-
-    if inp_dir:
-        base_command.append(path.join(data_dir, inp_dir))
-    if inp_args2:
-        base_command.extend(inp_args2)
-    print(base_command)
-
-    with exception:
-        act_code, act_output = call_subprocess(base_command)
-        print(act_output.stdout)
-        print(act_output.stderr)
-
-        exp = data.expect
-
-        assert act_code == exp
+def test_no_options(name, data, exception, mocker, base_args, data_dir):
+    _do_common_test(data, mocker, base_args, data_dir)
 
 
-def test_with_guess(name, data, exception, base_command, data_dir):
-    inp_args2 = data.input.args2
-    inp_dir = getattr(data.input, "dir", None)
-
-    if inp_dir:
-        base_command.append(path.join(data_dir, inp_dir))
-    if inp_args2:
-        base_command.extend(inp_args2)
-    print(base_command)
-
-    with exception:
-        act_code, act_output = call_subprocess(base_command)
-        print(act_output.stdout)
-        print(act_output.stderr)
-
-        exp = data.expect
-
-        assert act_code == exp
+def test_with_check(name, data, exception, mocker, base_args, data_dir):
+    _do_common_test(data, mocker, base_args, data_dir)
 
 
-def test_with_omega(name, data, exception, base_command, data_dir):
-    inp_args2 = data.input.args2
-    inp_dir = getattr(data.input, "dir", None)
+def test_with_guess(name, data, exception, mocker, base_args, data_dir):
+    _do_common_test(data, mocker, base_args, data_dir)
 
-    if inp_dir:
-        base_command.append(path.join(data_dir, inp_dir))
-    if inp_args2:
-        base_command.extend(inp_args2)
-    print(base_command)
 
-    with exception:
-        act_code, act_output = call_subprocess(base_command)
-        print(act_output.stdout)
-        print(act_output.stderr)
-
-        exp = data.expect
-
-        assert act_code == exp
+def test_with_omega(name, data, exception, mocker, base_args, data_dir):
+    _do_common_test(data, mocker, base_args, data_dir)

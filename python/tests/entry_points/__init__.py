@@ -1,6 +1,8 @@
-import subprocess
-from types import SimpleNamespace
+import sys
 
+import pytest
+
+from src.main import main as app_main
 import tests.utils as utils
 
 
@@ -9,12 +11,13 @@ def _delete_dir(step):
         utils.delete_dir(step.delete_dir)
 
 
-def call_subprocess(cmd_parts):
-    act = subprocess.run(
-        cmd_parts, stderr=subprocess.PIPE, stdout=subprocess.PIPE, encoding="utf-8"
-    )
+def assert_call_app_main(mocker, base_args, exp_ret_code):
+    mocker.patch.object(sys, "argv", base_args)
+    with pytest.raises(SystemExit) as sysexit:
+        app_main()
 
-    return (act.returncode, SimpleNamespace(stderr=act.stderr, stdout=act.stdout))
+    assert sysexit.type == SystemExit
+    assert sysexit.value.code == exp_ret_code
 
 
 def setup(data):
