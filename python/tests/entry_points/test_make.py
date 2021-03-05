@@ -1,4 +1,3 @@
-# from copy import deepcopy as dcopy
 from os import path
 from tempfile import gettempdir
 
@@ -6,9 +5,7 @@ import pytest
 
 import src.matrix_operations as matops
 import tests.utils as utils
-from . import call_subprocess, setup as pkg_setup, teardown as pkg_teardown
-
-pytestmark = pytest.mark.subprocess
+from . import assert_call_app_main, setup as pkg_setup, teardown as pkg_teardown
 
 _DEFAULT_OUT_DIR = path.join(gettempdir(), "makemat")
 
@@ -26,6 +23,11 @@ def _assert_expected_matrix_sizes(directory, exp_size):
         # just silently continue
         return
 
+    if exp_size is None:
+        # size doesn't exist, we weren't supposed to do this assert so
+        # just silently continue
+        return
+
     items = matops.load_files(directory, None, False)
     print(items)
 
@@ -34,39 +36,28 @@ def _assert_expected_matrix_sizes(directory, exp_size):
     assert_vector(items["matb"])
     assert_vector(items["matsoln"])
     if "omega" in items:
-        # assert matops.is_matrix(items["omega"])
-        # assert matops.is_square(items["omega"])
-        # assert matops.count_rows(items["omega"]) == 1
-        print(items["omega"])
-        print(type(items["omega"]))
         assert isinstance(items["omega"], float)
 
 
 @pytest.fixture
-def base_command():
-    return ["python", "-m", "src", "make"]
+def base_args():
+    return ["src", "make"]
 
 
-def test_with_directory(name, data, exception, base_command):
+def test_with_directory(name, data, exception, mocker, base_args):
     pkg_setup(data)
 
     inp = data.input
-    base_command.extend(inp)
+    base_args.extend(inp)
 
-    with exception:
-        act_code, act_output = call_subprocess(base_command)
-        # print(act_output.stdout)
-        # print(act_output.stderr)
+    exp_code = data.expect.returncode
+    assert_call_app_main(mocker, base_args, exp_code)
 
-        exp_code = data.expect.returncode
-        assert act_code == exp_code
-
-        if hasattr(data.expect, "dir_exists"):
-            exp_dir = data.expect.dir_exists
-            assert utils.check_dir_exists(exp_dir)
+    exp_dir = data.expect.get("dir_exists")
+    assert True if exp_dir is None else utils.check_dir_exists(exp_dir)
 
 
-def test_with_from_legacy(name, data, exception, base_command, data_dir):
+def test_with_from_legacy(name, data, exception, mocker, base_args, data_dir):
     pkg_setup(data)
 
     inp_args = data.input.args
@@ -74,36 +65,23 @@ def test_with_from_legacy(name, data, exception, base_command, data_dir):
         inp_args.append(path.join(data_dir, data.input.data_dir))
     if "args2" in data.input:
         inp_args.extend(data.input.args2)
+    base_args.extend(inp_args)
 
-    base_command.extend(inp_args)
+    exp_code = data.expect.returncode
+    assert_call_app_main(mocker, base_args, exp_code)
 
-    with exception:
-        act_code, act_output = call_subprocess(base_command)
-        print(act_output.stdout)
-        print(act_output.stderr)
-
-        exp_code = data.expect.returncode
-        exp_dir = _DEFAULT_OUT_DIR
-        exp_size = data.expect.matrix_size
-
-        assert act_code == exp_code
-        _assert_expected_matrix_sizes(exp_dir, exp_size)
+    exp_size = data.expect.get("matrix_size")
+    _assert_expected_matrix_sizes(_DEFAULT_OUT_DIR, exp_size)
 
     pkg_teardown(data)
 
 
-def test_with_size(name, data, exception, base_command):
+def test_with_size(name, data, exception, mocker, base_args):
     inp = data.input
-    base_command.extend(inp)
+    base_args.extend(inp)
 
-    with exception:
-        act_code, _ = call_subprocess(base_command)
+    exp_code = data.expect.returncode
+    assert_call_app_main(mocker, base_args, exp_code)
 
-        exp_code = data.expect.returncode
-
-        assert act_code == exp_code
-
-        if exp_code == 0:
-            exp_dir = _DEFAULT_OUT_DIR
-            exp_size = data.expect.size
-            _assert_expected_matrix_sizes(exp_dir, exp_size)
+    exp_size = data.expect.get("size")
+    _assert_expected_matrix_sizes(_DEFAULT_OUT_DIR, exp_size)

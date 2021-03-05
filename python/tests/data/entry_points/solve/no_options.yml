@@ -78,7 +78,8 @@
 ###########################################################
 
 - name: no DIR, no solver
-  input: ~
+  input:
+    dir: ~
   expect: 2
 
 - name: DIR, no solver
