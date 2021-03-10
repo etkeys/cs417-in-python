@@ -1,6 +1,7 @@
 import argparse
 
 from src import make, solve
+from src.exceptions import DivergentSolution
 from src.utils import eprint
 
 
@@ -26,6 +27,9 @@ def main():
     except argparse.ArgumentError as e:
         eprint(e)
         exit(2)
+    except DivergentSolution as e:
+        eprint(e)
+        exit(3)
     except FileNotFoundError as e:
         eprint(e)
         exit(1)

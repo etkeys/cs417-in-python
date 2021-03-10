@@ -14,8 +14,6 @@
     func_result: true
     vec_result: [0.812182, -0.664975]
     iter_count: 7
-    caveats:
-      - NORMAL
 
 # Taken from python example in guass-seidel method article
 - name: 4x4, zeros guess
@@ -31,8 +29,6 @@
     func_result: true
     vec_result: [1, 2, -1, 1]
     iter_count: 7
-    caveats:
-      - NORMAL
 
 ###########################################################
 #     FAIL CONDITIONS
@@ -47,8 +43,6 @@
     guess: random
   expect:
       func_result: false
-      caveats:
-        - ERROR
       throws: ~
 
 - name: 2x2 deverges
@@ -59,9 +53,7 @@
     matb: [11, 13]
     guess: random
   expect:
-    func_result: true
+    func_result: false
     vec_result: [-38, 29]
-    iter_count: 1001
-    caveats:
-      - LAME_CONVERGANCE
-    
+    # have to specify the dotted path because is not builtin
+    throws: src.exceptions.DivergentSolution

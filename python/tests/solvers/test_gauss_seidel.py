@@ -5,12 +5,8 @@ import src.matrix_operations as matops
 from src.solvers import GaussSeidelSolver, IterativeInitialGuess
 
 from src.solvers.solver import ComplexResult, _IterativeSolver
-from tests import utils
-from tests.utils import create_matrix, string_to_type
-
-
-def caveats_path(member):
-    return f"src.solvers.solver.ComplexResult.Caveats.{member}"
+from tests.utils import create_matrix
+from . import assert_iterations_count
 
 
 def test_init(name, data, exception):
@@ -127,25 +123,6 @@ def test_iterate_until_solved(name, data, exception):
 
 
 def test_solve(name, data, exception):
-    def assert_result_caveats(act_cavs, raw_exp_cavs):
-        exp_cavs = [string_to_type(caveats_path(p)) for p in raw_exp_cavs]
-
-        assert len(act_cavs) == len(exp_cavs)
-        for acav, ecav in zip(act_cavs, exp_cavs):
-            assert acav == ecav
-
-    def assert_iterations_count(act_count, exp_count):
-        if isinstance(exp_count, int):
-            assert act_count == exp_count
-        elif isinstance(exp_count, list):
-            assert exp_count[0] <= act_count <= exp_count[1]
-        else:
-            pytest.fail("exp_count should be int or list of ints.")
-
-    def assert_result_schema(inp, *attributes):
-        assert isinstance(inp, ComplexResult)
-        for attr in attributes:
-            assert attr in inp
 
     inp_guess = IterativeInitialGuess.from_string(data.input.guess)
     inp_matA = create_matrix(data.input.matA)
@@ -159,33 +136,27 @@ def test_solve(name, data, exception):
         exp_fresult = data.expect.func_result
 
         assert act_fresult == exp_fresult
-        assert_result_schema(act_result, ComplexResult.Attributes.CAVEATS)
-        assert_result_caveats(
-            act_result[ComplexResult.Attributes.CAVEATS], data.expect.caveats
-        )
+        assert isinstance(act_result, ComplexResult)
 
-        if utils.test_expects_exception(data):
-            assert_result_schema(act_result, ComplexResult.Attributes.ERROR)
-            assert act_result.has_error
+        if act_result.has_error:
             raise act_result[ComplexResult.Attributes.ERROR]
         else:
             exp_vec = matops.reshape(create_matrix(data.expect.vec_result), (-1, 1))
             exp_iter_count = data.expect.iter_count
 
-            assert_result_schema(
-                act_result,
-                ComplexResult.Attributes.RESULT_VECTOR,
-                ComplexResult.Attributes.ITERATIONS,
+            assert all(
+                [
+                    att in act_result
+                    for att in [
+                        ComplexResult.Attributes.RESULT_VECTOR,
+                        ComplexResult.Attributes.ITERATIONS,
+                    ]
+                ]
             )
 
+            assert matops.almost_equal(
+                act_result[ComplexResult.Attributes.RESULT_VECTOR], exp_vec
+            )
             assert_iterations_count(
                 act_result[ComplexResult.Attributes.ITERATIONS], exp_iter_count
             )
-
-            if (
-                isinstance(exp_iter_count, list)
-                or exp_iter_count < _IterativeSolver._ITER_MAX
-            ):
-                assert matops.almost_equal(
-                    act_result[ComplexResult.Attributes.RESULT_VECTOR], exp_vec
-                )
