@@ -7,9 +7,8 @@ import src.matrix_operations as matops
 from src.solvers import SORSolver, IterativeInitialGuess
 
 from src.solvers.solver import ComplexResult, _IterativeSolver
-from tests import utils
 from tests.utils import create_matrix
-from . import assert_result_caveats, assert_iterations_count, assert_result_schema
+from . import assert_iterations_count
 
 
 def test_init(name, data, exception):
@@ -147,33 +146,27 @@ def test_solve(name, data, exception):
         exp_fresult = data.expect.func_result
 
         assert act_fresult == exp_fresult
-        assert_result_schema(act_result, ComplexResult.Attributes.CAVEATS)
-        assert_result_caveats(
-            act_result[ComplexResult.Attributes.CAVEATS], data.expect.caveats
-        )
+        assert isinstance(act_result, ComplexResult)
 
-        if utils.test_expects_exception(data):
-            assert_result_schema(act_result, ComplexResult.Attributes.ERROR)
-            assert act_result.has_error
+        if act_result.has_error:
             raise act_result[ComplexResult.Attributes.ERROR]
         else:
             exp_vec = matops.reshape(create_matrix(data.expect.vec_result), (-1, 1))
             exp_iter_count = data.expect.iter_count
 
-            assert_result_schema(
-                act_result,
-                ComplexResult.Attributes.RESULT_VECTOR,
-                ComplexResult.Attributes.ITERATIONS,
+            assert all(
+                [
+                    att in act_result
+                    for att in [
+                        ComplexResult.Attributes.RESULT_VECTOR,
+                        ComplexResult.Attributes.ITERATIONS,
+                    ]
+                ]
             )
 
+            assert matops.almost_equal(
+                act_result[ComplexResult.Attributes.RESULT_VECTOR], exp_vec
+            )
             assert_iterations_count(
                 act_result[ComplexResult.Attributes.ITERATIONS], exp_iter_count
             )
-
-            if (
-                isinstance(exp_iter_count, list)
-                or exp_iter_count < _IterativeSolver._ITER_MAX
-            ):
-                assert matops.almost_equal(
-                    act_result[ComplexResult.Attributes.RESULT_VECTOR], exp_vec
-                )

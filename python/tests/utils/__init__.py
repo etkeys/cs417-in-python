@@ -4,6 +4,7 @@ import shutil
 
 import numpy as np
 
+from src.exceptions import DivergentSolution
 from .recursive_namespace import RecursiveNamespace
 
 

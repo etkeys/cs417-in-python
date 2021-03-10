@@ -14,8 +14,6 @@
     func_result: true
     vec_result: [7.111109, -3.222217]
     iter_count: 26
-    caveats:
-      - NORMAL
 
 - name: 2x2, random guess
   input:
@@ -28,8 +26,6 @@
     func_result: true
     vec_result: [7.111109, -3.222217]
     iter_count: [16, 36]
-    caveats:
-      - NORMAL
 
 - name: 4x4, random guess
   input:
@@ -44,8 +40,6 @@
     func_result: true
     vec_result: [1, 2, -1, 1]
     iter_count: 16
-    caveats:
-      - NORMAL
 
 - name: 4x4, random guess
   input:
@@ -60,8 +54,6 @@
     func_result: true
     vec_result: [1, 2, -1, 1]
     iter_count: [6, 26]
-    caveats:
-      - NORMAL
 
 ###########################################################
 #     FAIL CONDITIONS
@@ -76,6 +68,4 @@
     guess: random
   expect:
       func_result: false
-      caveats:
-        - ERROR
       throws: ~
