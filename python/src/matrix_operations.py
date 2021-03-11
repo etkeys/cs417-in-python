@@ -316,12 +316,6 @@ def multiply_row_by_scalar(matrix, row, scalar, inplace=True):
     return ret
 
 
-def print_pretty(matrix):
-    # TODO do we really need this?
-    # https://stackoverflow.com/a/1988024
-    raise NotImplementedError
-
-
 def reshape(matrix, newshape=None):
     if not is_matrix(matrix):
         _raise_not_a_matrix()
