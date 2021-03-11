@@ -1,16 +1,18 @@
 from math import fabs, isclose
 
+
+from ._base import _BasicSolver, ResultAttributes
 from .gaussian import GaussianSolver
-from .solver import _Solver
 import src.matrix_operations as matops
 
 
-class LuDecompositionSolver(_Solver):
+class LuDecompositionSolver(_BasicSolver):
     """
     Crout LU decomposition
     """
 
     def __init__(self, matA, matb):
+        super().__init__()
         if not matops.is_matrix(matA):
             raise ValueError("Matrix A missing or not a matrix.")
         if not matops.is_square(matA):
@@ -30,7 +32,7 @@ class LuDecompositionSolver(_Solver):
             matL, matU = self._create_crout_lu_factors()
             maty = self._calculate_forward_solve_vector(matL)
         except Exception as ex:
-            self._result = ex
+            self._result[ResultAttributes.ERROR] = ex
             return False
 
         gs = GaussianSolver(matU, maty)

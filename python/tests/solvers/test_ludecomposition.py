@@ -1,10 +1,9 @@
 from math import isclose
-import traceback
 
 import numpy as np
 
 import src.matrix_operations as matops
-from src.solvers import LuDecompositionSolver
+from src.solvers import LuDecompositionSolver, Result, ResultAttributes
 from tests.utils import create_matrix
 
 
@@ -94,15 +93,27 @@ def test_solve(name, data, exception):
     with exception:
         actor = LuDecompositionSolver(inp_matA, inp_matb)
         act_fresult = actor.solve()
-        act_vresult = actor.result
+        act_result = actor.result
 
         exp_fresult = data.expect.func_result
-        exp_vresult = create_matrix(data.expect.vec_result)
-
-        # print(exp_vresult)
-        # print(act_vresult)
-        # if isinstance(act_vresult, Exception):
-        #     traceback.print_tb(act_vresult.__traceback__)
 
         assert act_fresult == exp_fresult
-        assert matops.almost_equal(act_vresult, exp_vresult)
+        assert isinstance(act_result, Result)
+
+        if act_result.has_error:
+            raise act_result[ResultAttributes.ERROR]
+        else:
+            exp_vec = matops.reshape(create_matrix(data.expect.vec_result), (-1, 1))
+
+            assert all(
+                [
+                    att in act_result
+                    for att in [
+                        ResultAttributes.RESULT_VECTOR,
+                    ]
+                ]
+            )
+
+            assert matops.almost_equal(
+                act_result[ResultAttributes.RESULT_VECTOR], exp_vec
+            )

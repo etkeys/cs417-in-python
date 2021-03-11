@@ -1,14 +1,15 @@
-from math import isclose
+from math import exp, isclose
 
 import numpy as np
 import pytest
 
 import src.matrix_operations as matops
-from src.solvers import SORSolver, IterativeInitialGuess
+from src.solvers import SORSolver, IterativeInitialGuess, Result, ResultAttributes
 
-from src.solvers.solver import ComplexResult, _IterativeSolver
 from tests.utils import create_matrix
 from . import assert_iterations_count
+
+_ITER_MAX = SORSolver._ITER_MAX
 
 
 def test_init(name, data, exception):
@@ -106,6 +107,10 @@ def test_create_guess(name, data, exception):
 
 
 def test_iterate_until_solved(name, data, exception):
+    def assert_result_vector_equality(act_vec, data_exp_raw):
+        exp_vec = matops.reshape(create_matrix(data_exp_raw), (-1, 1))
+        assert matops.almost_equal(act_vec, exp_vec)
+
     inp_guess = IterativeInitialGuess.from_string(data.input.guess)
     inp_matA = create_matrix(data.input.matA)
     inp_matb = create_matrix(data.input.matb)
@@ -120,17 +125,13 @@ def test_iterate_until_solved(name, data, exception):
         print(act_iter_count)
         if isinstance(exp_iter_count, int):
             assert act_iter_count == exp_iter_count
+            if exp_iter_count <= _ITER_MAX:
+                assert_result_vector_equality(act_vec, data.expect.mat)
         elif isinstance(exp_iter_count, list):
             assert exp_iter_count[0] <= act_iter_count <= exp_iter_count[1]
+            assert_result_vector_equality(act_vec, data.expect.mat)
         else:
             pytest.fail("expect.iter_count should be int or list of ints.")
-
-        if (
-            isinstance(exp_iter_count, list)
-            or exp_iter_count < _IterativeSolver._ITER_MAX
-        ):
-            exp_vec = matops.reshape(create_matrix(data.expect.mat), (-1, 1))
-            assert matops.almost_equal(act_vec, exp_vec)
 
 
 def test_solve(name, data, exception):
@@ -146,10 +147,10 @@ def test_solve(name, data, exception):
         exp_fresult = data.expect.func_result
 
         assert act_fresult == exp_fresult
-        assert isinstance(act_result, ComplexResult)
+        assert isinstance(act_result, Result)
 
         if act_result.has_error:
-            raise act_result[ComplexResult.Attributes.ERROR]
+            raise act_result[ResultAttributes.ERROR]
         else:
             exp_vec = matops.reshape(create_matrix(data.expect.vec_result), (-1, 1))
             exp_iter_count = data.expect.iter_count
@@ -158,15 +159,15 @@ def test_solve(name, data, exception):
                 [
                     att in act_result
                     for att in [
-                        ComplexResult.Attributes.RESULT_VECTOR,
-                        ComplexResult.Attributes.ITERATIONS,
+                        ResultAttributes.RESULT_VECTOR,
+                        ResultAttributes.ITERATIONS,
                     ]
                 ]
             )
 
             assert matops.almost_equal(
-                act_result[ComplexResult.Attributes.RESULT_VECTOR], exp_vec
+                act_result[ResultAttributes.RESULT_VECTOR], exp_vec
             )
             assert_iterations_count(
-                act_result[ComplexResult.Attributes.ITERATIONS], exp_iter_count
+                act_result[ResultAttributes.ITERATIONS], exp_iter_count
             )

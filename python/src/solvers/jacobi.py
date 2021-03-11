@@ -1,4 +1,4 @@
-from .solver import _IterativeSolver, IterativeInitialGuess
+from ._base import IterativeInitialGuess, _IterativeSolver
 import src.matrix_operations as matops
 
 

@@ -79,7 +79,7 @@
 #     FAIL CONDITIONS
 ###########################################################
 
-- name: 2x2, zero guess
+- name: 2x2, zero guess, divergent
   input:
     matA:
       - [2,3]

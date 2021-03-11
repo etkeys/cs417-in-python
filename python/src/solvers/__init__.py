@@ -1,8 +1,8 @@
+from ._base import IterativeInitialGuess, Result, ResultAttributes
 from .gauss_seidel import GaussSeidelSolver
 from .gaussian import GaussianSolver
 from .jacobi import JacobiSolver
 from .ludecomposition import LuDecompositionSolver
-from .solver import ComplexResult, IterativeInitialGuess
 from .sor_solver import SORSolver
 
 
@@ -50,7 +50,7 @@ def get_solver_instance(inputs, options):
 
 
 def get_solver_list():
-    from .solver import _Solver
+    from ._base import _BasicSolver
 
     def is_public(s: str):
         return False if s.__name__.startswith("_") else True
@@ -63,5 +63,5 @@ def get_solver_list():
             subclasses.extend(collect_subclasses(subclass))
         return subclasses
 
-    solvers = sorted(collect_subclasses(_Solver))
+    solvers = sorted(collect_subclasses(_BasicSolver))
     return solvers

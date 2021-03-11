@@ -1,7 +1,7 @@
 from math import isclose
 
-from src.matrix_operations import almost_equal
-from src.solvers import GaussianSolver
+from src.matrix_operations import almost_equal, reshape
+from src.solvers import GaussianSolver, Result, ResultAttributes
 from tests.utils import create_matrix
 
 
@@ -42,23 +42,31 @@ def test_calc_back_solve_vector(name, data, exception):
 
 
 def test_solve(name, data, exception):
-    # print('')
-    # print(data.name)
     inp_matA = create_matrix(data.input.matA)
     inp_matb = create_matrix(data.input.matb)
 
     with exception:
         actor = GaussianSolver(inp_matA, inp_matb)
         act_fresult = actor.solve()
-        act_vresult = actor.result
+        act_result = actor.result
 
         exp_fresult = data.expect.func_result
-        exp_vresult = create_matrix(data.expect.vec_result)
-
-        # print(exp_fresult)
-        # print(exp_vresult)
-        # print(act_fresult)
-        # print(act_vresult)
 
         assert act_fresult == exp_fresult
-        assert almost_equal(act_vresult, exp_vresult)
+        assert isinstance(act_result, Result)
+
+        if act_result.has_error:
+            raise act_result[ResultAttributes.ERROR]
+        else:
+            exp_vec = reshape(create_matrix(data.expect.vec_result), (-1, 1))
+
+            assert all(
+                [
+                    att in act_result
+                    for att in [
+                        ResultAttributes.RESULT_VECTOR,
+                    ]
+                ]
+            )
+
+            assert almost_equal(act_result[ResultAttributes.RESULT_VECTOR], exp_vec)
