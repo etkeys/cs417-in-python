@@ -2,9 +2,8 @@ import numpy as np
 import pytest
 
 import src.matrix_operations as matops
-from src.solvers import JacobiSolver, IterativeInitialGuess
+from src.solvers import JacobiSolver, IterativeInitialGuess, Result, ResultAttributes
 
-from src.solvers.solver import ComplexResult
 from tests.utils import create_matrix
 from . import assert_iterations_count
 
@@ -133,10 +132,10 @@ def test_solve(name, data, exception):
         exp_fresult = data.expect.func_result
 
         assert act_fresult == exp_fresult
-        assert isinstance(act_result, ComplexResult)
+        assert isinstance(act_result, Result)
 
         if act_result.has_error:
-            raise act_result[ComplexResult.Attributes.ERROR]
+            raise act_result[ResultAttributes.ERROR]
         else:
             exp_vec = matops.reshape(create_matrix(data.expect.vec_result), (-1, 1))
             exp_iter_count = data.expect.iter_count
@@ -145,15 +144,15 @@ def test_solve(name, data, exception):
                 [
                     att in act_result
                     for att in [
-                        ComplexResult.Attributes.RESULT_VECTOR,
-                        ComplexResult.Attributes.ITERATIONS,
+                        ResultAttributes.RESULT_VECTOR,
+                        ResultAttributes.ITERATIONS,
                     ]
                 ]
             )
 
             assert matops.almost_equal(
-                act_result[ComplexResult.Attributes.RESULT_VECTOR], exp_vec
+                act_result[ResultAttributes.RESULT_VECTOR], exp_vec
             )
             assert_iterations_count(
-                act_result[ComplexResult.Attributes.ITERATIONS], exp_iter_count
+                act_result[ResultAttributes.ITERATIONS], exp_iter_count
             )

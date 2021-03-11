@@ -2,7 +2,6 @@ import traceback
 
 import src.matrix_operations as matops
 import src.solvers as solvers
-from src.solvers.solver import IterativeInitialGuess
 from src.utils import eprint
 
 
@@ -27,8 +26,10 @@ def add_subparser(subparsers):
     parser.add_argument(
         "--guess",
         action="store",
-        choices=IterativeInitialGuess.as_strings(),
-        default=IterativeInitialGuess.to_string(IterativeInitialGuess.DEFAULT),
+        choices=solvers.IterativeInitialGuess.as_strings(),
+        default=solvers.IterativeInitialGuess.to_string(
+            solvers.IterativeInitialGuess.DEFAULT
+        ),
         type=str,
         help="Specifies the initial guess type for iterative solvers.",
     )
@@ -54,15 +55,12 @@ def main(options):
     solver = solvers.get_solver_instance(inputs, options)
 
     if solver.solve():
-        res = solver.result
+        result = solver.result
+        res_vec = result[solvers.ResultAttributes.RESULT_VECTOR]
+
         add_msgs = []
-        if isinstance(res, solvers.ComplexResult):
-            res_vec = res[solvers.ComplexResult.Attributes.RESULT_VECTOR]
-            add_msgs = [
-                "Iterations: %i" % res[solvers.ComplexResult.Attributes.ITERATIONS]
-            ]
-        else:
-            res_vec = matops.reshape(res, (-1, 1))
+        if solvers.ResultAttributes.ITERATIONS in result:
+            add_msgs = [f"Iterations: {result[solvers.ResultAttributes.ITERATIONS]}"]
 
         err_norm = matops.two_norm_of_error(inputs["matA"], inputs["matb"], res_vec)
         _solve_print_results(
@@ -81,11 +79,7 @@ def main(options):
         return _solve_check_two_norm_within_range(err_norm)
 
     else:
-        res = solver.result
-        if isinstance(res, solvers.ComplexResult):
-            err = res[solvers.ComplexResult.Attributes.ERROR]
-        else:
-            err = res
+        err = solver.result[solvers.ResultAttributes.ERROR]
         eprint("%s solver failed!" % solver.get_solver_name())
         eprint(err)
         eprint(traceback.print_tb(err.__traceback__))

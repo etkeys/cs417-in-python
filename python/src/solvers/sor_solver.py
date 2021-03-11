@@ -1,5 +1,5 @@
+from ._base import IterativeInitialGuess
 from .jacobi import JacobiSolver
-from .solver import IterativeInitialGuess
 
 import src.matrix_operations as matops
 

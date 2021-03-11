@@ -1,13 +1,14 @@
-from .solver import _Solver
+from ._base import _BasicSolver, ResultAttributes
 import src.matrix_operations as matops
 
 
-class GaussianSolver(_Solver):
+class GaussianSolver(_BasicSolver):
     """
     Gauss-Jordan elimination
     """
 
     def __init__(self, matA, matb):
+        super().__init__()
         if not matops.is_matrix(matA):
             raise ValueError("Matrix A missing or not a matrix.")
         if not matops.is_square(matA):
@@ -28,10 +29,13 @@ class GaussianSolver(_Solver):
     def solve(self):
         try:
             self._mat = matops.to_reduced_row_echelon(self._mat)
-            self._result = self._calculate_back_solve_vector()
+            result = self._calculate_back_solve_vector()
+            self._result[ResultAttributes.RESULT_VECTOR] = matops.reshape(
+                result, (-1, 1)
+            )
             return True
         except Exception as ex:
-            self._result = ex
+            self._result[ResultAttributes.ERROR] = ex
             return False
 
     def _calculate_back_solve_vector(self):
