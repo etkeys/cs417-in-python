@@ -7,19 +7,19 @@ class GaussianSolver(_BasicSolver):
     Gauss-Jordan elimination
     """
 
-    def __init__(self, matA, matb):
-        super().__init__()
-        if not matops.is_matrix(matA):
-            raise ValueError("Matrix A missing or not a matrix.")
-        if not matops.is_square(matA):
-            raise ValueError("Matrix A is not square.")
-        if not matops.is_vector(matb):
-            raise ValueError("Matrix b missing or not a vector.")
+    def __init__(self, **kwargs):
+        """
+        :key matA: Matrix A
+        :key matb: Matrix b
+        """
+        super().__init__(**kwargs)
 
         self._mat = (
-            matops.create_augmented(matA, matb)
-            if matops.is_vvector(matb)
-            else matops.create_augmented(matA, matops.reshape(matb, (-1, 1)))
+            matops.create_augmented(self._matA, self._matb)
+            if matops.is_vvector(self._matb)
+            else matops.create_augmented(
+                self._matA, matops.reshape(self._matb, (-1, 1))
+            )
         )
 
     @staticmethod

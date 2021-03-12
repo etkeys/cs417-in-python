@@ -11,21 +11,30 @@ class SORSolver(JacobiSolver):
     Jacobi implements a lot of the same functionality already!!
     """
 
-    def __init__(self, matA, matb, guess_source: IterativeInitialGuess, omega: float):
-        super().__init__(matA, matb, guess_source)
+    def __init__(self, **kwargs):
+        """
+        :key matA: Matrix A
+        :key matb: Matrix b
+        :key guess_source: how guess should be derived, should be an IterativeInitialGuess
+        :key omega: relaxation factor, should be a float
+        """
+        super().__init__(**kwargs)
 
+        if "omega" not in kwargs:
+            raise KeyError("Solver not given omega.")
+
+        omega = kwargs["omega"]
         try:
             if omega is None:
                 raise ValueError("Omega cannot be None")
             if not (0.0 < omega < 2.0):
                 raise ValueError(
-                    "Omega must be in the interval (0,2), but here is %f" % omega
+                    f"Omega must be in the interval (0,2), but here is {omega:.6}"
                 )
             self._omega = omega
         except TypeError:
             raise TypeError(
-                "Omega must be castable to type float, here is %s"
-                % type(omega).__name__
+                f"Omega must be castable to type float, here is {type(omega).__name__}"
             )
 
     @staticmethod

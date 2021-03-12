@@ -2,10 +2,10 @@ import numpy as np
 import pytest
 
 import src.matrix_operations as matops
-from src.solvers import JacobiSolver, IterativeInitialGuess, Result, ResultAttributes
+from src.solvers import JacobiSolver, IterativeInitialGuess
 
 from tests.utils import create_matrix
-from . import assert_iterations_count
+from . import common_test_solve
 
 
 def test_init(name, data, exception):
@@ -15,7 +15,7 @@ def test_init(name, data, exception):
 
     with exception:
         assert inp_guess is not None
-        actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
+        actor = JacobiSolver(matA=inp_matA, matb=inp_matb, guess_source=inp_guess)
         act_guess = actor._guess_source
         act_matA = actor._matA
         act_matb = actor._matb
@@ -36,7 +36,7 @@ def test_build_interim_matricies(name, data, exception):
     inp_matb = create_matrix(data.input.matb)
 
     with exception:
-        actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
+        actor = JacobiSolver(matA=inp_matA, matb=inp_matb, guess_source=inp_guess)
         actor._build_interim_matricies()
 
         act_matC = actor._matC
@@ -57,7 +57,7 @@ def test_calc_iteration_result(name, data, exception):
     inp_matguess = matops.reshape(create_matrix(data.input.mat_guess), (-1, 1))
 
     with exception:
-        actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
+        actor = JacobiSolver(matA=inp_matA, matb=inp_matb, guess_source=inp_guess)
         actor._matC = inp_matC
         actor._matD = inp_matD
         act = actor._calculate_iteration_result(inp_matguess)
@@ -74,7 +74,7 @@ def test_create_guess(name, data, exception):
     inp_skip_build_interim = data.input.skip_build_interim
 
     with exception:
-        actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
+        actor = JacobiSolver(matA=inp_matA, matb=inp_matb, guess_source=inp_guess)
         if not inp_skip_build_interim:
             actor._build_interim_matricies()
         act = actor._create_guess()
@@ -100,7 +100,7 @@ def test_iterate_until_solved(name, data, exception):
     inp_matD = create_matrix(data.input.matD)
 
     with exception:
-        actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
+        actor = JacobiSolver(matA=inp_matA, matb=inp_matb, guess_source=inp_guess)
         actor._matC = inp_matC
         actor._matD = inp_matD
         init_guess = actor._create_guess()
@@ -120,39 +120,4 @@ def test_iterate_until_solved(name, data, exception):
 
 
 def test_solve(name, data, exception):
-    inp_guess = IterativeInitialGuess.from_string(data.input.guess)
-    inp_matA = create_matrix(data.input.matA)
-    inp_matb = create_matrix(data.input.matb)
-
-    with exception:
-        actor = JacobiSolver(inp_matA, inp_matb, inp_guess)
-        act_fresult = actor.solve()
-        act_result = actor.result
-
-        exp_fresult = data.expect.func_result
-
-        assert act_fresult == exp_fresult
-        assert isinstance(act_result, Result)
-
-        if act_result.has_error:
-            raise act_result[ResultAttributes.ERROR]
-        else:
-            exp_vec = matops.reshape(create_matrix(data.expect.vec_result), (-1, 1))
-            exp_iter_count = data.expect.iter_count
-
-            assert all(
-                [
-                    att in act_result
-                    for att in [
-                        ResultAttributes.RESULT_VECTOR,
-                        ResultAttributes.ITERATIONS,
-                    ]
-                ]
-            )
-
-            assert matops.almost_equal(
-                act_result[ResultAttributes.RESULT_VECTOR], exp_vec
-            )
-            assert_iterations_count(
-                act_result[ResultAttributes.ITERATIONS], exp_iter_count
-            )
+    common_test_solve(data, exception, JacobiSolver)

@@ -4,10 +4,10 @@ import numpy as np
 import pytest
 
 import src.matrix_operations as matops
-from src.solvers import SORSolver, IterativeInitialGuess, Result, ResultAttributes
+from src.solvers import SORSolver, IterativeInitialGuess
 
 from tests.utils import create_matrix
-from . import assert_iterations_count
+from . import common_test_solve
 
 _ITER_MAX = SORSolver._ITER_MAX
 
@@ -20,7 +20,9 @@ def test_init(name, data, exception):
 
     with exception:
         assert inp_guess is not None
-        actor = SORSolver(inp_matA, inp_matb, inp_guess, inp_omega)
+        actor = SORSolver(
+            matA=inp_matA, matb=inp_matb, guess_source=inp_guess, omega=inp_omega
+        )
         act_guess = actor._guess_source
         act_matA = actor._matA
         act_matb = actor._matb
@@ -44,7 +46,9 @@ def test_build_interim_matricies(name, data, exception):
     inp_matb = create_matrix(data.input.matb)
 
     with exception:
-        actor = SORSolver(inp_matA, inp_matb, inp_guess, 0.5)
+        actor = SORSolver(
+            matA=inp_matA, matb=inp_matb, guess_source=inp_guess, omega=0.5
+        )
         actor._build_interim_matricies()
 
         act_matD = actor._matD
@@ -67,7 +71,9 @@ def test_calc_iteration_result(name, data, exception):
     inp_omega = data.input.omega
 
     with exception:
-        actor = SORSolver(inp_matA, inp_matb, inp_guess, inp_omega)
+        actor = SORSolver(
+            matA=inp_matA, matb=inp_matb, guess_source=inp_guess, omega=inp_omega
+        )
         inp_guess_mat = actor._create_guess()
 
         act = actor._calculate_iteration_result(inp_guess_mat)
@@ -88,7 +94,9 @@ def test_create_guess(name, data, exception):
     inp_skip_build_interim = data.input.skip_build_interim
 
     with exception:
-        actor = SORSolver(inp_matA, inp_matb, inp_guess, 0.5)
+        actor = SORSolver(
+            matA=inp_matA, matb=inp_matb, guess_source=inp_guess, omega=0.5
+        )
         if not inp_skip_build_interim:
             actor._build_interim_matricies()
         act = actor._create_guess()
@@ -116,7 +124,9 @@ def test_iterate_until_solved(name, data, exception):
     inp_matb = create_matrix(data.input.matb)
 
     with exception:
-        actor = SORSolver(inp_matA, inp_matb, inp_guess, 0.5)
+        actor = SORSolver(
+            matA=inp_matA, matb=inp_matb, guess_source=inp_guess, omega=0.5
+        )
         init_guess = actor._create_guess()
         act_vec, act_iter_count = actor._iterate_until_solved(init_guess)
         print(act_vec)
@@ -135,39 +145,4 @@ def test_iterate_until_solved(name, data, exception):
 
 
 def test_solve(name, data, exception):
-    inp_guess = IterativeInitialGuess.from_string(data.input.guess)
-    inp_matA = create_matrix(data.input.matA)
-    inp_matb = create_matrix(data.input.matb)
-
-    with exception:
-        actor = SORSolver(inp_matA, inp_matb, inp_guess, 0.5)
-        act_fresult = actor.solve()
-        act_result = actor.result
-
-        exp_fresult = data.expect.func_result
-
-        assert act_fresult == exp_fresult
-        assert isinstance(act_result, Result)
-
-        if act_result.has_error:
-            raise act_result[ResultAttributes.ERROR]
-        else:
-            exp_vec = matops.reshape(create_matrix(data.expect.vec_result), (-1, 1))
-            exp_iter_count = data.expect.iter_count
-
-            assert all(
-                [
-                    att in act_result
-                    for att in [
-                        ResultAttributes.RESULT_VECTOR,
-                        ResultAttributes.ITERATIONS,
-                    ]
-                ]
-            )
-
-            assert matops.almost_equal(
-                act_result[ResultAttributes.RESULT_VECTOR], exp_vec
-            )
-            assert_iterations_count(
-                act_result[ResultAttributes.ITERATIONS], exp_iter_count
-            )
+    common_test_solve(data, exception, SORSolver)

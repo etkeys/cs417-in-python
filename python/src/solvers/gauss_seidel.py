@@ -3,9 +3,15 @@ import src.matrix_operations as matops
 
 
 class GaussSeidelSolver(_IterativeSolver):
-    def __init__(self, matA, matb, guess_source: IterativeInitialGuess):
-        super().__init__(matA, matb, guess_source)
-        if guess_source == IterativeInitialGuess.DEFAULT:
+    def __init__(self, **kwargs):
+        """
+        :key matA: Matrix A
+        :key matb: Matrix b
+        :key guess_source: how guess should be derived, should be an IterativeInitialGuess
+        """
+        super().__init__(**kwargs)
+
+        if self._guess_source == IterativeInitialGuess.DEFAULT:
             self._guess_source = IterativeInitialGuess.MATRIX_C
 
     @staticmethod

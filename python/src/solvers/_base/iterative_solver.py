@@ -1,4 +1,5 @@
 from math import isclose
+from typing import Type
 
 from .basic_solver import _BasicSolver
 from .enumerations import IterativeInitialGuess, ResultAttributes
@@ -17,23 +18,36 @@ class _IterativeSolver(_BasicSolver):
         IterativeInitialGuess.RANDOM_MATRIX,
     ]
 
-    def __init__(self, matA, matb, guess_source: IterativeInitialGuess):
-        super().__init__()
-        if not matops.is_matrix(matA):
-            raise ValueError("Matrix A missing or not a matrix.")
-        if not matops.is_square(matA):
-            raise ValueError("Matrix A is not square.")
-        if not matops.is_vector(matb):
-            raise ValueError("Matrix b missing or not a vector.")
+    def __init__(self, **kwargs):
+        """
+        :key matA: Matrix A
+        :key matb: Matrix b
+        :key guess_source: how guess should be derived, should be an IterativeInitialGuess
+        """
+        super().__init__(**kwargs)
+
+        if "guess_source" not in kwargs:
+            raise KeyError("Solver not given guess source.")
+
+        guess_source = kwargs["guess_source"]
+        if not isinstance(guess_source, IterativeInitialGuess):
+            if isinstance(guess_source, str):
+                guess_source = IterativeInitialGuess.from_string(guess_source)
+            else:
+                raise TypeError(
+                    f"Cannot convert {guess_source} to proper guess source because it is {type(guess_source).__name__}."
+                )
+
         if guess_source not in self._allowed_guess_sources:
             raise ValueError(
-                "Guess choice {} is not valid in this context.".format(guess_source)
+                f"Guess choice {guess_source} is not valid in this context."
             )
 
         self._guess_source = guess_source
-        self._matA = matops.deepcopy(matA)
-        self._matb = matops.deepcopy(
-            matb if matops.is_vvector(matb) else matops.reshape(matb, (-1, 1))
+        self._matb = (
+            self._matb
+            if matops.is_vvector(self._matb)
+            else matops.reshape(self._matb, (-1, 1))
         )
 
     def solve(self):

@@ -3,14 +3,20 @@ import src.matrix_operations as matops
 
 
 class JacobiSolver(_IterativeSolver):
-    def __init__(self, matA, matb, guess_source: IterativeInitialGuess):
+    def __init__(self, **kwargs):
+        """
+        :key matA: Matrix A
+        :key matb: Matrix b
+        :key guess_source: how guess should be derived, should be an IterativeInitialGuess
+        """
         self._allowed_guess_sources = [
             IterativeInitialGuess.DEFAULT,
             IterativeInitialGuess.MATRIX_OF_ZEROS,
             IterativeInitialGuess.RANDOM_MATRIX,
         ]
-        super().__init__(matA, matb, guess_source)
-        if guess_source == IterativeInitialGuess.DEFAULT:
+        super().__init__(**kwargs)
+
+        if self._guess_source == IterativeInitialGuess.DEFAULT:
             self._guess_source = IterativeInitialGuess.MATRIX_OF_ZEROS
 
     @staticmethod

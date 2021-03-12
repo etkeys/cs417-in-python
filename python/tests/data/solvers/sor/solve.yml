@@ -9,7 +9,7 @@
       - [16, 3]
       - [7, -11]
     matb: [11, 13]
-    guess: zero
+    guess_source: zero
     omega: 0.5
   expect:
     func_result: true
@@ -25,7 +25,7 @@
       - [2, -1, 10, -1]
       - [0, 3, -1, 8]
     matb: [6, 25, -11, 15]
-    guess: zero
+    guess_source: zero
     omega: 0.5
   expect:
     func_result: true
@@ -42,7 +42,8 @@
       - [0, 3]
       - [3, 1]
     matb: [1, 0]
-    guess: random
+    guess_source: random
+    omega: 1
   expect:
       func_result: false
       throws: ~
@@ -53,7 +54,8 @@
       - [2, 3]
       - [5, 7]
     matb: [11, 13]
-    guess: random
+    guess_source: random
+    omega: 1.0
   expect:
     func_result: false
     vec_result: [-38, 29]
