@@ -1,7 +1,9 @@
 import argparse
+import traceback
 
 from src import make, solve
-from src.exceptions import DivergentSolution
+import src.exceptions as app_errors
+from src.exit_codes import ExitCodes
 from src.utils import eprint
 
 
@@ -15,33 +17,37 @@ def main():
         solve.add_subparser(subparsers)
         options = parser.parse_args()
 
-        success = False
         if options.action == "make":
-            success = make.main(options)
+            make.main(options)
         elif options.action == "solve":
-            success = solve.main(options)
+            solve.main(options)
 
-        if not success:
-            exit(1)
-        exit(0)
+        exit(ExitCodes.SUCCESS)
     except argparse.ArgumentError as e:
         eprint(e)
-        exit(2)
-    except DivergentSolution as e:
+        exit(ExitCodes.BAD_CLI)
+    except app_errors.DivergentSolution as e:
         eprint(e)
-        exit(3)
+        eprint(traceback.print_tb(e.__traceback__))
+        exit(ExitCodes.DIVERGENT_SOLUTION)
     except FileNotFoundError as e:
         eprint(e)
-        exit(1)
+        exit(ExitCodes.GENERAL_ERROR)
+    except app_errors.SolutionValidation as e:
+        eprint(e)
+        exit(ExitCodes.SOLUTION_INCORRECT)
     except TypeError as e:
         eprint(e)
-        exit(1)
+        exit(ExitCodes.GENERAL_ERROR)
     except ValueError as e:
         eprint(e)
-        exit(1)
+        exit(ExitCodes.GENERAL_ERROR)
+    except ZeroDivisionError as e:
+        eprint(e)
+        exit(ExitCodes.GENERAL_ERROR)
     except Exception as e:
         eprint("%s: %s" % (type(e).__name__, e))
-        exit(127)
+        exit(ExitCodes.UNEXPECTED_ERROR)
 
 
 if __name__ == "__main__":

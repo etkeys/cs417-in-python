@@ -3,3 +3,7 @@ class DivergentSolution(Exception):
 
     def __init__(self, solver_name, *args: object) -> None:
         super().__init__(("%s solution is divergent!" % solver_name), *args)
+
+
+class SolutionValidation(Exception):
+    """Raised when a calculated solution does not match expected results"""

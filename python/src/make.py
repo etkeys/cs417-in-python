@@ -43,7 +43,6 @@ def _convert_legacy_files(directory):
 
 
 def main(options):
-    # print(options)
     if getattr(options, "legacy_dir") is not None:
         inputs = _convert_legacy_files(options.legacy_dir)
     else:
@@ -55,4 +54,3 @@ def main(options):
     tdir = matops.write_files(inputs, directory=options.directory)
 
     print(tdir)
-    return True

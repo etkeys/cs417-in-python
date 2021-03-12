@@ -86,46 +86,46 @@
   input:
     args2: [gaussian, --check]
     dir: 3x3_bad_soln
-  expect: 1
+  expect: 4
 
 - name: ludecomposition, 3x3_bad_soln
   input:
     args2: [ludecomposition, --check]
     dir: 3x3_bad_soln
-  expect: 1
+  expect: 4
 
 - name: jacobi, 3x3_bad_soln
   input:
     args2: [jacobi, --check]
     dir: 3x3_bad_soln
-  expect: 1
+  expect: 4
 
 - name: jacobi, divergent
   input:
     args2: [jacobi, --check]
     dir: 2x2_divergent
-  expect: 1
+  expect: 3
 
 - name: gaussseidel, 3x3_bad_soln
   input:
     args2: [gaussseidel, --check]
     dir: 3x3_bad_soln
-  expect: 1
+  expect: 4
 
 - name: gaussseidel, divergent
   input:
     args2: [gaussseidel, --check]
     dir: 2x2_divergent
-  expect: 1
+  expect: 3
 
 - name: sor, 3x3_bad_soln
   input:
     args2: [sor, --check]
     dir: 3x3_bad_soln
-  expect: 1
+  expect: 4
 
 - name: sor, divergent
   input:
     args2: [sor, --check]
     dir: 2x2_divergent
-  expect: 1
+  expect: 3
