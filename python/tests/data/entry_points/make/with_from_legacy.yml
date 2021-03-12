@@ -5,51 +5,51 @@
 
 - name: 2x2
   setup:
-    - delete_dir: '/tmp/makemat'
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
   input:
     args: [--from-legacy]
     data_dir: 2x2
   expect:
     returncode: 0
     matrix_size: 2
-    out_dir: /tmp/makemat
+    out_dir: '{{ DEFAULT_OUT_DIR }}'
     
 - name: 10x10
   setup:
-    - delete_dir: '/tmp/makemat'
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
   input:
     args: [--from-legacy]
     data_dir: 10x10
   expect:
     returncode: 0
     matrix_size: 10
-    out_dir: /tmp/makemat
+    out_dir: '{{ DEFAULT_OUT_DIR }}'
 
 - name: with -d flag
   setup:
-    - delete_dir: '/tmp/makemat'
-    - delete_dir: '/tmp/makemat2'
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
+    - delete_dir: '{{ TMP_DIR }}makemat2'
   input:
     args: [--from-legacy]
-    args2: [-d, /tmp/makemat2]
+    args2: [-d, '{{ TMP_DIR }}makemat2']
     data_dir: 10x10
   expect:
     returncode: 0
     matrix_size: 10
-    out_dir: /tmp/makemat2
+    out_dir: '{{ TMP_DIR }}makemat2'
   teardown:
-    - delete_dir: '/tmp/makemat2'
+    - delete_dir: '{{ TMP_DIR }}makemat2'
 
 - name: with omega.def
   setup:
-    - delete_dir: '/tmp/makemat'
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
   input:
     args: [--from-legacy]
     data_dir: 10x10_with_omega
   expect:
     returncode: 0
     matrix_size: 10
-    out_dir: /tmp/makemat
+    out_dir: '{{ DEFAULT_OUT_DIR }}'
 
 ###########################################################
 #     FAIL CONDITIONS
@@ -57,39 +57,36 @@
 
 - name: bad path; no argument provided
   setup:
-    - delete_dir: '/tmp/makemat'
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
   input:
     args: [--from-legacy]
   expect:
     returncode: 2
     matrix_size: 2
-    out_dir: /tmp/makemat
 
 - name: bad path; provided argument does not exist
   setup:
-    - delete_dir: '/tmp/makemat'
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
   input:
     args: [--from-legacy]
     data_dir: does_not_exist
   expect:
     returncode: 1
     matrix_size: 2
-    out_dir: /tmp/makemat
 
 - name: bad path; size also given
   setup:
-    - delete_dir: '/tmp/makemat'
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
   input:
     args: ["2", --from-legacy]
     data_dir: 2x2
   expect:
     returncode: 2
     matrix_size: 2
-    out_dir: /tmp/makemat
 
 - name: bad path; size also given (swap order)
   setup:
-    - delete_dir: '/tmp/makemat'
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
   input:
     args: [--from-legacy]
     args2: ["2"]
@@ -97,4 +94,3 @@
   expect:
     returncode: 2
     matrix_size: 2
-    out_dir: /tmp/makemat
