@@ -6,38 +6,31 @@ from .ludecomposition import LuDecompositionSolver
 from .sor_solver import SORSolver
 
 
-def get_solver_instance(name, inputs):
-    # TODO Can this name lookup be done via dictionary?
-    # For example:
-    #   mapping = {'gaussian': _create_gaussian_instance}
-    # Or by a static method, create_instance, available on all solvers?
-    if "gaussian" == name:
-        return GaussianSolver(**inputs)
-    elif "ludecomposition" == name:
-        return LuDecompositionSolver(**inputs)
-    elif JacobiSolver.get_solver_name().lower() == name:
-        return JacobiSolver(**inputs)
-    elif GaussSeidelSolver.get_solver_name().lower() == name:
-        return GaussSeidelSolver(**inputs)
-    elif SORSolver.get_solver_name().lower() == name:
-        return SORSolver(**inputs)
-    else:
-        raise ValueError(f'Solver "{name}" has no create implementation.')
-
-
-def get_solver_list():
+def _get_solver_classes():
+    """Returns dict collection of solver names to static class reference"""
     from ._base import _BasicSolver
 
     def is_public(s: str):
         return False if s.__name__.startswith("_") else True
 
     def collect_subclasses(seed):
-        subclasses = []
+        subclasses = {}
         for subclass in seed.__subclasses__():
             if is_public(subclass):
-                subclasses.append(subclass.get_solver_name().lower())
-            subclasses.extend(collect_subclasses(subclass))
+                subclasses[subclass.get_solver_name().lower()] = subclass
+            subclasses = {**subclasses, **(collect_subclasses(subclass))}
         return subclasses
 
-    solvers = sorted(collect_subclasses(_BasicSolver))
+    return collect_subclasses(_BasicSolver)
+
+
+def get_solver_instance(name, inputs):
+    solvers = _get_solver_classes()
+    if name not in solvers:
+        raise KeyError(f'Solver "{name}" does not exist.')
+    return solvers[name](**inputs)
+
+
+def get_solver_list():
+    solvers = sorted(list(_get_solver_classes().keys()))
     return solvers
