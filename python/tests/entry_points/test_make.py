@@ -18,7 +18,8 @@ def _assert_expected_matrix_sizes(directory, exp_size):
         else:
             assert matops.count_columns(vector) == exp_size
 
-    if not path.isdir(directory):
+    # if not path.isdir(directory):
+    if directory is None:
         # directory doesn't exist, we weren't supposed to do this assert so
         # just silently continue
         return
@@ -48,13 +49,15 @@ def test_with_directory(name, data, exception, mocker, base_args):
     pkg_setup(data)
 
     inp = data.input
-    base_args.extend(inp)
+    base_args.extend([utils.expand_data_variables(v) for v in inp])
 
     exp_code = data.expect.returncode
     assert_call_app_main(mocker, base_args, exp_code)
 
-    exp_dir = data.expect.get("dir_exists")
+    exp_dir = utils.expand_data_variables(data.expect.get("dir_exists"))
     assert True if exp_dir is None else utils.check_dir_exists(exp_dir)
+
+    pkg_teardown(data)
 
 
 def test_with_from_legacy(name, data, exception, mocker, base_args, data_dir):
@@ -64,14 +67,15 @@ def test_with_from_legacy(name, data, exception, mocker, base_args, data_dir):
     if "data_dir" in data.input:
         inp_args.append(path.join(data_dir, data.input.data_dir))
     if "args2" in data.input:
-        inp_args.extend(data.input.args2)
+        inp_args.extend([utils.expand_data_variables(v) for v in data.input.args2])
     base_args.extend(inp_args)
 
     exp_code = data.expect.returncode
     assert_call_app_main(mocker, base_args, exp_code)
 
+    exp_dir = utils.expand_data_variables(data.expect.get("out_dir"))
     exp_size = data.expect.get("matrix_size")
-    _assert_expected_matrix_sizes(_DEFAULT_OUT_DIR, exp_size)
+    _assert_expected_matrix_sizes(exp_dir, exp_size)
 
     pkg_teardown(data)
 

@@ -5,40 +5,46 @@
 
 - name: happy path (1), short arg
   setup:
-    - delete_dir: '/tmp/makemat'
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
   input: ['10', '-d', 'makemat']
   expect:
     returncode: 0
-    dir_exists: /tmp/makemat
+    dir_exists: '{{ TMP_DIR }}makemat'
+  teardown:
+    - delete_dir: '{{ TMP_DIR }}makemat'
 
 - name: happy path (2), long arg
   setup:
-    - delete_dir: /tmp/makemat
+    - delete_dir: '{{ DEFAULT_OUT_DIR }}'
   input: ['10', '--directory', 'makemat']
   expect:
     returncode: 0
-    dir_exists: /tmp/makemat
+    dir_exists: '{{ TMP_DIR }}makemat'
+  teardown:
+    - delete_dir: '{{ TMP_DIR }}makemat'
 
 - name: happy path (3), non default dir in tmp
   setup:
     - delete_dir:
-        - /tmp/makemat
-        - /tmp/not-default-makemat
+        - '{{ DEFAULT_OUT_DIR }}'
+        - '{{ TMP_DIR }}not-default-makemat'
   input: ['10', '-d', 'not-default-makemat']
   expect:
     returncode: 0
-    dir_exists: /tmp/not-default-makemat
+    dir_exists: '{{ TMP_DIR }}not-default-makemat'
+  teardown:
+    - delete_dir: '{{ TMP_DIR }}not-default-makemat'
 
 - name: happy path (4), non default dir is absolute path
   setup:
     - delete_dir:
-        - /tmp/makemat
-        - /tmp/not-default-makemat
-        - /tmp/some-dir
-  input: ['10', '-d', '/tmp/some-dir/not-default-makemat']
+        - '{{ DEFAULT_OUT_DIR }}'
+        - '{{ TMP_DIR }}not-default-makemat'
+        - '{{ TMP_DIR }}some-dir'
+  input: ['10', '-d', '{{ TMP_DIR }}some-dir/not-default-makemat']
   expect:
     returncode: 0
-    dir_exists: /tmp/some-dir/not-default-makemat
+    dir_exists: '{{ TMP_DIR }}some-dir/not-default-makemat'
 
 ###########################################################
 #     FAIL CONDITIONS
@@ -47,9 +53,9 @@
 - name: bad path (1), missing directory value
   setup:
     - delete_dir:
-        - /tmp/makemat
-        - /tmp/not-default-makemat
-        - /tmp/some-dir
+        - '{{ DEFAULT_OUT_DIR }}'
+        - '{{ TMP_DIR }}not-default-makemat'
+        - '{{ TMP_DIR }}some-dir'
   input: ['10', '-d']
   expect:
     returncode: 2

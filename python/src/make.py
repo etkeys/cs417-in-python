@@ -1,3 +1,7 @@
+from os import path
+from tempfile import gettempdir
+
+from src.constants import _DEFAULT_OUT_DIR
 import src.matrix_operations as matops
 
 
@@ -51,6 +55,7 @@ def main(options):
         inputs["matsoln"] = matops.create_random(options.size, True)
         inputs["matb"] = matops.multiply(inputs["matA"], inputs["matsoln"])
 
-    tdir = matops.write_files(inputs, directory=options.directory)
+    out_dir = options.directory if options.directory is not None else _DEFAULT_OUT_DIR
+    final_dir = matops.write_files(inputs, out_dir)
 
-    print(tdir)
+    print(final_dir)

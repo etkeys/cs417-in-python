@@ -1,10 +1,12 @@
 from pydoc import locate
 import os
+import re
 import shutil
 
 import numpy as np
 
 from src.exceptions import DivergentSolution
+from tests import _SUBSITUTION_MAPPING
 from .recursive_namespace import RecursiveNamespace
 
 
@@ -17,10 +19,29 @@ def check_dir_exists(path):
     return os.path.isdir(path)
 
 
+def expand_data_variables(raw_val):
+    if raw_val is None:
+        return raw_val
+    raw_matches = re.findall(r"\{\{ \w+ \}\}", raw_val)
+    tokens = [re.findall(r"\w+", m)[0] for m in raw_matches]
+
+    no_mapping = set(tokens) - _SUBSITUTION_MAPPING.keys()
+    if len(no_mapping) > 0:
+        raise KeyError(
+            f"The following tokens have no substitution mapping: {list(no_mapping)}."
+        )
+
+    ret = raw_val
+    for m, t in zip(raw_matches, tokens):
+        ret = ret.replace(m, _SUBSITUTION_MAPPING[t])
+    return ret
+
+
 def delete_dir(path):
     def delete_dir_single(single_path):
-        if check_dir_exists(single_path):
-            shutil.rmtree(single_path)
+        target = expand_data_variables(single_path)
+        if check_dir_exists(target):
+            shutil.rmtree(target)
 
     if isinstance(path, list):
         for p in path:

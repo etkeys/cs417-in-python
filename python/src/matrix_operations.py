@@ -505,9 +505,7 @@ def percent_error(vec_actual, vec_expected):
     return ret
 
 
-def write_files(items_dict, **kwargs):
-    arg_directory = kwargs.get("directory", None)
-    out_dir = "makemat" if not arg_directory else arg_directory
+def write_files(items_dict, out_dir):
     out_dir = out_dir if path.isabs(out_dir) else path.join(gettempdir(), out_dir)
     makedirs(out_dir, exist_ok=True)
 
