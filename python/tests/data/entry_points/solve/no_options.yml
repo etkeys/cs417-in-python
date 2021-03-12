@@ -131,16 +131,16 @@
   input:
     args2: [jacobi]
     dir: 2x2_divergent
-  expect: 1
+  expect: 3
 
 - name: divergent, gaussseidel
   input:
     args2: [gaussseidel]
     dir: 2x2_divergent
-  expect: 1
+  expect: 3
 
 - name: divergent, sor
   input:
     args2: [sor]
     dir: 2x2_divergent
-  expect: 1
+  expect: 3

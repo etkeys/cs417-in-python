@@ -1,5 +1,6 @@
 import traceback
 
+import src.exceptions as app_errors
 import src.matrix_operations as matops
 import src.solvers as solvers
 from src.utils import eprint
@@ -72,20 +73,19 @@ def main(options):
         if options.check:
             if not matops.almost_equal(res_vec, inputs["matsoln"]):
                 err_percent = matops.percent_error(res_vec, inputs["matsoln"])
-                eprint("Calculated result does not match expected solution.")
-                eprint("Two norm of error: %.6f" % err_norm)
-                eprint("Percent error: %.6f" % err_percent)
-                eprint("Files: %s" % options.dir)
-                return False
+                raise app_errors.SolutionValidation(
+                    f"Caclulated result does not match expected solution.\n"
+                    f"Two norm of error: {err_norm:.6f}\n"
+                    f"Percent error: {err_percent:.6f}\n"
+                    f"files: {options.dir}"
+                )
 
-        return _solve_check_two_norm_within_range(err_norm)
+        _solve_check_two_norm_within_range(err_norm)
 
     else:
-        err = solver.result[solvers.ResultAttributes.ERROR]
         eprint("%s solver failed!" % solver.get_solver_name())
-        eprint(err)
-        eprint(traceback.print_tb(err.__traceback__))
-        return False
+        err = solver.result[solvers.ResultAttributes.ERROR]
+        raise err
 
 
 def _solve_check_two_norm_within_range(norm_err):
@@ -93,9 +93,9 @@ def _solve_check_two_norm_within_range(norm_err):
     u = 0.0005
 
     if not (l <= norm_err <= u):
-        eprint('Two norm of err "%.6f" not in range [%f, %f]' % (norm_err, l, u))
-        return False
-    return True
+        raise app_errors.SolutionValidation(
+            f'Two norm of error "{norm_err:.6f} not in range [{l}, {u}].'
+        )
 
 
 def _solve_print_results(solver_name, result_vec, norm_err, quite, *args):
