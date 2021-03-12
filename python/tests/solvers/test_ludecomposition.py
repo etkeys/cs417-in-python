@@ -1,7 +1,5 @@
 from math import isclose
 
-import numpy as np
-
 import src.matrix_operations as matops
 from src.solvers import LuDecompositionSolver
 from tests.utils import create_matrix
@@ -30,7 +28,7 @@ def test_calc_l_column(name, data, exception):
     inp_matU = create_matrix(data.input.matU)
     inp_column = data.input.column
     inp_limit = data.input.limit
-    inp_matb = np.ones(inp_limit)
+    inp_matb = matops.create_ones(inp_limit)
 
     with exception:
         actor = LuDecompositionSolver(matA=inp_matA, matb=inp_matb)
@@ -49,7 +47,7 @@ def test_calc_u_row(name, data, exception):
     inp_matU = create_matrix(data.input.matU)
     inp_column = data.input.row
     inp_limit = data.input.limit
-    inp_matb = np.ones(inp_limit)
+    inp_matb = matops.create_ones(inp_limit)
 
     with exception:
         actor = LuDecompositionSolver(matA=inp_matA, matb=inp_matb)
