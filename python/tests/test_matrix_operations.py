@@ -124,6 +124,19 @@ def test_create_inverted(name, data, exception):
         assert matops.almost_equal(act, exp)
 
 
+def test_create_ones(name, data, exception):
+    inp_cols = data.input.columns
+    inp_rows = data.input.rows
+
+    with exception:
+        act = matops.create_ones(inp_rows, inp_cols)
+
+        exp = create_matrix(data.expect.mat)
+
+        assert act.shape == exp.shape
+        assert matops.almost_equal(act, exp)
+
+
 def test_create_random(name, data, exception):
     inp_single_column = data.input.single_column
     inp_size = data.input.size

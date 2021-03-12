@@ -80,6 +80,19 @@ def create_based_on_u_component(matrix, diag_zero: bool = True):
     return np.triu(matrix, offset)
 
 
+def _create_fill_with_constant(const_val, rows: int = None, columns: int = None):
+    if not rows or rows < 1:
+        rows = 1
+    if columns and columns < 1:
+        raise ValueError("Columns is {}, but expected at least 1.".format(columns))
+
+    inp = (rows, columns) if columns is not None and columns > 0 else rows
+    if const_val == 1:
+        return np.ones(inp)
+    else:
+        return np.zeros(inp)
+
+
 def create_identity(size):
     if not isinstance(size, int):
         raise TypeError("SIZE expected to be type in, but here is %s" % type(size))
@@ -100,6 +113,10 @@ def create_inverted(matrix):
     ret = np.linalg.inv(matrix)
 
     return ret
+
+
+def create_ones(rows: int = None, columns: int = None):
+    return _create_fill_with_constant(1, rows, columns)
 
 
 def create_random(size, single_column=False):
@@ -128,13 +145,7 @@ def create_random_diagonal_dominate(size):
 
 
 def create_zeros(rows: int = None, columns: int = None):
-    if not rows or rows < 1:
-        rows = 1
-    if columns and columns < 1:
-        raise ValueError("Columns is {}, but expected at least 1.".format(columns))
-
-    inp = (rows, columns) if columns is not None and columns > 0 else rows
-    return np.zeros(inp)
+    return _create_fill_with_constant(0, rows, columns)
 
 
 def deepcopy(inp, do_it=True):

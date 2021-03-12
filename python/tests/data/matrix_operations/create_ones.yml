@@ -1,0 +1,81 @@
+
+# NOTE!! create_ones should emulate numpy.ones
+
+- name: 2x2
+  input:
+    rows: 2
+    columns: 2
+  expect:
+    mat: 
+      - [1., 1.]
+      - [1., 1.]
+
+- name: 3x1
+  input:
+    rows: 3
+    columns: 1
+  expect:
+    mat: 
+      - [1.]
+      - [1.]
+      - [1.]
+
+- name: NonexNone
+  input:
+    rows: ~
+    columns: ~
+  expect:
+    mat: [1.]
+
+- name: 2xNone
+  input:
+    rows: 2
+    columns: ~
+  expect:
+    mat: [1., 1.]
+
+- name: 1x3 (1), explicit row
+  input:
+    rows: 1
+    columns: 3
+  expect:
+    mat: 
+      - [1., 1., 1.]
+
+- name: 1x3 (2), implicit row
+  input:
+    rows: ~
+    columns: 3
+  expect:
+    mat:
+      - [1., 1., 1.]
+
+- name: 2x0
+  input:
+    rows: 2
+    columns: 0
+  expect:
+    mat: [1., 1.]
+
+- name: "0x2"
+  input:
+    rows: 0
+    columns: 2
+  expect:
+    mat:
+      - [1., 1.]
+
+- name: 2xNeg
+  input:
+    rows: 2
+    columns: -3
+  expect:
+    throws: ~
+
+- name: Negx2
+  input:
+    rows: -3
+    columns: 2
+  expect:
+    mat:
+      - [1., 1.]
