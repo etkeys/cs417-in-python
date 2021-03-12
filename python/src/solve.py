@@ -52,7 +52,9 @@ def add_subparser(subparsers):
 
 def main(options):
     inputs = matops.load_files(options.dir)
-    solver = solvers.get_solver_instance(inputs, options)
+    inputs["guess_source"] = solvers.IterativeInitialGuess.from_string(options.guess)
+    inputs["omega"] = options.omega
+    solver = solvers.get_solver_instance(options.solver, inputs)
 
     if solver.solve():
         result = solver.result

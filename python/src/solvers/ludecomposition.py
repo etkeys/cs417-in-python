@@ -11,17 +11,12 @@ class LuDecompositionSolver(_BasicSolver):
     Crout LU decomposition
     """
 
-    def __init__(self, matA, matb):
-        super().__init__()
-        if not matops.is_matrix(matA):
-            raise ValueError("Matrix A missing or not a matrix.")
-        if not matops.is_square(matA):
-            raise ValueError("Matrix A is not square.")
-        if not matops.is_vector(matb):
-            raise ValueError("Matrix b missing or not a vector.")
-
-        self._matA = matA
-        self._matb = matb if matops.is_hvector(matb) else matops.reshape(matb, -1)
+    def __init__(self, **kwargs):
+        """
+        :key matA: Matrix A
+        :key matb: Matrix b
+        """
+        super().__init__(**kwargs)
 
     @staticmethod
     def get_solver_name():
@@ -35,7 +30,7 @@ class LuDecompositionSolver(_BasicSolver):
             self._result[ResultAttributes.ERROR] = ex
             return False
 
-        gs = GaussianSolver(matU, maty)
+        gs = GaussianSolver(matA=matU, matb=maty)
         ret = gs.solve()
         self._result = gs.result
         return ret
