@@ -125,13 +125,12 @@ def create_random(size, single_column=False):
 
     columns = 1 if single_column else size
 
-    # TODO use numpy.random to generate this matrix
-    # https://stackoverflow.com/a/8489498
-    mat = np.zeros((size, columns))
-    for i in range(size):
-        mat[i, :] = [uniform(-20, 20) for c in range(columns)]
-
-    return mat
+    b = 20
+    a = -b
+    rng = np.random.default_rng()
+    # from np.random.Generator.random docs..
+    # To sample from interval [a, b), b > a; multiply random by (b-a) and add a
+    return (b - a) * rng.random((size, columns)) + a
 
 
 def create_random_diagonal_dominate(size):
