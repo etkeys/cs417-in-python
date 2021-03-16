@@ -5,7 +5,22 @@ from src.solvers import LuDecompositionSolver
 from tests.utils import create_matrix
 from . import common_test_solve
 
-# TODO need to test for __init__
+
+def test_init(name, data, exception):
+    inp_matA = create_matrix(data.input.matA)
+    inp_matb = create_matrix(data.input.matb)
+
+    with exception:
+        actor = LuDecompositionSolver(matA=inp_matA, matb=inp_matb)
+        act_matA = actor._matA
+        act_matb = actor._matb
+
+        exp_matA = create_matrix(data.expect.matA)
+        exp_matb = create_matrix(data.expect.matb)
+        exp_mat = create_matrix(data.expect.mat)
+
+        assert matops.almost_equal(act_matA, exp_matA)
+        assert matops.almost_equal(act_matb, exp_matb)
 
 
 def test_calc_forward_solve_vector(name, data, exception):
