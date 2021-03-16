@@ -150,7 +150,6 @@ def test_create_random(name, data, exception):
         assert act.shape == (exp_rows, exp_columns)
 
 
-@pytest.mark.xfail(reason="random failing during random value generation")
 def test_create_random_diag_dominate(name, data, exception):
     inp_size = data.input.size
 
@@ -162,8 +161,9 @@ def test_create_random_diag_dominate(name, data, exception):
         assert act.shape == (exp_size, exp_size)
 
         diag = act.diagonal()
-        bigs = act.max(0)
+        bigs = act.max(1)
 
+        print(act)
         assert matops.almost_equal(diag, bigs)
 
 
