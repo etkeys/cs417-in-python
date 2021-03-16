@@ -42,19 +42,19 @@ jobs:
           pip install -r ./python/requirements.txt
 
       - name: Check code formatting
-        run: ./python/.scripts/check-black-formatting.bash
+        run: ./python/scripts/check-black-formatting.bash
 
       - name: Run unittests
         run: |
           cd ./python
-          .scripts/run-unittests.bash
+          scripts/run-unittests.bash
 
       - name: Run simulated use cases
         run: |
           cd ./python
-          .scripts/run-simulated-cases.bash
+          scripts/run-simulated-cases.bash
 
       - name: Run assignments
         run: |
           cd ./python
-          .scripts/run-assignments.bash
+          scripts/run-assignments.bash
