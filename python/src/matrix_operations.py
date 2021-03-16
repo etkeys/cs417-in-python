@@ -475,21 +475,13 @@ def to_reduced_row_echelon(matrix):
 
 
 def two_norm_of_error(matA, matb, matx):
-    from math import sqrt
-
     if matA is None or matb is None or matx is None:
         raise ValueError(
             "Either input MatrixA, MatrixB, or solution matrix MatrixX is None."
         )
 
-    # reshape matx from 1xN to be Nx1 if need be
-    x = matx.reshape((matx.shape[0], 1)) if len(matx.shape) == 1 else matx
-
-    ax = multiply(matA, x)
-    bax = subtract(matb, ax)
-    ret = np.sum(bax[:, 0] ** 2)
-    ret = sqrt(ret)
-
+    x = matx if is_vvector(matx) else reshape(matx, (-1, 1))
+    ret = np.linalg.norm(subtract(multiply(matA, x), matb))
     return ret
 
 
