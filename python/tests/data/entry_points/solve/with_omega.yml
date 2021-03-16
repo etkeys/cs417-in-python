@@ -45,19 +45,17 @@
     dir: 3x3
   expect: 0
 
-# TODO these values cause dirvergence. Need to come back
-#     and make passing tests when Divergent error is a thing
-# - name: sor, 3x3 omega 0.00001
-#   input:
-#     args2: [sor, --omega, "0.00001"]
-#     dir: 3x3
-#   expect: 0
+- name: sor, 3x3 omega 0.00001
+  input:
+    args2: [sor, --omega, "0.00001"]
+    dir: 3x3
+  expect: 3
 
-# - name: sor, 3x3 omega 1.99999
-#   input:
-#     args2: [sor, --omega, "1.99999"]
-#     dir: 3x3
-#   expect: 0
+- name: sor, 3x3 omega 1.99999
+  input:
+    args2: [sor, --omega, "1.99999"]
+    dir: 3x3
+  expect: 3
 
 - name: sor, 3x3 omega 1.5
   input:

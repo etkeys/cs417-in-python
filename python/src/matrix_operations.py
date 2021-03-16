@@ -448,7 +448,6 @@ def swap_largest_pivot_to_top(matrix, pivot, inplace=True):
     return ret
 
 
-# TODO Might need to move this into gaussian
 def to_reduced_row_echelon(matrix):
     """
     This implementation does not yield a true reduced row echelon form matrix.
@@ -461,7 +460,6 @@ def to_reduced_row_echelon(matrix):
     # deepcopy because we don't want to muck with the original
     ret = deepcopy(matrix)
     for r in range(matrix.shape[0]):
-        # TODO Might need to move these into gaussian
         ret = swap_largest_pivot_to_top(ret, r)
         ret = set_row_diagonal_to_one(ret, r)
         ret = set_rows_below_to_zero(ret, r)
