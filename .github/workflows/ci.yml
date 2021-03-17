@@ -58,3 +58,9 @@ jobs:
         run: |
           cd ./python
           scripts/run-assignments.bash
+
+      - name: Upload to codecov.io
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
