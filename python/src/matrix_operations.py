@@ -14,6 +14,19 @@ def almost_equal(mat1, mat2):
     return np.allclose(mat1, mat2, atol=0.000_01)
 
 
+def column_max(matrix, index):
+    if not is_matrix(matrix):
+        _raise_not_a_matrix()
+    if is_hvector(matrix):
+        return np.max(matrix)
+    elif is_vvector(matrix):
+        return np.max(matrix[:, 0])
+    else:
+        if index < 0:
+            raise IndexError(f"Index {index} is out of bounds for axis 1.")
+        return np.max(matrix[:, index])
+
+
 def count_columns(matrix):
     if not is_matrix(matrix):
         _raise_not_a_matrix()
@@ -346,6 +359,12 @@ def reshape(matrix, newshape=None):
     else:
         raise TypeError("Argument newshape must be of type int or tuple of ints.")
     return matrix.reshape(newshape)
+
+
+def scalar_sum(matrix):
+    if not is_matrix(matrix):
+        _raise_not_a_matrix()
+    return np.sum(matrix)
 
 
 def set_rows_below_to_zero(matrix, base_row, inplace=True):

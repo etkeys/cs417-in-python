@@ -1,0 +1,82 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: 3x3, index 1
+  input:
+    index: 1
+    mat:
+      - [1, 2, 3]
+      - [4, 5, 6]
+      - [7, 8, 9]
+  expect: 8.
+
+- name: 1x4 (1) gives 4
+  input:
+    mat: [1, 2, 4, 3]
+  expect: 4
+
+- name: 1x4 (2) gives 4
+  input:
+    mat: [[1, 2, 4, 3]]
+  expect: 4
+
+- name: 4x1 gives 4
+  input:
+    mat:
+      - [1]
+      - [2]
+      - [4]
+      - [3]
+  expect: 4
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+- name: input not a matrix
+  input:
+    mat: ~
+  expect:
+    throws: TypeError
+
+- name: 3x3, index < 0
+  input:
+    index: -1
+    mat:
+      - [1, 2, 3]
+      - [4, 5, 6]
+      - [7, 8, 9]
+  expect:
+    throws: IndexError
+
+- name: 3x3, index > columns
+  input:
+    index: 3
+    mat:
+      - [1, 2, 3]
+      - [4, 5, 6]
+      - [7, 8, 9]
+  expect:
+    throws: IndexError
+
+- name: 3x3, index is NaN
+  input:
+    index: "1"
+    mat:
+      - [1, 2, 3]
+      - [4, 5, 6]
+      - [7, 8, 9]
+  expect:
+    throws: TypeError
+
+- name: 3x3, index is None
+  input:
+    index: ~
+    mat:
+      - [1, 2, 3]
+      - [4, 5, 6]
+      - [7, 8, 9]
+  expect:
+    throws: TypeError

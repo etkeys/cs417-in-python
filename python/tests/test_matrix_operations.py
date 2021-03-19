@@ -19,6 +19,18 @@ def test_add(name, data, exception):
         assert matops.almost_equal(act, exp)
 
 
+def test_column_max(name, data, exception):
+    inp_mat = create_matrix(data.input.get("mat"))
+    inp_index = data.input.get("index", 0)
+
+    with exception:
+        act = matops.column_max(inp_mat, inp_index)
+
+        exp = data.expect
+
+        assert act == exp
+
+
 def test_count_columns(name, data, exception):
     inp = create_matrix(getattr(data.input, "mat", None))
 
@@ -361,6 +373,17 @@ def test_reshape(name, data, exception):
         exp = create_matrix(data.expect.mat)
 
         assert matops.almost_equal(act, exp)
+
+
+def test_scalar_sum(name, data, exception):
+    inp = create_matrix(data.input.get("mat"))
+
+    with exception:
+        act = matops.scalar_sum(inp)
+
+        exp = data.expect
+
+        assert act == exp
 
 
 def test_set_row_diagonal_to_one(name, data, exception):
