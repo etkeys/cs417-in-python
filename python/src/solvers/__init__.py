@@ -3,6 +3,7 @@ from .gauss_seidel import GaussSeidelSolver
 from .gaussian import GaussianSolver
 from .jacobi import JacobiSolver
 from .ludecomposition import LuDecompositionSolver
+from .power_solver import PowerSolver
 from .sor_solver import SORSolver
 
 

@@ -80,14 +80,19 @@ class _IterativeSolver(_BasicSolver):
     def _create_guess(self):
         raise NotImplementedError("_IterativeSolver does not implement _create_guess()")
 
+    def _iteration_step(self, iter_count, mat_guess):
+        ret = self._calculate_iteration_result(mat_guess)
+        two_norm = matops.two_norm_of_error(self._matA, self._matb, ret)
+
+        iter_count += 1
+        return (ret, two_norm, iter_count)
+
     def _iterate_until_solved(self, mat_guess):
         two_norm = 1.0
         iter_count = 0
         ret = matops.deepcopy(mat_guess)
         while self._should_iteration_continue(iter_count, two_norm):
-            ret = self._calculate_iteration_result(ret)
-            two_norm = matops.two_norm_of_error(self._matA, self._matb, ret)
-            iter_count += 1
+            ret, two_norm, iter_count = self._iteration_step(iter_count, ret)
 
         return (ret, iter_count)
 

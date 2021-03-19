@@ -1,0 +1,100 @@
+
+###########################################################
+#     HAPPY PATHS
+###########################################################
+
+- name: 3x3, guess = zero
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    guess: zero
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [[0]]
+    guess: zero
+
+
+- name: 3x3, guess = random
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    guess: random
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [[0]]
+    guess: random
+
+- name: 3x3, guess = default
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    guess: default
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [[0]]
+    guess: random
+
+###########################################################
+#     FAIL CONDITIONS
+###########################################################
+
+# This test makes sure that the test functions provide the
+# correct string to enum value conversion for guess
+- name: 3x3, test correct guess choice
+  pytest:
+    mark: xfail
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    guess: random
+  expect:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    matb: [[0]]
+    guess: zero
+
+- name: mat A is not a matrix
+  input:
+    matA: ~
+    guess: random
+  expect:
+    throws: ~
+
+- name: mat A is not square
+  input:
+    matA:
+      - [1,2,3,10]
+      - [4,5,6,11]
+      - [7,2,9,12]
+    guess: random
+  expect:
+    throws: ~
+
+- name: 3x3, guess = matrix c
+  input:
+    matA:
+      - [1,2,3]
+      - [4,5,6]
+      - [7,2,9]
+    guess: matrix-c
+  expect:
+    throws: ~

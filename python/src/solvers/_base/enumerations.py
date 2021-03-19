@@ -48,3 +48,4 @@ class ResultAttributes(Enum):
     RESULT_VECTOR = 1
     ITERATIONS = 2
     ERROR = 3
+    EIGEN = 4
